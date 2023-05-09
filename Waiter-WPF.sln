@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waiter", "Waiter\Waiter.csproj", "{F49D5304-B566-44A9-B367-3FFCA69D8FBC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F49D5304-B566-44A9-B367-3FFCA69D8FBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49D5304-B566-44A9-B367-3FFCA69D8FBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F49D5304-B566-44A9-B367-3FFCA69D8FBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F49D5304-B566-44A9-B367-3FFCA69D8FBC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49FFC7F1-0A76-4390-9163-ACF5D24D8968}
+	EndGlobalSection
+EndGlobal
