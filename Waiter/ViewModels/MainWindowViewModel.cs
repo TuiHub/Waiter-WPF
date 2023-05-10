@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
+using Wpf.Ui.Controls.Navigation;
 using Wpf.Ui.Mvvm.Contracts;
 
 namespace Waiter.ViewModels
@@ -49,11 +50,25 @@ namespace Waiter.ViewModels
                     PageTag = "data",
                     Icon = SymbolRegular.DataHistogram24,
                     PageType = typeof(Views.Pages.DataPage)
+                },
+                new NavigationItem()
+                {
+                    Content = "Apps",
+                    PageTag = "apps",
+                    Icon = SymbolRegular.Apps24,
+                    PageType = typeof(Views.Pages.AppsPage)
                 }
             };
 
             NavigationFooter = new ObservableCollection<INavigationControl>
             {
+                new NavigationItem()
+                {
+                    Content = "User",
+                    PageTag = "user",
+                    Icon = SymbolRegular.Person24,
+                    PageType = typeof(Views.Pages.UserPage)
+                },
                 new NavigationItem()
                 {
                     Content = "Settings",
