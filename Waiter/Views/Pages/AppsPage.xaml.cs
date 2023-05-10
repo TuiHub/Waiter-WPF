@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Wpf.Ui.Common.Interfaces;
-using Wpf.Ui.Mvvm.Contracts;
+﻿using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.Views.Pages
 {
     /// <summary>
-    /// AppsPage.xaml 的交互逻辑
+    /// Interaction logic for DashboardPage.xaml
     /// </summary>
     public partial class AppsPage : INavigableView<ViewModels.AppsViewModel>
     {
-        public ViewModels.AppsViewModel ViewModel { get; }
+        public ViewModels.AppsViewModel ViewModel
+        {
+            get;
+        }
+
         public AppsPage(ViewModels.AppsViewModel viewModel)
         {
             ViewModel = viewModel;

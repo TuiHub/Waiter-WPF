@@ -78,6 +78,12 @@ namespace Waiter
         /// </summary>
         private async void OnStartup(object sender, StartupEventArgs e)
         {
+            var builder = new ConfigurationBuilder()
+                              .SetBasePath(Directory.GetCurrentDirectory())
+                              .AddJsonFile("appsettings.json", optional: false);
+            var configuration = builder.Build();
+            GlobalContext.SystemConfig = configuration.GetSection("SystemConfig").Get<SystemConfig>();
+
             await _host.StartAsync();
         }
 

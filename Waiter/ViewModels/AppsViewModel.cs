@@ -6,12 +6,21 @@ namespace Waiter.ViewModels
 {
     public partial class AppsViewModel : ObservableObject, INavigationAware
     {
+        [ObservableProperty]
+        private int _counter = 0;
+
         public void OnNavigatedTo()
         {
         }
 
         public void OnNavigatedFrom()
         {
+        }
+
+        [RelayCommand]
+        private void OnCounterIncrement()
+        {
+            Counter++;
         }
     }
 }
