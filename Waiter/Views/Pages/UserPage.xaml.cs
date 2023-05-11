@@ -1,4 +1,6 @@
-﻿using Wpf.Ui.Common.Interfaces;
+﻿using System.Windows.Input;
+using Wpf.Ui.Common;
+using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.Views.Pages
 {

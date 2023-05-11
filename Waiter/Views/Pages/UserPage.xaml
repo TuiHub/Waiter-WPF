@@ -13,6 +13,15 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <StackPanel x:Key="DialogContent">
+                <TextBlock Text="Lorem ipsum dolor sit amet, adipisicing elit." TextWrapping="Wrap" />
+                <CheckBox Content="Upload your content to the cloud." />
+            </StackPanel>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <StackPanel Margin="56,0">
         <TextBlock
                 FontSize="20"
@@ -54,5 +63,20 @@
                 Margin="0,6,0,6"
                 Text="Internal ID: " />
         </Grid>
+        <Button
+            Command=""
+            Content="Show" />
+        <StackPanel Orientation="Horizontal">
+            <Button
+                                Command=""
+                                CommandParameter="{StaticResource DialogContent}"
+                                Content="Show2" />
+
+            <TextBlock
+                                Margin="15,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{Binding ViewModel.DialogResultText}" />
+        </StackPanel>
     </StackPanel>
 </ui:UiPage>

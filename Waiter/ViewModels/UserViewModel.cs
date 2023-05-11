@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
+using Waiter.Controls;
 using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.ViewModels
@@ -7,9 +9,11 @@ namespace Waiter.ViewModels
     public partial class UserViewModel : ObservableObject, INavigationAware
     {
         [ObservableProperty]
-        private int _counter = 0;
+        private long? _userInternalId;
         [ObservableProperty]
         private string _serverURL = string.Empty;
+        [ObservableProperty]
+        private string _dialogResultText = string.Empty;
 
         public void OnNavigatedTo()
         {
