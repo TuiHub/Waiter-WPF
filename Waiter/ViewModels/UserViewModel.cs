@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using System.Threading.Tasks;
 using Waiter.Controls;
+using Waiter.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.ViewModels
@@ -23,6 +24,14 @@ namespace Waiter.ViewModels
 
         public void OnNavigatedFrom()
         {
+        }
+
+        [RelayCommand]
+        private void OnShowLoginDialog()
+        {
+            var loginWindow = new LoginWindow(new LoginWindowViewModel());
+            loginWindow.Owner = App.Current.MainWindow;
+            loginWindow.ShowDialog();
         }
     }
 }

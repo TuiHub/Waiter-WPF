@@ -65,10 +65,10 @@
         </Grid>
         <Button
             Command=""
-            Content="Show" />
+            Content="Show Login" />
         <StackPanel Orientation="Horizontal">
             <Button
-                                Command=""
+                                Command="{Binding ViewModel.ShowLoginDialogCommand}"
                                 CommandParameter="{StaticResource DialogContent}"
                                 Content="Show2" />
 
