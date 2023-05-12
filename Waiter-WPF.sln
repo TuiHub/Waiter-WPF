@@ -6,9 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waiter", "Waiter\Waiter.csproj", "{F49D5304-B566-44A9-B367-3FFCA69D8FBC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{67F3AF04-BDDC-4E40-8481-B44953F61053} = {67F3AF04-BDDC-4E40-8481-B44953F61053}
+		{96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2} = {96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wpf.Ui.Ext300", "Wpf.Ui.Ext300\Wpf.Ui.Ext300.csproj", "{67F3AF04-BDDC-4E40-8481-B44953F61053}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waiter.Core", "Waiter.Core\Waiter.Core.csproj", "{96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +27,10 @@ Global
 		{67F3AF04-BDDC-4E40-8481-B44953F61053}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67F3AF04-BDDC-4E40-8481-B44953F61053}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67F3AF04-BDDC-4E40-8481-B44953F61053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96DB9CB6-9D0B-4BC6-9EBA-773F717A59C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,10 @@
-﻿namespace Waiter.Models
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace Waiter.Models
 {
-    public class SystemConfig
+    public partial class SystemConfig : ObservableObject
     {
-        public string ServerURL { get; set; } = null!;
+        [ObservableProperty]
+        private string _serverURL = string.Empty;
     }
 }

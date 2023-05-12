@@ -44,6 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Waiter.Core\Waiter.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Views\Windows\ProgressWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

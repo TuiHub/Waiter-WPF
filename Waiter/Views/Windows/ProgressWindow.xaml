@@ -19,17 +19,23 @@
     WindowStyle="None"
     mc:Ignorable="d">
 
-    <StackPanel
-        Orientation="Horizontal"
+    <Grid
         Margin="15,5,15,5">
-        <Viewbox StretchDirection="Both"
-                 Margin="5,5,5,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Viewbox
+            Grid.Column="0"
+            StretchDirection="Both"
+            Margin="5,5,5,5">
             <ui:ProgressRing IsIndeterminate="True" />
         </Viewbox>
         <TextBlock
+            Grid.Column="1"
             VerticalAlignment="Center"
             TextTrimming="CharacterEllipsis"
             Margin="5,0,0,0"
             Text="{Binding ViewModel.WorkText}" />
-    </StackPanel>
+    </Grid>
 </ui:UiWindow>

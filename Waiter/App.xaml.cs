@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using Waiter.Models;
 using Waiter.Services;
@@ -89,6 +91,7 @@ namespace Waiter
                               .AddJsonFile("appsettings.json", optional: false);
             var configuration = builder.Build();
             GlobalContext.SystemConfig = configuration.GetSection("SystemConfig").Get<SystemConfig>();
+            GlobalContext.GrpcChannel = GrpcChannel.ForAddress(GlobalContext.SystemConfig.ServerURL);
 
             await _host.StartAsync();
         }
@@ -109,6 +112,9 @@ namespace Waiter
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
+            var ex = e.Exception;
+            var msg = ex.StackTrace ?? "未知错误";
+            MessageBox.Show("发生错误，程序将关闭，错误信息：\n" + msg, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

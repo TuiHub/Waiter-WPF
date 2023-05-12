@@ -11,11 +11,9 @@ namespace Waiter.ViewModels
     public partial class UserViewModel : ObservableObject, INavigationAware
     {
         [ObservableProperty]
-        private long? _userInternalId;
+        private long _userInternalId;
         [ObservableProperty]
         private string _serverURL = string.Empty;
-        [ObservableProperty]
-        private string _dialogResultText = string.Empty;
 
         public void OnNavigatedTo()
         {
@@ -33,13 +31,6 @@ namespace Waiter.ViewModels
             var loginWindow = new LoginWindow();
             loginWindow.Owner = App.Current.MainWindow;
             loginWindow.ShowDialog();
-            //var progressDialog = new ProgressWindow();
-            ////progressDialog.ViewModel.WorkText = "testtesttesttesttesttesttesttesttesttest";
-            //progressDialog.Owner = App.Current.MainWindow;
-            //progressDialog.Text1 = "Working...";
-            //progressDialog.ShowDialog();
-            //progressDialog.ViewModel.WorkText = "123123";
-            //Console.WriteLine($"{progressDialog}");
         }
     }
 }

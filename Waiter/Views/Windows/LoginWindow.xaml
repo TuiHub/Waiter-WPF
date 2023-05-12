@@ -64,8 +64,7 @@
             Margin="0,0,20,0"
             VerticalAlignment="Center"
             FontSize="18"
-            PlaceholderText="Password..."
-            Text="{Binding ViewModel.Password}" />
+            PlaceholderText="Password..." />
 
         <StackPanel
             Grid.Row="3" Grid.Column="0"
@@ -77,6 +76,7 @@
                 Name="btnLogin"
                 VerticalAlignment="Top"
                 Command="{Binding ViewModel.BtnLoginClickCommand}"
+                CommandParameter="{Binding ElementName=txtPassword}"
                 Content="Login" />
         </StackPanel>
     </Grid>

@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Waiter.Views.Pages"
+    xmlns:global="clr-namespace:Waiter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="UserPage"
@@ -23,6 +24,9 @@
     </Page.Resources>
 
     <StackPanel Margin="56,0">
+        <Button
+            Command="{Binding ViewModel.ShowLoginDialogCommand}"
+            Content="Show Login" />
         <TextBlock
                 FontSize="20"
                 FontWeight="Medium"
@@ -35,12 +39,12 @@
 
             <TextBlock
                 Grid.Column="0"
-                Margin="0,6,0,6"
+                VerticalAlignment="Center"
                 Text="URL: " />
             <TextBlock
                 Grid.Column="1"
-                Margin="0,6,0,6"
-                Text="{Binding ViewModel.ServerURL, Mode=OneWay}" />
+                VerticalAlignment="Center"
+                Text="{Binding Source={x:Static global:GlobalContext.SystemConfig}, Path=ServerURL, Mode=OneWay}" />
         </Grid>
 
         <TextBlock
@@ -58,25 +62,14 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0,6,0,6"
+                Grid.Row="0" Grid.Column="0"
+                VerticalAlignment="Center"
                 Text="Internal ID: " />
-        </Grid>
-        <Button
-            Command=""
-            Content="Show Login" />
-        <StackPanel Orientation="Horizontal">
-            <Button
-                                Command="{Binding ViewModel.ShowLoginDialogCommand}"
-                                CommandParameter="{StaticResource DialogContent}"
-                                Content="Show2" />
-
             <TextBlock
-                                Margin="15,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Text="{Binding ViewModel.DialogResultText}" />
-        </StackPanel>
+                Grid.Row="0" Grid.Column="1"
+                VerticalAlignment="Center"
+                Margin="15,0,0,0"
+                Text="{Binding Source={x:Static global:GlobalContext.UserConfig}, Path=InternalId, Mode=OneWay}" />
+        </Grid>
     </StackPanel>
 </ui:UiPage>
