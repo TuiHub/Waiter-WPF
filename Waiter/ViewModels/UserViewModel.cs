@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Threading.Tasks;
-using Waiter.Controls;
+using Waiter.Services;
 using Waiter.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 
@@ -29,9 +30,16 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private void OnShowLoginDialog()
         {
-            var loginWindow = new LoginWindow(new LoginWindowViewModel());
+            var loginWindow = new LoginWindow();
             loginWindow.Owner = App.Current.MainWindow;
             loginWindow.ShowDialog();
+            //var progressDialog = new ProgressWindow();
+            ////progressDialog.ViewModel.WorkText = "testtesttesttesttesttesttesttesttesttest";
+            //progressDialog.Owner = App.Current.MainWindow;
+            //progressDialog.Text1 = "Working...";
+            //progressDialog.ShowDialog();
+            //progressDialog.ViewModel.WorkText = "123123";
+            //Console.WriteLine($"{progressDialog}");
         }
     }
 }

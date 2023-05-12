@@ -10,7 +10,8 @@
     Title="Login"
     Width="460"
     Height="320"
-    d:DataContext="{d:DesignInstance local:LoginWindow}"
+    d:DataContext="{d:DesignInstance local:LoginWindow,
+                                     IsDesignTimeCreatable=True}"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
@@ -72,9 +73,10 @@
             Orientation="Horizontal"
             FlowDirection="RightToLeft"
             Margin="0,0,40,0">
-            <ui:Button
+            <Button
                 Name="btnLogin"
                 VerticalAlignment="Top"
+                Command="{Binding ViewModel.BtnLoginClickCommand}"
                 Content="Login" />
         </StackPanel>
     </Grid>

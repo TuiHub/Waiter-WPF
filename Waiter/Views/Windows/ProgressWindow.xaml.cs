@@ -16,19 +16,19 @@ using Wpf.Ui.Controls;
 namespace Waiter.Views.Windows
 {
     /// <summary>
-    /// LoginWindow.xaml 的交互逻辑
+    /// ProgressWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginWindow : UiWindow
+    public partial class ProgressWindow : UiWindow
     {
-        public ViewModels.LoginWindowViewModel ViewModel { get; }
-        public LoginWindow()
+        public ViewModels.ProgressWindowViewModel ViewModel { get; }
+        public ProgressWindow()
         {
-            ViewModel = new ViewModels.LoginWindowViewModel(this);
+            ViewModel = new ViewModels.ProgressWindowViewModel();
 
             this.DataContext = this;
             InitializeComponent();
         }
-        public LoginWindow(ViewModels.LoginWindowViewModel viewModel)
+        public ProgressWindow(ViewModels.ProgressWindowViewModel viewModel)
         {
             ViewModel = viewModel;
 
