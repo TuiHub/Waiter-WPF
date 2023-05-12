@@ -24,9 +24,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-            <RowDefinition Height="5*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="7*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -77,6 +77,8 @@
                 VerticalAlignment="Top"
                 Command="{Binding ViewModel.BtnLoginClickCommand}"
                 CommandParameter="{Binding ElementName=txtPassword}"
+                IsDefault="True"
+                FontSize="18"
                 Content="Login" />
         </StackPanel>
     </Grid>

@@ -64,9 +64,18 @@
             <TextBlock
                 Grid.Row="0" Grid.Column="0"
                 VerticalAlignment="Center"
-                Text="Internal ID: " />
+                Text="Is Logged In: " />
             <TextBlock
                 Grid.Row="0" Grid.Column="1"
+                VerticalAlignment="Center"
+                Margin="15,0,0,0"
+                Text="{Binding Source={x:Static global:GlobalContext.UserConfig}, Path=IsLoggedIn, Mode=OneWay}" />
+            <TextBlock
+                Grid.Row="1" Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Internal ID: " />
+            <TextBlock
+                Grid.Row="1" Grid.Column="1"
                 VerticalAlignment="Center"
                 Margin="15,0,0,0"
                 Text="{Binding Source={x:Static global:GlobalContext.UserConfig}, Path=InternalId, Mode=OneWay}" />

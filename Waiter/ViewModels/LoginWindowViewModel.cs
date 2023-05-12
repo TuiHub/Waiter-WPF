@@ -7,7 +7,7 @@ using System.Windows;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 using Waiter.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
-
+using Wpf.Ui.Controls;
 using static Waiter.GlobalContext;
 
 namespace Waiter.ViewModels
@@ -28,10 +28,18 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private void OnBtnLoginClick(object passwordBox)
         {
+            // clear GlobalContext state
+            GlobalContext.UserConfig.IsLoggedIn = false;
+            GlobalContext.UserConfig.InternalId = 0;
+            GlobalContext.UserConfig.AccessToken = string.Empty;
+            GlobalContext.UserConfig.RefreshToken = string.Empty;
+
+            // get password from passwordBox
             var password = (passwordBox as Wpf.Ui.Controls.PasswordBox)!.Password;
 
             var progressDialog = new ProgressWindow();
             progressDialog.Owner = ParentWindow;
+            progressDialog.ViewModel.WorkText = "Logging in...";
             progressDialog.Show();
             ParentWindow!.IsEnabled = false;
 
@@ -45,6 +53,7 @@ namespace Waiter.ViewModels
 
         private void loginWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
+            // close progressDialog
             foreach (Window w in this.ParentWindow!.OwnedWindows)
             {
                 w.Close();
@@ -80,6 +89,8 @@ namespace Waiter.ViewModels
                 var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
                 var password = e.Argument as string;
                 var (accessToken, refreshToken) = LibrarianClientService.GetTokenAsync(client, Username, password).Result;
+                // set GlobalContext
+                GlobalContext.UserConfig.IsLoggedIn = true;
                 GlobalContext.UserConfig.AccessToken = accessToken;
                 GlobalContext.UserConfig.RefreshToken = refreshToken;
                 // TODO: Impl get user internal id func
