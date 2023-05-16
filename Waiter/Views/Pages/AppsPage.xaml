@@ -13,13 +13,51 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="56,0" VerticalAlignment="Top">
+    <Page.Resources>
+        <DataTemplate x:Key="ItemTemplate">
+            <Grid
+                Height="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Image
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    Source="{Binding ImageUrl}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="{Binding InternalId}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Text="{Binding Name}" />
+                <TextBlock
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Text="{Binding Source}" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition MinWidth="180" MaxWidth="300" Width="*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <ui:Button Grid.Column="0" Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}" Content="Click me!" Icon="Fluent24" />
-        <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+        <ListView
+            Grid.Column="0"
+            ItemsSource="{Binding ViewModel.Apps}"
+            ItemTemplate="{StaticResource ItemTemplate}"
+            SelectedItem="{Binding ViewModel.Selected, Mode=TwoWay}" />
     </Grid>
 </ui:UiPage>
