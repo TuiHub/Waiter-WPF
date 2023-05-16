@@ -33,6 +33,8 @@ namespace Waiter.ViewModels
             GlobalContext.UserConfig.InternalId = 0;
             GlobalContext.UserConfig.AccessToken = string.Empty;
             GlobalContext.UserConfig.RefreshToken = string.Empty;
+            Waiter.Core.Services.GlobalContext.AccessToken = string.Empty;
+            Waiter.Core.Services.GlobalContext.RefreshToken = string.Empty;
 
             // get password from passwordBox
             var password = (passwordBox as Wpf.Ui.Controls.PasswordBox)!.Password;
@@ -93,6 +95,8 @@ namespace Waiter.ViewModels
                 GlobalContext.UserConfig.IsLoggedIn = true;
                 GlobalContext.UserConfig.AccessToken = accessToken;
                 GlobalContext.UserConfig.RefreshToken = refreshToken;
+                Waiter.Core.Services.GlobalContext.AccessToken = accessToken;
+                Waiter.Core.Services.GlobalContext.RefreshToken = refreshToken;
                 // TODO: Impl get user internal id func
                 GlobalContext.UserConfig.InternalId = 2333;
                 result.IsSucceed = true;
