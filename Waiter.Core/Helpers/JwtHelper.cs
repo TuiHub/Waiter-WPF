@@ -14,6 +14,10 @@ namespace Waiter.Core.Helpers
         {
             return GetMetadataWithJwt(GlobalContext.AccessToken);
         }
+        public static Metadata GetMetadataWithRefreshToken()
+        {
+            return GetMetadataWithJwt(GlobalContext.RefreshToken);
+        }
 
         private static Metadata GetMetadataWithJwt(string token)
         {

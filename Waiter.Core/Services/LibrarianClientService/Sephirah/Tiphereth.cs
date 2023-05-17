@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 using Waiter.Core.Contracts.Services;
+using Waiter.Core.Helpers;
 
 namespace Waiter.Core.Services
 {
@@ -21,9 +22,12 @@ namespace Waiter.Core.Services
             return (response.AccessToken, response.RefreshToken);
         }
 
-        public Task<string> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, string refreshToken)
+        public async Task<(string, string)> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
         {
-            throw new NotImplementedException();
+            var response = await client.RefreshTokenAsync(
+                                            new RefreshTokenRequest(),
+                                            headers: JwtHelper.GetMetadataWithRefreshToken());
+            return (response.AccessToken, response.RefreshToken);
         }
     }
 }

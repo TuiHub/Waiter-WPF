@@ -11,6 +11,6 @@ namespace Waiter.Core.Contracts.Services
     public partial interface ILibrarianClientService
     {
         // get user purchased apps
-        Task<IEnumerable<App>> GetPurchasedAppsRequestAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
+        Task<IEnumerable<App>> GetPurchasedAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
     }
 }

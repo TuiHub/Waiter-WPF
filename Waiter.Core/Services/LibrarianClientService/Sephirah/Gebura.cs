@@ -12,11 +12,11 @@ namespace Waiter.Core.Services
 {
     public partial class LibrarianClientService : ILibrarianClientService
     {
-        public async Task<IEnumerable<Models.App>> GetPurchasedAppsRequestAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
+        public async Task<IEnumerable<Models.App>> GetPurchasedAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
         {
             var resp = await client.GetPurchasedAppsAsync(
-                              new GetPurchasedAppsRequest(),
-                              headers: JwtHelper.GetMetadataWithAccessToken());
+                                        new GetPurchasedAppsRequest(),
+                                        headers: JwtHelper.GetMetadataWithAccessToken());
             // https://stackoverflow.com/questions/65917317/why-am-i-not-allowed-to-return-an-iasyncenumerable-in-a-method-returning-an-iasy
             //return resp.Apps.Select(x => new Models.App());
             //foreach (var app in resp.Apps)

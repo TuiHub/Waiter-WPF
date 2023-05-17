@@ -13,6 +13,6 @@ namespace Waiter.Core.Contracts.Services
         // TODO: don't use plain string
         Task<(string, string)> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, string username, string password);
         // refreshToken reAuth
-        Task<string> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, string refreshToken);
+        Task<(string, string)> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
     }
 }

@@ -20,7 +20,7 @@ namespace Waiter.ViewModels
         public async void OnNavigatedTo()
         {
             var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-            Apps = await GlobalContext.LibrarianClientService.GetPurchasedAppsRequestAsync(client);
+            Apps = await GlobalContext.LibrarianClientService.GetPurchasedAppsAsync(client);
         }
 
         public void OnNavigatedFrom()
