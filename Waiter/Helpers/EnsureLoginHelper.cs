@@ -36,22 +36,18 @@ namespace Waiter.Helpers
                         // try refresh token
                         var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                         var (accessToken, refreshToken) = await GlobalContext.LibrarianClientService.GetTokenAsync(client);
+                        // close progressDialog
+                        progressDialog.Close();
                         // refresh token auth succeed
                         if (accessToken != null && refreshToken != null)
                         {
                             GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
                             await WorkCleanup();
-                            // close progressDialog
-                            foreach (Window w in App.Current.MainWindow.OwnedWindows)
-                            {
-                                if (w is ProgressWindow)
-                                {
-                                    w.Close();
-                                }
-                            }
                             App.Current.MainWindow.IsEnabled = true;
                             continue;
                         }
+                        // enable MainWindow, for ShowDialog will block user from interacting with parent window
+                        App.Current.MainWindow.IsEnabled = true;
                     }
 
                     // user not logged in or refresh token auth failed, show login dialog
