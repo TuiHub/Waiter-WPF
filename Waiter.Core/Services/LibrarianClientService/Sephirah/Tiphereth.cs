@@ -22,12 +22,19 @@ namespace Waiter.Core.Services
             return (response.AccessToken, response.RefreshToken);
         }
 
-        public async Task<(string, string)> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
+        public async Task<(string?, string?)> GetTokenAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
         {
-            var response = await client.RefreshTokenAsync(
-                                            new RefreshTokenRequest(),
-                                            headers: JwtHelper.GetMetadataWithRefreshToken());
-            return (response.AccessToken, response.RefreshToken);
+            try
+            {
+                var response = await client.RefreshTokenAsync(
+                                                new RefreshTokenRequest(),
+                                                headers: JwtHelper.GetMetadataWithRefreshToken());
+                return (response.AccessToken, response.RefreshToken);
+            }
+            catch
+            {
+                return (null, null);
+            }
         }
     }
 }

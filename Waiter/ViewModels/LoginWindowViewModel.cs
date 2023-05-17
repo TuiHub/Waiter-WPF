@@ -23,6 +23,8 @@ namespace Waiter.ViewModels
 
         public LoginWindow? ParentWindow { get; set; }
 
+        public bool IsCodeClosed { get; set; } = false;
+
         [ObservableProperty]
         private string _username = string.Empty;
 
@@ -70,6 +72,7 @@ namespace Waiter.ViewModels
             }
             else
             {
+                this.IsCodeClosed = true;
                 ParentWindow!.Close();
             }
         }
@@ -104,6 +107,9 @@ namespace Waiter.ViewModels
         {
             public bool IsSucceed { get; set; }
             public string Message { get; set; } = string.Empty;
+        }
+        public class CodeClosingEventArgs : EventArgs
+        {
         }
     }
 }
