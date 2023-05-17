@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using TuiHub.Protos.Librarian.Sephirah.V1;
+using Waiter.Helpers;
 using Waiter.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Controls;
@@ -29,12 +30,8 @@ namespace Waiter.ViewModels
         private void OnBtnLoginClick(object passwordBox)
         {
             // clear GlobalContext state
-            GlobalContext.UserConfig.IsLoggedIn = false;
             GlobalContext.UserConfig.InternalId = 0;
-            GlobalContext.UserConfig.AccessToken = string.Empty;
-            GlobalContext.UserConfig.RefreshToken = string.Empty;
-            Waiter.Core.Services.GlobalContext.AccessToken = string.Empty;
-            Waiter.Core.Services.GlobalContext.RefreshToken = string.Empty;
+            GlobalContextStateHelper.UpdateLoginState(null, null);
 
             // get password from passwordBox
             var password = (passwordBox as Wpf.Ui.Controls.PasswordBox)!.Password;
@@ -92,11 +89,7 @@ namespace Waiter.ViewModels
                 var password = e.Argument as string;
                 var (accessToken, refreshToken) = LibrarianClientService.GetTokenAsync(client, Username, password).Result;
                 // set GlobalContext
-                GlobalContext.UserConfig.IsLoggedIn = true;
-                GlobalContext.UserConfig.AccessToken = accessToken;
-                GlobalContext.UserConfig.RefreshToken = refreshToken;
-                Waiter.Core.Services.GlobalContext.AccessToken = accessToken;
-                Waiter.Core.Services.GlobalContext.RefreshToken = refreshToken;
+                GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
                 // TODO: Impl get user internal id func
                 GlobalContext.UserConfig.InternalId = 2333;
                 result.IsSucceed = true;
