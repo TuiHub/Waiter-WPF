@@ -41,6 +41,14 @@ namespace Waiter.Helpers
                         {
                             GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
                             await WorkCleanup();
+                            // close progressDialog
+                            foreach (Window w in App.Current.MainWindow.OwnedWindows)
+                            {
+                                if (w is ProgressWindow)
+                                {
+                                    w.Close();
+                                }
+                            }
                             App.Current.MainWindow.IsEnabled = true;
                             continue;
                         }

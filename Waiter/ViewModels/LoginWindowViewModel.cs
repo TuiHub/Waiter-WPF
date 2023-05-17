@@ -55,9 +55,12 @@ namespace Waiter.ViewModels
         private void loginWorker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
         {
             // close progressDialog
-            foreach (Window w in this.ParentWindow!.OwnedWindows)
+            foreach (Window w in App.Current.MainWindow.OwnedWindows)
             {
-                w.Close();
+                if (w is ProgressWindow)
+                {
+                    w.Close();
+                }
             }
             if ((e.Result as EventResult).IsSucceed == false)
             {
