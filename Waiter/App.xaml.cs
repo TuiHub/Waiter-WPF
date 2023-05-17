@@ -113,8 +113,8 @@ namespace Waiter
         {
             // For more info see https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?view=windowsdesktop-6.0
             var ex = e.Exception;
-            var msg = ex.StackTrace ?? "未知错误";
-            MessageBox.Show("发生错误，程序将关闭，错误信息：\n" + msg, "错误", MessageBoxButton.OK, MessageBoxImage.Error);
+            var msg = ex.StackTrace ?? "Unknown Error";
+            MessageBox.Show("Uncaughted error occured, error message：\n" + msg, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
