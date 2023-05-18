@@ -50,6 +50,7 @@
             Margin="0,0,20,0"
             VerticalAlignment="Center"
             FontSize="18"
+            TabIndex="0"
             PlaceholderText="Username..."
             Text="{Binding ViewModel.Username}" />
         <TextBlock
@@ -64,7 +65,8 @@
             Margin="0,0,20,0"
             VerticalAlignment="Center"
             FontSize="18"
-            PlaceholderText="Password..." />
+            PlaceholderText="Password..."
+            TabIndex="1" />
 
         <StackPanel
             Grid.Row="3" Grid.Column="0"
@@ -79,6 +81,7 @@
                 CommandParameter="{Binding ElementName=txtPassword}"
                 IsDefault="True"
                 FontSize="18"
+                TabIndex="2"
                 Content="Login" />
         </StackPanel>
     </Grid>
