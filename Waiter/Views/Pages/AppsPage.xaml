@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:Waiter.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:helpers="clr-namespace:Waiter.Helpers"
     Title="AppsPage"
     d:DataContext="{d:DesignInstance local:AppsPage, IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -14,6 +15,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <DataTemplate x:Key="ItemTemplate">
             <Grid
                 Height="50">
@@ -59,5 +61,22 @@
             ItemsSource="{Binding ViewModel.Apps}"
             ItemTemplate="{StaticResource ItemTemplate}"
             SelectedItem="{Binding ViewModel.Selected, Mode=TwoWay}" />
+
+        <TabControl
+            Grid.Column="1"
+            Visibility="{Binding ViewModel.Selected, Converter={StaticResource NullToVisibilityConverter}}" >
+            <TabItem Header="Main">
+                
+            </TabItem>
+            <TabItem Header="Manage Saves">
+
+            </TabItem>
+            <TabItem Header="Manage Runtimes">
+
+            </TabItem>
+            <TabItem Header="Settings">
+                
+            </TabItem>
+        </TabControl>
     </Grid>
 </ui:UiPage>
