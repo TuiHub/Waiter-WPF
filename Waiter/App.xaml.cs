@@ -94,14 +94,14 @@ namespace Waiter
         private async void OnStartup(object sender, StartupEventArgs e)
         {
             var builder = new ConfigurationBuilder()
-                              .SetBasePath(Directory.GetCurrentDirectory())
+                              .SetBasePath(GlobalContext.AssemblyDir)
                               .AddJsonFile("appsettings.json", optional: false);
             var configuration = builder.Build();
             GlobalContext.SystemConfig = configuration.GetSection("SystemConfig").Get<SystemConfig>();
             GlobalContext.GrpcChannel = GrpcChannel.ForAddress(GlobalContext.SystemConfig.ServerURL);
 
             // ensure data dir created
-            var dataDirPath = Path.Combine(Directory.GetCurrentDirectory(), GlobalContext.SystemConfig.DataDirPath);
+            var dataDirPath = Path.Combine(GlobalContext.AssemblyDir, GlobalContext.SystemConfig.DataDirPath);
             Directory.CreateDirectory(dataDirPath);
 
             // ensure db created
