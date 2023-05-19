@@ -1,4 +1,5 @@
 ﻿using Grpc.Net.Client;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using Waiter.Models;
+using Waiter.Models.Db;
 using Waiter.Services;
 using Wpf.Ui.Mvvm.Contracts;
 using Wpf.Ui.Mvvm.Services;
@@ -31,6 +33,9 @@ namespace Waiter
             {
                 // App Host
                 services.AddHostedService<ApplicationHostService>();
+
+                // DbContext
+                services.AddDbContext<ApplicationDbContext>();
 
                 // Page resolver service
                 services.AddSingleton<IPageService, PageService>();
@@ -92,6 +97,14 @@ namespace Waiter
             var configuration = builder.Build();
             GlobalContext.SystemConfig = configuration.GetSection("SystemConfig").Get<SystemConfig>();
             GlobalContext.GrpcChannel = GrpcChannel.ForAddress(GlobalContext.SystemConfig.ServerURL);
+
+            // ensure data dir created
+            var dataDirPath = Path.Combine(Directory.GetCurrentDirectory(), GlobalContext.SystemConfig.DataDirPath);
+            Directory.CreateDirectory(dataDirPath);
+
+            // ensure db created
+            using var db = new ApplicationDbContext();
+            db.Database.Migrate();
 
             await _host.StartAsync();
         }
