@@ -29,11 +29,11 @@ namespace Waiter.ViewModels
         private string _username = string.Empty;
 
         [RelayCommand]
-        private void OnBtnLoginClick(object passwordBox)
+        private async Task OnBtnLoginClickAsync(object passwordBox)
         {
             // clear GlobalContext state
             GlobalContext.UserConfig.InternalId = 0;
-            GlobalContextStateHelper.UpdateLoginState(null, null);
+            await GlobalContextStateHelper.UpdateLoginState(null, null);
 
             // get password from passwordBox
             var password = (passwordBox as Wpf.Ui.Controls.PasswordBox)!.Password;
@@ -85,7 +85,7 @@ namespace Waiter.ViewModels
             throw new NotImplementedException();
         }
 
-        private void loginWorker_DoWork(object? sender, DoWorkEventArgs e)
+        private async void loginWorker_DoWork(object? sender, DoWorkEventArgs e)
         {
             e.Result ??= new EventResult();
             var result = e.Result as EventResult;
@@ -95,7 +95,7 @@ namespace Waiter.ViewModels
                 var password = e.Argument as string;
                 var (accessToken, refreshToken) = LibrarianClientService.GetTokenAsync(client, Username, password).Result;
                 // set GlobalContext
-                GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
+                await GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
                 // TODO: Impl get user internal id func
                 GlobalContext.UserConfig.InternalId = 2333;
                 result.IsSucceed = true;

@@ -4,10 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using Waiter.Helpers;
 using Waiter.Models;
 using Waiter.Models.Db;
 using Waiter.Services;
@@ -105,6 +107,17 @@ namespace Waiter
             // ensure db created
             using var db = new ApplicationDbContext();
             db.Database.Migrate();
+
+            // ensure user created
+            if (db.Users.Any() == false)
+                db.Users.Add(new User());
+            await db.SaveChangesAsync();
+
+            // set login state from db
+            var user = db.Users.First();
+            await GlobalContextStateHelper.UpdateLoginState(
+                                              string.IsNullOrEmpty(user.AccessToken) ? null : user.AccessToken,
+                                              string.IsNullOrEmpty(user.RefreshToken) ? null : user.RefreshToken);
 
             await _host.StartAsync();
         }

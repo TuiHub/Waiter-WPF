@@ -41,7 +41,7 @@ namespace Waiter.Helpers
                         // refresh token auth succeed
                         if (accessToken != null && refreshToken != null)
                         {
-                            GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
+                            await GlobalContextStateHelper.UpdateLoginState(accessToken, refreshToken);
                             await WorkCleanup();
                             App.Current.MainWindow.IsEnabled = true;
                             continue;
