@@ -18,8 +18,11 @@ namespace Waiter.ViewModels
         [ObservableProperty]
         private IEnumerable<Core.Models.App> _apps = new List<Core.Models.App>();
         [ObservableProperty]
-        private Core.Models.App? _selected;
-
+        private Core.Models.App? _selectedApp;
+        [ObservableProperty]
+        private IEnumerable<Core.Models.AppPackage> _appPackages = new List<Core.Models.AppPackage>();
+        [ObservableProperty]
+        private Core.Models.AppPackage? _selectedAppPackage;
         public async void OnNavigatedTo()
         {
             try
@@ -28,6 +31,24 @@ namespace Waiter.ViewModels
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                     Apps = await GlobalContext.LibrarianClientService.GetPurchasedAppsAsync(client);
+                },
+                async () => { });
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Caught exception {e.GetType()}, message:\n{e.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        async partial void OnSelectedAppChanged(Core.Models.App? value)
+        {
+            if (value == null) return;
+            try
+            {
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    AppPackages = await GlobalContext.LibrarianClientService.GetAppPackagesAsync(client, value.InternalId);
                 },
                 async () => { });
             }
