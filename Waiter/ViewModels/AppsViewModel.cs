@@ -1,20 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 using Waiter.Core.Models;
 using Waiter.Helpers;
+using Waiter.Models.Db;
 using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.ViewModels
 {
     public partial class AppsViewModel : ObservableObject, INavigationAware
     {
-        [ObservableProperty]
-        private int _counter = 0;
         [ObservableProperty]
         private IEnumerable<Core.Models.App> _apps = new List<Core.Models.App>();
         [ObservableProperty]
@@ -23,6 +24,8 @@ namespace Waiter.ViewModels
         private IEnumerable<Core.Models.AppPackage> _appPackages = new List<Core.Models.AppPackage>();
         [ObservableProperty]
         private Core.Models.AppPackage? _selectedAppPackage;
+        [ObservableProperty]
+        private Models.Db.AppPackageSetting? _appPackageSetting;
         public async void OnNavigatedTo()
         {
             try
@@ -58,14 +61,34 @@ namespace Waiter.ViewModels
             }
         }
 
-        public void OnNavigatedFrom()
+        async partial void OnSelectedAppPackageChanged(AppPackage? value)
         {
+            if (value == null) return;
+            using var db = new ApplicationDbContext();
+            var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == value.InternalId);
+            e ??= new AppPackageSetting();
+            AppPackageSetting = e;
         }
 
         [RelayCommand]
-        private void OnCounterIncrement()
+        private async void OnSaveAppPackageSetting()
         {
-            Counter++;
+            if (AppPackageSetting == null) return;
+            using var db = new ApplicationDbContext();
+            var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == AppPackageSetting.AppPackageId);
+            if (e == null)
+            {
+                db.AppPackageSettings.Add(AppPackageSetting);
+            }
+            else
+            {
+                e = AppPackageSetting;
+            }
+            await db.SaveChangesAsync();
+        }
+
+        public void OnNavigatedFrom()
+        {
         }
     }
 }

@@ -14,13 +14,24 @@ namespace Waiter.Core.Models
         public long SizeByte { get; set; }
         public string PublicUrl { get; set; } = null!;
         public byte[]? Sha256 { get; set; }
-        public AppPackageBinary(long id, TuiHub.Protos.Librarian.V1.AppPackageBinary appPackageBinary)
+        public AppPackageBinary(long id, TuiHub.Protos.Librarian.V1.AppPackageBinary? appPackageBinary)
         {
-            InternalId = id;
-            Name = appPackageBinary.Name;
-            SizeByte = appPackageBinary.SizeByte;
-            PublicUrl = appPackageBinary.PublicUrl;
-            Sha256 = appPackageBinary.Sha256.ToArray();
+            if (appPackageBinary == null)
+            {
+                InternalId = id;
+                Name = string.Empty;
+                SizeByte = 0;
+                PublicUrl = string.Empty;
+                Sha256 = new byte[32];
+            }
+            else
+            {
+                InternalId = id;
+                Name = appPackageBinary.Name;
+                SizeByte = appPackageBinary.SizeByte;
+                PublicUrl = appPackageBinary.PublicUrl;
+                Sha256 = appPackageBinary.Sha256.ToArray();
+            }
         }
     }
 }

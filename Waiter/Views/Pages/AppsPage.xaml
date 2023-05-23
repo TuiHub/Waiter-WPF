@@ -82,7 +82,7 @@
                     <ComboBox
                         Grid.Row="0"
                         Grid.Column="1"
-                        ItemsSource="{Binding ViewModel.AppPackages}">
+                        ItemsSource="{Binding ViewModel.AppPackages, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -105,6 +105,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -119,7 +120,8 @@
                     <ui:TextBox
                         Grid.Row="0"
                         Grid.Column="1"
-                        PlaceholderText="AppPath..." />
+                        PlaceholderText="AppPath..."
+                        Text="{Binding ViewModel.AppPackageSetting.AppPath, Mode=TwoWay}" />
                     <ui:Button
                         Grid.Row="0"
                         Grid.Column="2"
@@ -132,7 +134,8 @@
                     <ui:TextBox
                         Grid.Row="1"
                         Grid.Column="1"
-                        PlaceholderText="WorkDir..." />
+                        PlaceholderText="WorkDir..."
+                        Text="{Binding ViewModel.AppPackageSetting.WorkDir, Mode=TwoWay}" />
                     <ui:Button
                         Grid.Row="1"
                         Grid.Column="2"
@@ -145,7 +148,8 @@
                     <ui:TextBox
                         Grid.Row="2"
                         Grid.Column="1"
-                        PlaceholderText="ProcMonName..." />
+                        PlaceholderText="ProcMonName..."
+                        Text="{Binding ViewModel.AppPackageSetting.ProcMonName, Mode=TwoWay}" />
                     <ui:Button
                         Grid.Row="2"
                         Grid.Column="2"
@@ -158,11 +162,20 @@
                     <ui:TextBox
                         Grid.Row="3"
                         Grid.Column="1"
-                        PlaceholderText="ProcMonPath..." />
+                        PlaceholderText="ProcMonPath..."
+                        Text="{Binding ViewModel.AppPackageSetting.ProcMonPath, Mode=TwoWay}" />
                     <ui:Button
                         Grid.Row="3"
                         Grid.Column="2"
                         Content="..." />
+
+                    <StackPanel
+                        Grid.Row="4"
+                        Grid.Column="0" >
+                        <Button
+                            Content="Save"
+                            Command="{Binding ViewModel.SaveAppPackageSettingCommand}"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

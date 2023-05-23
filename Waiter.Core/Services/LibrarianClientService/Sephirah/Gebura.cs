@@ -34,7 +34,7 @@ namespace Waiter.Core.Services
                 Paging = new TuiHub.Protos.Librarian.V1.PagingRequest
                 {
                     PageNum = 1,
-                    PageSize = -1
+                    PageSize = 1000
                 },
                 AssignedAppIdFilter =
                 {
