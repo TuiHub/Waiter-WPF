@@ -69,6 +69,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -91,6 +92,14 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2" >
+                        <Button
+                            Content="Run"
+                            Command="{Binding ViewModel.RunAppCommand}" />
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Manage Saves">

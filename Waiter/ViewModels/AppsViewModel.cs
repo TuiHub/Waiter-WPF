@@ -5,9 +5,11 @@ using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using TuiHub.ProcessTimeMonitorLibrary;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 using Waiter.Core.Models;
 using Waiter.Helpers;
@@ -18,6 +20,11 @@ namespace Waiter.ViewModels
 {
     public partial class AppsViewModel : ObservableObject, INavigationAware
     {
+        private ProcessTimeMonitor _processTimeMonitor;
+        public AppsViewModel(ProcessTimeMonitor processTimeMonitor)
+        {
+            _processTimeMonitor = processTimeMonitor;
+        }
         [ObservableProperty]
         private IEnumerable<Core.Models.App> _apps = new List<Core.Models.App>();
         [ObservableProperty]
@@ -39,9 +46,9 @@ namespace Waiter.ViewModels
                 },
                 async () => { });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Caught exception {e.GetType()}, message:\n{e.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -57,9 +64,9 @@ namespace Waiter.ViewModels
                 },
                 async () => { });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Caught exception {e.GetType()}, message:\n{e.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -100,7 +107,30 @@ namespace Waiter.ViewModels
                 AppPackageSetting.AppPath = appPath;
                 AppPackageSetting.WorkDir = Path.GetDirectoryName(appPath);
                 AppPackageSetting.ProcMonPath = appPath;
-                AppPackageSetting.ProcMonName = Path.GetFileName(appPath);
+                AppPackageSetting.ProcMonName = Path.GetFileNameWithoutExtension(Path.GetFileName(appPath));
+            }
+        }
+
+        [RelayCommand]
+        private async void OnRunApp()
+        {
+            if (AppPackageSetting == null) return;
+            MessageBox.Show("Starting app.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                var nowDT = DateTime.Now;
+                Process.Start(AppPackageSetting.AppPath);
+                (var startDT, var endDT, var exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
+                var runTime = endDT - startDT;
+                MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDt: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (TimeoutException ex)
+            {
+                MessageBox.Show($"App start timeout.\nException: {ex.Message}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 

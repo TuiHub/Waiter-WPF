@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using TuiHub.ProcessTimeMonitorLibrary;
 using Waiter.Helpers;
 using Waiter.Models;
 using Waiter.Models.Db;
@@ -38,6 +39,9 @@ namespace Waiter
 
                 // DbContext
                 services.AddDbContext<ApplicationDbContext>();
+
+                // process monitor service
+                services.AddSingleton<ProcessTimeMonitor>(p => new ProcessTimeMonitor(null));
 
                 // Page resolver service
                 services.AddSingleton<IPageService, PageService>();

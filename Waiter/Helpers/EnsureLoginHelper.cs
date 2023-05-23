@@ -23,7 +23,7 @@ namespace Waiter.Helpers
                 {
                     await Work();
                 }
-                catch (RpcException e) when (e.Status.StatusCode == StatusCode.Unauthenticated)
+                catch (RpcException ex) when (ex.Status.StatusCode == StatusCode.Unauthenticated)
                 {
                     if (GlobalContext.UserConfig.IsLoggedIn == true)
                     {
