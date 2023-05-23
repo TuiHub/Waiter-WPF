@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using TuiHub.Protos.Librarian.Sephirah.V1;
@@ -25,7 +27,7 @@ namespace Waiter.ViewModels
         [ObservableProperty]
         private Core.Models.AppPackage? _selectedAppPackage;
         [ObservableProperty]
-        private Models.Db.AppPackageSetting? _appPackageSetting;
+        private Models.AppPackageSetting? _appPackageSetting;
         public async void OnNavigatedTo()
         {
             try
@@ -66,8 +68,7 @@ namespace Waiter.ViewModels
             if (value == null) return;
             using var db = new ApplicationDbContext();
             var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == value.InternalId);
-            e ??= new AppPackageSetting();
-            AppPackageSetting = e;
+            AppPackageSetting = new Models.AppPackageSetting(value.InternalId, e);
         }
 
         [RelayCommand]
@@ -78,13 +79,29 @@ namespace Waiter.ViewModels
             var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == AppPackageSetting.AppPackageId);
             if (e == null)
             {
-                db.AppPackageSettings.Add(AppPackageSetting);
+                db.AppPackageSettings.Add(new Models.Db.AppPackageSetting(AppPackageSetting));
             }
             else
             {
-                e = AppPackageSetting;
+                Models.Db.AppPackageSetting.UpdateFromViewModelAppPackageSetting(ref e, AppPackageSetting);
             }
             await db.SaveChangesAsync();
+            MessageBox.Show("Save complete.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        [RelayCommand]
+        private void OnSelectAppPath()
+        {
+            if (AppPackageSetting == null) return;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var appPath = openFileDialog.FileName;
+                AppPackageSetting.AppPath = appPath;
+                AppPackageSetting.WorkDir = Path.GetDirectoryName(appPath);
+                AppPackageSetting.ProcMonPath = appPath;
+                AppPackageSetting.ProcMonName = Path.GetFileName(appPath);
+            }
         }
 
         public void OnNavigatedFrom()

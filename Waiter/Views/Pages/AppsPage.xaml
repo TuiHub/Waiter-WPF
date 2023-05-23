@@ -82,7 +82,8 @@
                     <ComboBox
                         Grid.Row="0"
                         Grid.Column="1"
-                        ItemsSource="{Binding ViewModel.AppPackages, Mode=TwoWay}">
+                        ItemsSource="{Binding ViewModel.AppPackages, Mode=OneWay}"
+                        SelectedItem="{Binding ViewModel.SelectedAppPackage, Mode=TwoWay}" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -99,7 +100,7 @@
 
             </TabItem>
             <TabItem Header="Settings">
-                <Grid Cursor="IBeam">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -125,7 +126,8 @@
                     <ui:Button
                         Grid.Row="0"
                         Grid.Column="2"
-                        Content="..." />
+                        Content="..."
+                        Command="{Binding ViewModel.SelectAppPathCommand}" />
 
                     <TextBlock
                         Grid.Row="1"

@@ -21,5 +21,23 @@ namespace Waiter.Models.Db
         public string ProcMonName { get; set; } = string.Empty;
         [MaxLength(256)]
         public string ProcMonPath { get; set; } = string.Empty;
+        public AppPackageSetting(Models.AppPackageSetting appPackageSetting)
+        {
+            AppPackageId = appPackageSetting.AppPackageId;
+            AppPath = appPackageSetting.AppPath;
+            WorkDir = appPackageSetting.WorkDir;
+            ProcMonName = appPackageSetting.ProcMonName;
+            ProcMonPath = appPackageSetting.ProcMonPath;
+        }
+        public AppPackageSetting() { }
+
+        public static void UpdateFromViewModelAppPackageSetting(ref AppPackageSetting e, Models.AppPackageSetting appPackageSetting)
+        {
+            e.AppPackageId = appPackageSetting.AppPackageId;
+            e.AppPath = appPackageSetting.AppPath;
+            e.WorkDir = appPackageSetting.WorkDir;
+            e.ProcMonName = appPackageSetting.ProcMonName;
+            e.ProcMonPath = appPackageSetting.ProcMonPath;
+        }
     }
 }
