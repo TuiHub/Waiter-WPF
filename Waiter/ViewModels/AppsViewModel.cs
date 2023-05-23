@@ -122,7 +122,7 @@ namespace Waiter.ViewModels
                 Process.Start(AppPackageSetting.AppPath);
                 (var startDT, var endDT, var exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
                 var runTime = endDT - startDT;
-                MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDt: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDT: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (TimeoutException ex)
             {
