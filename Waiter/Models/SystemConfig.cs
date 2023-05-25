@@ -10,5 +10,7 @@ namespace Waiter.Models
         public string DataDirPath { get; set; } = string.Empty;
         // relative to DataDirPath
         public string SqliteDbPath { get; set; } = string.Empty;
+        // relative to app assembly dir
+        public string CacheDirPath { get; set; } = string.Empty;
     }
 }

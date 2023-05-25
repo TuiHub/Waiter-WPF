@@ -108,6 +108,10 @@ namespace Waiter
             var dataDirPath = Path.Combine(GlobalContext.AssemblyDir, GlobalContext.SystemConfig.DataDirPath);
             Directory.CreateDirectory(dataDirPath);
 
+            // ensure cache dir created
+            var cacheDirPath = Path.Combine(GlobalContext.AssemblyDir, GlobalContext.SystemConfig.CacheDirPath);
+            Directory.CreateDirectory(cacheDirPath);
+
             // ensure db created
             using var db = new ApplicationDbContext();
             db.Database.Migrate();
