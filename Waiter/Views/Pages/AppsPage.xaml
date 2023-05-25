@@ -116,6 +116,7 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -141,47 +142,61 @@
                     <TextBlock
                         Grid.Row="1"
                         Grid.Column="0"
-                        Text="WorkDir" />
+                        Text="AppBaseDir" />
                     <ui:TextBox
                         Grid.Row="1"
                         Grid.Column="1"
-                        PlaceholderText="WorkDir..."
-                        Text="{Binding ViewModel.AppPackageSetting.WorkDir, Mode=TwoWay}" />
+                        PlaceholderText="AppBaseDir..."
+                        Text="{Binding ViewModel.AppPackageSetting.AppBaseDir, Mode=TwoWay}" />
                     <ui:Button
                         Grid.Row="1"
                         Grid.Column="2"
                         Content="..." />
-
+                    
                     <TextBlock
                         Grid.Row="2"
                         Grid.Column="0"
-                        Text="ProcMonName" />
+                        Text="AppWorkDir" />
                     <ui:TextBox
                         Grid.Row="2"
+                        Grid.Column="1"
+                        PlaceholderText="AppWorkDir..."
+                        Text="{Binding ViewModel.AppPackageSetting.AppWorkDir, Mode=TwoWay}" />
+                    <ui:Button
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="..." />
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Text="ProcMonName" />
+                    <ui:TextBox
+                        Grid.Row="3"
                         Grid.Column="1"
                         PlaceholderText="ProcMonName..."
                         Text="{Binding ViewModel.AppPackageSetting.ProcMonName, Mode=TwoWay}" />
                     <ui:Button
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="2"
                         Content="..." />
 
                     <TextBlock
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="0"
                         Text="ProcMonPath" />
                     <ui:TextBox
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="1"
                         PlaceholderText="ProcMonPath..."
                         Text="{Binding ViewModel.AppPackageSetting.ProcMonPath, Mode=TwoWay}" />
                     <ui:Button
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="2"
                         Content="..." />
 
                     <StackPanel
-                        Grid.Row="4"
+                        Grid.Row="5"
                         Grid.Column="0" >
                         <Button
                             Content="Save"

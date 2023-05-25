@@ -106,7 +106,8 @@ namespace Waiter.ViewModels
             {
                 var appPath = openFileDialog.FileName;
                 AppPackageSetting.AppPath = appPath;
-                AppPackageSetting.WorkDir = Path.GetDirectoryName(appPath);
+                AppPackageSetting.AppBaseDir = Path.GetDirectoryName(appPath);
+                AppPackageSetting.AppWorkDir = Path.GetDirectoryName(appPath);
                 AppPackageSetting.ProcMonPath = appPath;
                 AppPackageSetting.ProcMonName = Path.GetFileNameWithoutExtension(Path.GetFileName(appPath));
             }
@@ -123,7 +124,7 @@ namespace Waiter.ViewModels
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = AppPackageSetting.AppPath,
-                    WorkingDirectory = AppPackageSetting.WorkDir
+                    WorkingDirectory = AppPackageSetting.AppWorkDir
                 });
                 (var startDT, var endDT, var exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
                 var runTime = endDT - startDT;

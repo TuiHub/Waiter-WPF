@@ -16,7 +16,9 @@ namespace Waiter.Models.Db
         [MaxLength(256)]
         public string AppPath { get; set; } = string.Empty;
         [MaxLength(256)]
-        public string WorkDir { get; set; } = string.Empty;
+        public string AppBaseDir { get; set; } = string.Empty;
+        [MaxLength(256)]
+        public string AppWorkDir { get; set; } = string.Empty;
         [MaxLength(256)]
         public string ProcMonName { get; set; } = string.Empty;
         [MaxLength(256)]
@@ -25,7 +27,8 @@ namespace Waiter.Models.Db
         {
             AppPackageId = appPackageSetting.AppPackageId;
             AppPath = appPackageSetting.AppPath;
-            WorkDir = appPackageSetting.WorkDir;
+            AppBaseDir = appPackageSetting.AppBaseDir;
+            AppWorkDir = appPackageSetting.AppWorkDir;
             ProcMonName = appPackageSetting.ProcMonName;
             ProcMonPath = appPackageSetting.ProcMonPath;
         }
@@ -35,7 +38,8 @@ namespace Waiter.Models.Db
         {
             e.AppPackageId = appPackageSetting.AppPackageId;
             e.AppPath = appPackageSetting.AppPath;
-            e.WorkDir = appPackageSetting.WorkDir;
+            e.AppBaseDir = appPackageSetting.AppBaseDir;
+            e.AppWorkDir = appPackageSetting.AppWorkDir;
             e.ProcMonName = appPackageSetting.ProcMonName;
             e.ProcMonPath = appPackageSetting.ProcMonPath;
         }

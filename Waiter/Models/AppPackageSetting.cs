@@ -14,7 +14,9 @@ namespace Waiter.Models
         [ObservableProperty]
         private string _appPath = string.Empty;
         [ObservableProperty]
-        private string _workDir = string.Empty;
+        private string _appBaseDir = string.Empty;
+        [ObservableProperty]
+        private string _appWorkDir = string.Empty;
         [ObservableProperty]
         private string _procMonName = string.Empty;
         [ObservableProperty]
@@ -25,7 +27,8 @@ namespace Waiter.Models
             if (appPackageSetting != null)
             {
                 AppPath = appPackageSetting.AppPath;
-                WorkDir = appPackageSetting.WorkDir;
+                AppBaseDir = appPackageSetting.AppBaseDir;
+                AppWorkDir = appPackageSetting.AppWorkDir;
                 ProcMonName = appPackageSetting.ProcMonName;
                 ProcMonPath = appPackageSetting.ProcMonPath;
             }
