@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,30 @@ namespace Waiter.Core.Services
                                         listAppReq,
                                         headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.AppPackages.Select(x => new Models.AppPackage(x));
+        }
+
+        public async Task AddAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, DateTime startDT, TimeSpan duration)
+        {
+            var addAppPackageRunTimeReq = new AddAppPackageRunTimeRequest
+            {
+                AppPackageId = new InternalID { Id = appPackageId },
+                TimeRange = new TimeRange
+                {
+                    StartTime = Timestamp.FromDateTime(startDT),
+                    Duration = Duration.FromTimeSpan(duration)
+                }
+            };
+            await client.AddAppPackageRunTimeAsync(addAppPackageRunTimeReq);
+        }
+
+        public async Task<TimeSpan> GetAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
+        {
+            var getAppPackageRunTimeReq = new GetAppPackageRunTimeRequest
+            {
+                AppPackageId = new InternalID { Id= appPackageId }
+            };
+            var resp = await client.GetAppPackageRunTimeAsync(getAppPackageRunTimeReq);
+            return resp.Duration.ToTimeSpan();
         }
     }
 }
