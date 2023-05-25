@@ -12,6 +12,7 @@ using System.Windows;
 using TuiHub.ProcessTimeMonitorLibrary;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 using Waiter.Core.Models;
+using Waiter.Core.Services;
 using Waiter.Helpers;
 using Waiter.Models.Db;
 using Wpf.Ui.Common.Interfaces;
@@ -127,6 +128,10 @@ namespace Waiter.ViewModels
                 (var startDT, var endDT, var exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
                 var runTime = endDT - startDT;
                 MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDT: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                // report RunTime to server
+                var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
+                MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (TimeoutException ex)
             {
