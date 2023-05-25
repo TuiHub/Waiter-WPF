@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using TuiHub.ProcessTimeMonitorLibrary;
+using TuiHub.SavedataManagerLibrary;
 using Waiter.Helpers;
 using Waiter.Models;
 using Waiter.Models.Db;
@@ -42,6 +43,9 @@ namespace Waiter
 
                 // process monitor service
                 services.AddSingleton<ProcessTimeMonitor>(p => new ProcessTimeMonitor(null));
+
+                // savedata manager service
+                services.AddSingleton<SavedataManager>(p => new SavedataManager(null));
 
                 // Page resolver service
                 services.AddSingleton<IPageService, PageService>();

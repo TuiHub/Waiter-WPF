@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System;
@@ -7,10 +8,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
 using TuiHub.ProcessTimeMonitorLibrary;
 using TuiHub.Protos.Librarian.Sephirah.V1;
+using TuiHub.SavedataManagerLibrary;
 using Waiter.Core.Models;
 using Waiter.Core.Services;
 using Waiter.Helpers;
@@ -22,9 +25,11 @@ namespace Waiter.ViewModels
     public partial class AppsViewModel : ObservableObject, INavigationAware
     {
         private ProcessTimeMonitor _processTimeMonitor;
-        public AppsViewModel(ProcessTimeMonitor processTimeMonitor)
+        private SavedataManager _savedataManager;
+        public AppsViewModel(ProcessTimeMonitor processTimeMonitor, SavedataManager savedataManager)
         {
             _processTimeMonitor = processTimeMonitor;
+            _savedataManager = savedataManager;
         }
         [ObservableProperty]
         private IEnumerable<Core.Models.App> _apps = new List<Core.Models.App>();
@@ -131,6 +136,7 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private async void OnRunApp()
         {
+            // TODO: add RunWithEnsureLoginAsync
             if (AppPackageSetting == null) return;
             MessageBox.Show("Starting app.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             try
@@ -148,6 +154,22 @@ namespace Waiter.ViewModels
                 var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                 await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
                 MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                // create ZipArchive
+                var tmpArchiveName = Guid.NewGuid().ToString() + ".zip";
+                var tmpArchivePath = Path.Combine(GlobalContext.SystemConfig.GetRealCacheDirPath(), tmpArchiveName);
+                using (var tmpArchiveFileStream = new FileStream(tmpArchivePath, FileMode.Create, FileAccess.ReadWrite))
+                    await Task.Run(() => _savedataManager.Store(AppPackageSetting.AppBaseDir, tmpArchiveFileStream));
+                var tmpArchiveFileInfo = new FileInfo(tmpArchivePath);
+                var tmpArchiveSize = tmpArchiveFileInfo.Length;
+                using SHA256 sha256 = SHA256.Create();
+                var tmpArchiveSha256 = await sha256.ComputeHashAsync(File.OpenRead(tmpArchivePath));
+                var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
+                MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
+                                $"name = {tmpArchiveName}\n" +
+                                $"size = {tmpArchiveSize:0.00}\n" +
+                                $"sha256 = {BitConverter.ToString(tmpArchiveSha256).Replace("-", "")}\n" +
+                                $"createTime = {tmpArchiveCreateTime:O}",
+                                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (TimeoutException ex)
             {
