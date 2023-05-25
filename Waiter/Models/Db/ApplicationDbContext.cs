@@ -17,8 +17,7 @@ namespace Waiter.Models.Db
         public DbSet<AppPackageSetting> AppPackageSettings { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string workDir = GlobalContext.AssemblyDir;
-            var dbFilePath = Path.Combine(workDir, GlobalContext.SystemConfig.DataDirPath, GlobalContext.SystemConfig.SqliteDbPath);
+            var dbFilePath = GlobalContext.SystemConfig.GetRealSqliteDbPath();
             optionsBuilder.UseSqlite($"Data Source={dbFilePath}");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

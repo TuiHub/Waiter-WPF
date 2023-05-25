@@ -104,13 +104,9 @@ namespace Waiter
             GlobalContext.SystemConfig = configuration.GetSection("SystemConfig").Get<SystemConfig>();
             GlobalContext.GrpcChannel = GrpcChannel.ForAddress(GlobalContext.SystemConfig.ServerURL);
 
-            // ensure data dir created
-            var dataDirPath = Path.Combine(GlobalContext.AssemblyDir, GlobalContext.SystemConfig.DataDirPath);
-            Directory.CreateDirectory(dataDirPath);
-
-            // ensure cache dir created
-            var cacheDirPath = Path.Combine(GlobalContext.AssemblyDir, GlobalContext.SystemConfig.CacheDirPath);
-            Directory.CreateDirectory(cacheDirPath);
+            // ensure data, cache dir created
+            Directory.CreateDirectory(GlobalContext.SystemConfig.GetRealDataDirPath());
+            Directory.CreateDirectory(GlobalContext.SystemConfig.GetRealCacheDirPath());
 
             // ensure db created
             using var db = new ApplicationDbContext();
