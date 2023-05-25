@@ -70,6 +70,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -92,8 +93,19 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <StackPanel
+
+                    <TextBlock
                         Grid.Row="1"
+                        Grid.Column="0"
+                        Text="RunTime: " />
+                    <ui:TextBox
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        IsReadOnly="True"
+                        Text="{Binding ViewModel.AppPackageTotalRunTime, StringFormat={}{0:g}}" />
+
+                    <StackPanel
+                        Grid.Row="3"
                         Grid.Column="0"
                         Grid.ColumnSpan="2" >
                         <Button

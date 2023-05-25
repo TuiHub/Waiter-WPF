@@ -55,11 +55,12 @@ namespace Waiter.Core.Services
                 AppPackageId = new InternalID { Id = appPackageId },
                 TimeRange = new TimeRange
                 {
-                    StartTime = Timestamp.FromDateTime(startDT),
+                    StartTime = Timestamp.FromDateTime(startDT.ToUniversalTime()),
                     Duration = Duration.FromTimeSpan(duration)
                 }
             };
-            await client.AddAppPackageRunTimeAsync(addAppPackageRunTimeReq);
+            await client.AddAppPackageRunTimeAsync(addAppPackageRunTimeReq,
+                                                   headers: JwtHelper.GetMetadataWithAccessToken());
         }
 
         public async Task<TimeSpan> GetAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
@@ -68,7 +69,8 @@ namespace Waiter.Core.Services
             {
                 AppPackageId = new InternalID { Id= appPackageId }
             };
-            var resp = await client.GetAppPackageRunTimeAsync(getAppPackageRunTimeReq);
+            var resp = await client.GetAppPackageRunTimeAsync(getAppPackageRunTimeReq,
+                                                              headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.Duration.ToTimeSpan();
         }
     }

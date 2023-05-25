@@ -36,6 +36,8 @@ namespace Waiter.ViewModels
         private Core.Models.AppPackage? _selectedAppPackage;
         [ObservableProperty]
         private Models.AppPackageSetting? _appPackageSetting;
+        [ObservableProperty]
+        private TimeSpan _appPackageTotalRunTime;
         public async void OnNavigatedTo()
         {
             try
@@ -74,9 +76,22 @@ namespace Waiter.ViewModels
         async partial void OnSelectedAppPackageChanged(AppPackage? value)
         {
             if (value == null) return;
-            using var db = new ApplicationDbContext();
-            var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == value.InternalId);
-            AppPackageSetting = new Models.AppPackageSetting(value.InternalId, e);
+            try
+            {
+                using var db = new ApplicationDbContext();
+                var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == value.InternalId);
+                AppPackageSetting = new Models.AppPackageSetting(value.InternalId, e);
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    AppPackageTotalRunTime = await GlobalContext.LibrarianClientService.GetAppPackageRunTime(client, value.InternalId);
+                },
+                async () => { });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         [RelayCommand]
