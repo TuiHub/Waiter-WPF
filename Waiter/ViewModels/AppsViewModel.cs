@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
@@ -162,14 +163,32 @@ namespace Waiter.ViewModels
                 var tmpArchiveFileInfo = new FileInfo(tmpArchivePath);
                 var tmpArchiveSize = tmpArchiveFileInfo.Length;
                 using SHA256 sha256 = SHA256.Create();
-                var tmpArchiveSha256 = await sha256.ComputeHashAsync(File.OpenRead(tmpArchivePath));
+                using var tmpArchiveReadStream = File.OpenRead(tmpArchivePath);
+                var tmpArchiveSha256 = await sha256.ComputeHashAsync(tmpArchiveReadStream);
                 var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
                 MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
                                 $"name = {tmpArchiveName}\n" +
-                                $"size = {tmpArchiveSize:0.00}\n" +
+                                $"size = {tmpArchiveSize}\n" +
                                 $"sha256 = {BitConverter.ToString(tmpArchiveSha256).Replace("-", "")}\n" +
                                 $"createTime = {tmpArchiveCreateTime:O}",
                                 "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                // upload
+                var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFile(client,
+                                                                              AppPackageSetting.AppPackageId,
+                                                                              new FileMetadata
+                                                                              {
+                                                                                  Name = tmpArchiveName,
+                                                                                  Size = tmpArchiveSize,
+                                                                                  Type = FileType.GeburaSave,
+                                                                                  Sha256 = UnsafeByteOperations.UnsafeWrap(tmpArchiveSha256),
+                                                                                  CreateTime = Timestamp.FromDateTime(tmpArchiveCreateTime.ToUniversalTime())
+                                                                              });
+                tmpArchiveReadStream.Position = 0;
+                await GlobalContext.LibrarianClientService.SimpleUploadFile(client,
+                                                                            uploadToken,
+                                                                            tmpArchiveReadStream,
+                                                                            GlobalContext.SystemConfig.FileTransferChunkBytes);
+                MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (TimeoutException ex)
             {

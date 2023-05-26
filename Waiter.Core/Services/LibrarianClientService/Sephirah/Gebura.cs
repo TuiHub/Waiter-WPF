@@ -1,6 +1,9 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,6 +75,56 @@ namespace Waiter.Core.Services
             var resp = await client.GetAppPackageRunTimeAsync(getAppPackageRunTimeReq,
                                                               headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.Duration.ToTimeSpan();
+        }
+
+        public async Task<string> UploadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata)
+        {
+            var uploadGameSaveFileRequest = new UploadGameSaveFileRequest
+            {
+                AppPackageId= new InternalID { Id= appPackageId },
+                FileMetadata = fileMetadata
+            };
+            var resp = await client.UploadGameSaveFileAsync(uploadGameSaveFileRequest,
+                                                            headers: JwtHelper.GetMetadataWithAccessToken());
+            return resp.UploadToken;
+        }
+
+        public async Task SimpleUploadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken, Stream stream, int chunkBytes)
+        {
+            var call = client.SimpleUploadFile(headers: JwtHelper.GetMetadataWithJwt(uploadToken));
+
+            var readTask = Task.Run(async () =>
+            {
+                await foreach (var msg in call.ResponseStream.ReadAllAsync())
+                {
+                    Debug.WriteLine($"Core.ClientService.SimpleUploadFile: Read msg.Status = {msg.Status.ToString()}");
+                    if (msg.Status == FileTransferStatus.Success)
+                    {
+                        break;
+                    }
+                    else if (msg.Status == FileTransferStatus.Failed)
+                    {
+                        throw new Exception("Server reported file transfer failed.");
+                    }
+                }
+            });
+
+            var buffer = new byte[chunkBytes];
+            while (true)
+            {
+                var readBytes = await stream.ReadAsync(buffer);
+                Debug.WriteLine($"Core.ClientService.SimpleUploadFile: readBytes = {readBytes}");
+                if (readBytes == 0)
+                {
+                    break;
+                }
+                await call.RequestStream.WriteAsync(new SimpleUploadFileRequest
+                {
+                    Data = UnsafeByteOperations.UnsafeWrap(buffer.AsMemory(0, readBytes))
+                });
+            }
+            await call.RequestStream.CompleteAsync();
+            await readTask;
         }
     }
 }

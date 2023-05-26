@@ -19,7 +19,7 @@ namespace Waiter.Core.Helpers
             return GetMetadataWithJwt(GlobalContext.RefreshToken);
         }
 
-        private static Metadata GetMetadataWithJwt(string token)
+        public static Metadata GetMetadataWithJwt(string token)
         {
             var metadata = new Grpc.Core.Metadata();
             metadata.Add("authorization", $"bearer {token}");

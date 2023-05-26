@@ -13,6 +13,7 @@ namespace Waiter.Models
         public string SqliteDbPath { get; set; } = string.Empty;
         // relative to app assembly dir
         public string CacheDirPath { get; set; } = string.Empty;
+        public int FileTransferChunkBytes { get; set; } = 32768;
         public string GetRealDataDirPath()
         {
             return Path.Combine(GlobalContext.AssemblyDir, DataDirPath);
