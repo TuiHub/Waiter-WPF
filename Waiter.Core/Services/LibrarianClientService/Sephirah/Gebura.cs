@@ -31,6 +31,7 @@ namespace Waiter.Core.Services
 
             return resp.Apps.Select(x => new Models.App(x));
         }
+        // TODO: change Paging
         public async Task<IEnumerable<Models.AppPackage>> GetAppPackagesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId)
         {
             var listAppReq = new ListAppPackagesRequest
@@ -127,9 +128,21 @@ namespace Waiter.Core.Services
             await readTask;
         }
 
-        public Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client)
+        // TODO: change Paging
+        public async Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
         {
-            throw new NotImplementedException();
+            var listGameSaveFilesRequest = new ListGameSaveFilesRequest
+            {
+                Paging = new TuiHub.Protos.Librarian.V1.PagingRequest
+                {
+                    PageNum = 1,
+                    PageSize = 1000
+                },
+                AppPackageId = new InternalID { Id = appPackageId }
+            };
+            var resp = await client.ListGameSaveFilesAsync(listGameSaveFilesRequest,
+                                                           headers: JwtHelper.GetMetadataWithAccessToken());
+            return resp.Results.Select(x => new GameSave(x));
         }
     }
 }

@@ -15,5 +15,15 @@ namespace Waiter.Core.Models
         public byte[] Sha256 { get; set; } = new byte[32];
         public DateTime CreateTime { get; set; }
         public bool IsPinned { get; set; }
+
+        public GameSave(ListGameSaveFilesResponse.Types.Result result)
+        {
+            InternalId = result.File.Id.Id;
+            Name = result.File.Name;
+            SizeBytes = result.File.SizeBytes;
+            Sha256 = result.File.Sha256.ToArray();
+            CreateTime = result.File.CreateTime.ToDateTime();
+            IsPinned = result.Pinned;
+        }
     }
 }

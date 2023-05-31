@@ -205,12 +205,13 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private async void OnRefreshGameSave()
         {
+            if (SelectedAppPackage == null) return;
             try
             {
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    GameSaves = await GlobalContext.LibrarianClientService.GetAppPackageGameSaves(client);
+                    GameSaves = await GlobalContext.LibrarianClientService.GetAppPackageGameSaves(client, SelectedAppPackage.InternalId);
                 },
                 async () => { });
             }

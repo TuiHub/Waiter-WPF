@@ -19,6 +19,6 @@ namespace Waiter.Core.Contracts.Services
         // return UploadToken
         Task<string> UploadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata);
         Task SimpleUploadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken, Stream stream, int chunkBytes);
-        Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client);
+        Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
     }
 }

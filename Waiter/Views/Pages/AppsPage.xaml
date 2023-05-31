@@ -117,24 +117,31 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Manage Saves">
-                <StackPanel>
-                    <StackPanel Orientation="Vertical">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Grid.Row="0"
+                        Orientation="Vertical" >
                         <Button
                             Content="Refresh"
                             Command="{Binding ViewModel.RefreshGameSaveCommand}" />
                     </StackPanel>
                     <ListView
-                        ItemsSource="{Binding ViewModel.GameSaves}" >
+                        Grid.Row="1"
+                        ItemsSource="{Binding ViewModel.GameSaves, Mode=OneWay}" >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Internal Id" DisplayMemberBinding="{Binding InternalId}" />
-                                <GridViewColumn Header="Size" DisplayMemberBinding="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
-                                <GridViewColumn Header="Create Time" DisplayMemberBinding="{Binding CreateTime, StringFormat={}{0:O}}" />
-                                <GridViewColumn Header="Is Pinned" DisplayMemberBinding="{Binding IsPinned, Converter={StaticResource BoolToStringConverter}}" />
+                                <GridViewColumn Header="Internal Id" Width="50" DisplayMemberBinding="{Binding InternalId}" />
+                                <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
+                                <GridViewColumn Header="Create Time" Width="50" DisplayMemberBinding="{Binding CreateTime, StringFormat={}{0:O}}" />
+                                <GridViewColumn Header="Is Pinned" Width="50" DisplayMemberBinding="{Binding IsPinned, Converter={StaticResource BoolToStringConverter}}" />
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="Manage Runtimes">
 
