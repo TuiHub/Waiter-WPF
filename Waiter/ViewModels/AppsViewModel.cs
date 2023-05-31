@@ -178,7 +178,7 @@ namespace Waiter.ViewModels
                                                                               new FileMetadata
                                                                               {
                                                                                   Name = tmpArchiveName,
-                                                                                  Size = tmpArchiveSize,
+                                                                                  SizeBytes = tmpArchiveSize,
                                                                                   Type = FileType.GeburaSave,
                                                                                   Sha256 = UnsafeByteOperations.UnsafeWrap(tmpArchiveSha256),
                                                                                   CreateTime = Timestamp.FromDateTime(tmpArchiveCreateTime.ToUniversalTime())
