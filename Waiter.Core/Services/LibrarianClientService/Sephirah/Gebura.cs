@@ -126,5 +126,10 @@ namespace Waiter.Core.Services
             await call.RequestStream.CompleteAsync();
             await readTask;
         }
+
+        public Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

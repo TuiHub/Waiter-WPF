@@ -44,6 +44,8 @@ namespace Waiter.ViewModels
         private Models.AppPackageSetting? _appPackageSetting;
         [ObservableProperty]
         private TimeSpan _appPackageTotalRunTime;
+        [ObservableProperty]
+        private IEnumerable<Core.Models.GameSave> _gameSaves = new List<Core.Models.GameSave>();
         public async void OnNavigatedTo()
         {
             try
@@ -193,6 +195,24 @@ namespace Waiter.ViewModels
             catch (TimeoutException ex)
             {
                 MessageBox.Show($"App start timeout.\nException: {ex.Message}", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        [RelayCommand]
+        private async void OnRefreshGameSave()
+        {
+            try
+            {
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    GameSaves = await GlobalContext.LibrarianClientService.GetAppPackageGameSaves(client);
+                },
+                async () => { });
             }
             catch (Exception ex)
             {

@@ -16,6 +16,8 @@
 
     <Page.Resources>
         <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <helpers:SizeBytesToHRStringConverter x:Key="SizeBytesToHRStringConverter" />
+        <helpers:BoolToStringConverter x:Key="BoolToStringConverter" />
         <DataTemplate x:Key="ItemTemplate">
             <Grid
                 Height="50">
@@ -115,7 +117,24 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Manage Saves">
-
+                <StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Button
+                            Content="Refresh"
+                            Command="{Binding ViewModel.RefreshGameSaveCommand}" />
+                    </StackPanel>
+                    <ListView
+                        ItemsSource="{Binding ViewModel.GameSaves}" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Internal Id" DisplayMemberBinding="{Binding InternalId}" />
+                                <GridViewColumn Header="Size" DisplayMemberBinding="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
+                                <GridViewColumn Header="Create Time" DisplayMemberBinding="{Binding CreateTime, StringFormat={}{0:O}}" />
+                                <GridViewColumn Header="Is Pinned" DisplayMemberBinding="{Binding IsPinned, Converter={StaticResource BoolToStringConverter}}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
             </TabItem>
             <TabItem Header="Manage Runtimes">
 
