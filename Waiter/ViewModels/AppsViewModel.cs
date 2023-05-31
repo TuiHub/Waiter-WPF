@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Input;
 using TuiHub.ProcessTimeMonitorLibrary;
 using TuiHub.Protos.Librarian.Sephirah.V1;
+using TuiHub.Protos.Librarian.V1;
 using TuiHub.SavedataManagerLibrary;
 using Waiter.Core.Models;
 using Waiter.Core.Services;
@@ -84,7 +85,7 @@ namespace Waiter.ViewModels
             }
         }
 
-        async partial void OnSelectedAppPackageChanged(AppPackage? value)
+        async partial void OnSelectedAppPackageChanged(Core.Models.AppPackage? value)
         {
             if (value == null) return;
             try
@@ -227,6 +228,49 @@ namespace Waiter.ViewModels
         private void OnShowSelectedGameSave()
         {
             MessageBox.Show($"Selected GameSave = {SelectedGameSave?.ToString() ?? "null"}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        [RelayCommand]
+        private async void OnDownloadAndRestoreGameSave()
+        {
+            if (SelectedGameSave == null) return;
+            if (AppPackageSetting == null) return;
+            try
+            {
+                string downloadToken = string.Empty;
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    downloadToken = await GlobalContext.LibrarianClientService.DownloadGameSaveFile(client, SelectedGameSave.InternalId);
+                },
+                async () => { });
+                var cachedArchivePath = Path.Combine(GlobalContext.SystemConfig.CacheDirPath, SelectedGameSave.InternalId.ToString() + ".zip");
+                if (File.Exists(cachedArchivePath))
+                    File.Delete(cachedArchivePath);
+                await using (var cachedArchiveWriteFileStream = File.OpenWrite(cachedArchivePath))
+                    await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                    {
+                        var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                        await GlobalContext.LibrarianClientService.SimpleDownloadFile(client, downloadToken, cachedArchiveWriteFileStream);
+                    },
+                    async () => { });
+                MessageBox.Show($"Cached archive {cachedArchivePath} downloaded.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                var cachedArchiveFileInfo = new FileInfo(cachedArchivePath);
+                var cachedArchiveSize = cachedArchiveFileInfo.Length;
+                await using var cachedArchiveReadStream = File.OpenRead(cachedArchivePath);
+                using SHA256 sha256 = SHA256.Create();
+                var cachedArchiveSha256 = await sha256.ComputeHashAsync(cachedArchiveReadStream);
+                MessageBox.Show($"Cached archive size = {cachedArchiveSize}\n" +
+                                $"sha256 = {BitConverter.ToString(cachedArchiveSha256).Replace("-", "")}",
+                                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                cachedArchiveReadStream.Position = 0;
+                MessageBox.Show($"Starting restore.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                await Task.Run(() => _savedataManager.Restore(cachedArchiveReadStream, AppPackageSetting.AppBaseDir));
+                MessageBox.Show($"Restore complete.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         public void OnNavigatedFrom()

@@ -89,6 +89,13 @@ namespace Waiter.Core.Services
                                                             headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.UploadToken;
         }
+        public async Task<string> DownloadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId)
+        {
+            var downloadGameSaveFileRequest = new DownloadGameSaveFileRequest { Id = new InternalID { Id = fileMetadataId } };
+            var resp = await client.DownloadGameSaveFileAsync(downloadGameSaveFileRequest,
+                                                              headers: JwtHelper.GetMetadataWithAccessToken());
+            return resp.DownloadToken;
+        }
 
         // TODO: change Paging
         public async Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)

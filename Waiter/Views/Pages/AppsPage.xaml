@@ -167,6 +167,9 @@
                                 <MenuItem
                                     Header="Show selected"
                                     Command="{Binding ViewModel.ShowSelectedGameSaveCommand}" />
+                                <MenuItem
+                                    Header="Download and restore"
+                                    Command="{Binding ViewModel.DownloadAndRestoreGameSaveCommand}" />
                             </ContextMenu>
                         </ListView.ContextMenu>
                     </ListView>

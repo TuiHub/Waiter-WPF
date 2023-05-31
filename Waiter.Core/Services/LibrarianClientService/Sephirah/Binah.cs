@@ -55,15 +55,14 @@ namespace Waiter.Core.Services
             await readTask;
         }
 
-        public async Task SimpleDownloadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken, Stream stream)
+        public async Task SimpleDownloadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string downloadToken, Stream stream)
         {
             var call = client.SimpleDownloadFile(new SimpleDownloadFileRequest(),
-                                                 headers: JwtHelper.GetMetadataWithJwt(uploadToken));
+                                                 headers: JwtHelper.GetMetadataWithJwt(downloadToken));
             await foreach (var msg in call.ResponseStream.ReadAllAsync())
             {
                 Debug.WriteLine($"Core.ClientService.SimpleDownloadFile: Read msg.Data.Length = {msg.Data.Length}");
-                var bytes = msg.Data.Memory;
-                await stream.WriteAsync(bytes);
+                await stream.WriteAsync(msg.Data.Memory);
             }
         }
     }
