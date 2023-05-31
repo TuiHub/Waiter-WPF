@@ -90,44 +90,6 @@ namespace Waiter.Core.Services
             return resp.UploadToken;
         }
 
-        public async Task SimpleUploadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken, Stream stream, int chunkBytes)
-        {
-            var call = client.SimpleUploadFile(headers: JwtHelper.GetMetadataWithJwt(uploadToken));
-
-            var readTask = Task.Run(async () =>
-            {
-                await foreach (var msg in call.ResponseStream.ReadAllAsync())
-                {
-                    Debug.WriteLine($"Core.ClientService.SimpleUploadFile: Read msg.Status = {msg.Status.ToString()}");
-                    if (msg.Status == FileTransferStatus.Success)
-                    {
-                        break;
-                    }
-                    else if (msg.Status == FileTransferStatus.Failed)
-                    {
-                        throw new Exception("Server reported file transfer failed.");
-                    }
-                }
-            });
-
-            var buffer = new byte[chunkBytes];
-            while (true)
-            {
-                var readBytes = await stream.ReadAsync(buffer);
-                Debug.WriteLine($"Core.ClientService.SimpleUploadFile: readBytes = {readBytes}");
-                if (readBytes == 0)
-                {
-                    break;
-                }
-                await call.RequestStream.WriteAsync(new SimpleUploadFileRequest
-                {
-                    Data = UnsafeByteOperations.UnsafeWrap(buffer.AsMemory(0, readBytes))
-                });
-            }
-            await call.RequestStream.CompleteAsync();
-            await readTask;
-        }
-
         // TODO: change Paging
         public async Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
         {
