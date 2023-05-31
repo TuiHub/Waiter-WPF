@@ -17,7 +17,7 @@
     <Page.Resources>
         <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <helpers:SizeBytesToHRStringConverter x:Key="SizeBytesToHRStringConverter" />
-        <helpers:BoolToStringConverter x:Key="BoolToStringConverter" />
+        <!--<helpers:BoolToStringConverter x:Key="BoolToStringConverter" />-->
         <DataTemplate x:Key="ItemTemplate">
             <Grid
                 Height="50">
@@ -131,15 +131,44 @@
                     </StackPanel>
                     <ListView
                         Grid.Row="1"
-                        ItemsSource="{Binding ViewModel.GameSaves, Mode=OneWay}" >
+                        ItemsSource="{Binding ViewModel.GameSaves, Mode=OneWay}"
+                        SelectedItem="{Binding ViewModel.SelectedGameSave, Mode=TwoWay}" >
+                        <!--https://github.com/lepoco/wpfui/issues/198--><!--
+                        <ListView.Style>
+                            <Style TargetType="{x:Type ListView}" />
+                        </ListView.Style>
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Internal Id" Width="50" DisplayMemberBinding="{Binding InternalId}" />
                                 <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
                                 <GridViewColumn Header="Create Time" Width="50" DisplayMemberBinding="{Binding CreateTime, StringFormat={}{0:O}}" />
-                                <GridViewColumn Header="Is Pinned" Width="50" DisplayMemberBinding="{Binding IsPinned, Converter={StaticResource BoolToStringConverter}}" />
+                                <GridViewColumn Header="Is Pinned" Width="50" DisplayMemberBinding="{Binding IsPinned}" />
                             </GridView>
-                        </ListView.View>
+                        </ListView.View>-->
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="Internal Id = " />
+                                    <Run Text="{Binding InternalId}" />
+                                    <Run Text=", " />
+                                    <Run Text="Size = " />
+                                    <Run Text="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
+                                    <Run Text=", " />
+                                    <Run Text="Create Time = " />
+                                    <Run Text="{Binding CreateTime, StringFormat={}{0:O}}" />
+                                    <Run Text=", " />
+                                    <Run Text="Is Pinned = " />
+                                    <Run Text="{Binding IsPinned}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem
+                                    Header="Show selected"
+                                    Command="{Binding ViewModel.ShowSelectedGameSaveCommand}" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                     </ListView>
                 </Grid>
             </TabItem>

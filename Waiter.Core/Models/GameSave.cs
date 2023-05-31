@@ -25,5 +25,12 @@ namespace Waiter.Core.Models
             CreateTime = result.File.CreateTime.ToDateTime();
             IsPinned = result.Pinned;
         }
+
+        public override string ToString()
+        {
+            return $"{{ InternalId = {InternalId}, Name = {Name}, SizeBytes = {SizeBytes}, " +
+                   $"Sha256 = {BitConverter.ToString(Sha256).Replace("-", "")}, " +
+                   $"CreateTime = {CreateTime:O}, IsPinned = {IsPinned} }}";
+        }
     }
 }

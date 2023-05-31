@@ -12,6 +12,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using TuiHub.ProcessTimeMonitorLibrary;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 using TuiHub.SavedataManagerLibrary;
@@ -46,6 +47,8 @@ namespace Waiter.ViewModels
         private TimeSpan _appPackageTotalRunTime;
         [ObservableProperty]
         private IEnumerable<Core.Models.GameSave> _gameSaves = new List<Core.Models.GameSave>();
+        [ObservableProperty]
+        private Core.Models.GameSave? _selectedGameSave;
         public async void OnNavigatedTo()
         {
             try
@@ -219,6 +222,11 @@ namespace Waiter.ViewModels
             {
                 MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+        [RelayCommand]
+        private void OnShowSelectedGameSave()
+        {
+            MessageBox.Show($"Selected GameSave = {SelectedGameSave?.ToString() ?? "null"}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void OnNavigatedFrom()
