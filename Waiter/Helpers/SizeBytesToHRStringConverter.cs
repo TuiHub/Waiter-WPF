@@ -21,7 +21,7 @@ namespace Waiter.Helpers
             long bytes = Math.Abs((long)value);
             int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
             double num = Math.Round(bytes / Math.Pow(1024, place), 2);
-            return (Math.Sign((long)value) * num).ToString() + suf[place];
+            return (Math.Sign((long)value) * num).ToString() + " " + suf[place];
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
