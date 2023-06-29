@@ -38,10 +38,10 @@ namespace Waiter.ViewModels
             // get password from passwordBox
             var password = (passwordBox as Wpf.Ui.Controls.PasswordBox)!.Password;
 
-            var progressDialog = new ProgressWindow();
-            progressDialog.Owner = ParentWindow;
-            progressDialog.ViewModel.WorkText = "Logging in...";
-            progressDialog.Show();
+            var progressRingDialog = new ProgressRingWindow();
+            progressRingDialog.Owner = ParentWindow;
+            progressRingDialog.ViewModel.WorkText = "Logging in...";
+            progressRingDialog.Show();
             ParentWindow!.IsEnabled = false;
 
             var loginWorker = new BackgroundWorker();
@@ -57,7 +57,7 @@ namespace Waiter.ViewModels
             // close progressDialog
             foreach (Window w in this.ParentWindow!.OwnedWindows)
             {
-                if (w is ProgressWindow)
+                if (w is ProgressRingWindow)
                 {
                     w.Close();
                 }

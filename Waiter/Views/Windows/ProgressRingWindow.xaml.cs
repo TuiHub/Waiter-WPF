@@ -18,17 +18,17 @@ namespace Waiter.Views.Windows
     /// <summary>
     /// ProgressWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class ProgressWindow : UiWindow
+    public partial class ProgressRingWindow : UiWindow
     {
-        public ViewModels.ProgressWindowViewModel ViewModel { get; }
-        public ProgressWindow()
+        public ViewModels.ProgressRingWindowViewModel ViewModel { get; }
+        public ProgressRingWindow()
         {
-            ViewModel = new ViewModels.ProgressWindowViewModel();
+            ViewModel = new ViewModels.ProgressRingWindowViewModel();
 
             this.DataContext = this;
             InitializeComponent();
         }
-        public ProgressWindow(ViewModels.ProgressWindowViewModel viewModel)
+        public ProgressRingWindow(ViewModels.ProgressRingWindowViewModel viewModel)
         {
             ViewModel = viewModel;
 

@@ -5,7 +5,7 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.ViewModels
 {
-    public partial class ProgressWindowViewModel : ObservableObject
+    public partial class ProgressRingWindowViewModel : ObservableObject
     {
         [ObservableProperty]
         private string _workText = "Working...";

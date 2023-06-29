@@ -1,5 +1,5 @@
 ﻿<ui:UiWindow
-    x:Class="Waiter.Views.Windows.ProgressWindow"
+    x:Class="Waiter.Views.Windows.ProgressRingWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,7 @@
     Title="Progress"
     MinWidth="200" MaxWidth="200"
     MinHeight="50" MaxHeight="50"
-    d:DataContext="{d:DesignInstance local:ProgressWindow,
+    d:DataContext="{d:DesignInstance local:ProgressRingWindow,
                                      IsDesignTimeCreatable=True}"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"

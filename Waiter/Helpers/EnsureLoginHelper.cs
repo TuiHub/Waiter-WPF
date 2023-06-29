@@ -27,17 +27,17 @@ namespace Waiter.Helpers
                 {
                     if (GlobalContext.UserConfig.IsLoggedIn == true)
                     {
-                        // show progress
-                        var progressDialog = new ProgressWindow();
-                        progressDialog.Owner = App.Current.MainWindow;
-                        progressDialog.ViewModel.WorkText = "Logging in using refresh token...";
-                        progressDialog.Show();
+                        // show progressRingDialog
+                        var progressRingDialog = new ProgressRingWindow();
+                        progressRingDialog.Owner = App.Current.MainWindow;
+                        progressRingDialog.ViewModel.WorkText = "Logging in using refresh token...";
+                        progressRingDialog.Show();
                         App.Current.MainWindow.IsEnabled = false;
                         // try refresh token
                         var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                         var (accessToken, refreshToken) = await GlobalContext.LibrarianClientService.GetTokenAsync(client);
-                        // close progressDialog
-                        progressDialog.Close();
+                        // close progressRingDialog
+                        progressRingDialog.Close();
                         // refresh token auth succeed
                         if (accessToken != null && refreshToken != null)
                         {

@@ -66,8 +66,8 @@ namespace Waiter
                 // Other windows
                 services.AddScoped<Views.Windows.LoginWindow>();
                 services.AddScoped<ViewModels.LoginWindowViewModel>();
-                services.AddScoped<Views.Windows.ProgressWindow>();
-                services.AddScoped<ViewModels.ProgressWindowViewModel>();
+                services.AddScoped<Views.Windows.ProgressRingWindow>();
+                services.AddScoped<ViewModels.ProgressRingWindowViewModel>();
 
                 // Views and ViewModels
                 services.AddScoped<Views.Pages.DashboardPage>();
