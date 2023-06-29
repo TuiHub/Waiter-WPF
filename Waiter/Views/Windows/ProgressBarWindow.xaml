@@ -1,0 +1,62 @@
+﻿<ui:UiWindow
+    x:Class="Waiter.Views.Windows.ProgressBarWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Waiter.Views.Windows"
+    xmlns:helpers="clr-namespace:Waiter.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="clr-namespace:Waiter.Views.Pages"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="Progress"
+    MinWidth="800" MaxWidth="800"
+    MinHeight="120" MaxHeight="120"
+    d:DataContext="{d:DesignInstance local:ProgressBarWindow,
+                                     IsDesignTimeCreatable=True}"
+    d:Background="{DynamicResource ApplicationBackgroundBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <helpers:BoolToReversedVisibilityConverter x:Key="BoolToReversedVisibilityConverter" />
+    </Window.Resources>
+    
+    <Grid
+        Margin="15,5,15,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Text="{Binding ViewModel.StateText}" />
+        <Grid
+            Grid.Row="1"
+            Margin="40,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+            <ProgressBar
+                Grid.Column="0"
+                IsIndeterminate="{Binding ViewModel.PbIsIndeterminate}"
+                Value="{Binding ViewModel.PbValue}" />
+            <TextBlock
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Visibility="{Binding ViewModel.PbIsIndeterminate, Converter={StaticResource BoolToReversedVisibilityConverter}}"
+                Text="{Binding ViewModel.PbValue, StringFormat={}{0}%}" />
+        </Grid>
+        <ui:Button
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            Content="Cancel"
+            IsEnabled="{Binding ViewModel.ButtonEnable}" />
+    </Grid>
+</ui:UiWindow>

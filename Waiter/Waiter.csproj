@@ -58,6 +58,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Windows\ProgressBarWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Windows\ProgressRingWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

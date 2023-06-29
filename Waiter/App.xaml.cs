@@ -68,6 +68,8 @@ namespace Waiter
                 services.AddScoped<ViewModels.LoginWindowViewModel>();
                 services.AddScoped<Views.Windows.ProgressRingWindow>();
                 services.AddScoped<ViewModels.ProgressRingWindowViewModel>();
+                services.AddScoped<Views.Windows.ProgressBarWindow>();
+                services.AddScoped<ViewModels.ProgressBarWindowViewModel>();
 
                 // Views and ViewModels
                 services.AddScoped<Views.Pages.DashboardPage>();
