@@ -21,6 +21,7 @@ using Waiter.Core.Models;
 using Waiter.Core.Services;
 using Waiter.Helpers;
 using Waiter.Models.Db;
+using Waiter.Views.Windows;
 using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.ViewModels
@@ -145,56 +146,74 @@ namespace Waiter.ViewModels
         {
             // TODO: add RunWithEnsureLoginAsync
             if (AppPackageSetting == null) return;
-            MessageBox.Show("Starting app.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            // create progressBarDialog
+            var progressBarDialog = new ProgressBarWindow();
+            progressBarDialog.Owner = App.Current.MainWindow;
             try
             {
+                progressBarDialog.Title = $"Starting App";
+                progressBarDialog.Show();
                 var nowDT = DateTime.Now;
+                progressBarDialog.ViewModel.StateText = $"Starting {AppPackageSetting.AppPath}...";
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = AppPackageSetting.AppPath,
                     WorkingDirectory = AppPackageSetting.AppWorkDir
                 });
+                progressBarDialog.Hide();
                 (var startDT, var endDT, var exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
                 var runTime = endDT - startDT;
-                MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDT: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDT: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 // report RunTime to server
+                progressBarDialog.Title = $"Post Process";
+                progressBarDialog.ViewModel.StateText = $"Reporting runtime...";
+                progressBarDialog.Show();
                 var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                 await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
-                MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 // create ZipArchive
+                progressBarDialog.ViewModel.StateText = $"Creating game save file...";
                 var tmpArchiveName = Guid.NewGuid().ToString() + ".zip";
                 var tmpArchivePath = Path.Combine(GlobalContext.SystemConfig.GetRealCacheDirPath(), tmpArchiveName);
                 using (var tmpArchiveFileStream = new FileStream(tmpArchivePath, FileMode.Create, FileAccess.ReadWrite))
                     await Task.Run(() => _savedataManager.Store(AppPackageSetting.AppBaseDir, tmpArchiveFileStream));
                 var tmpArchiveFileInfo = new FileInfo(tmpArchivePath);
-                var tmpArchiveSize = tmpArchiveFileInfo.Length;
+                var tmpArchiveSizeBytes = tmpArchiveFileInfo.Length;
+                progressBarDialog.ViewModel.StateText = $"Calculating SHA256 diagram...";
                 using SHA256 sha256 = SHA256.Create();
                 using var tmpArchiveReadStream = File.OpenRead(tmpArchivePath);
                 var tmpArchiveSha256 = await sha256.ComputeHashAsync(tmpArchiveReadStream);
                 var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
-                MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
-                                $"name = {tmpArchiveName}\n" +
-                                $"size = {tmpArchiveSize}\n" +
-                                $"sha256 = {BitConverter.ToString(tmpArchiveSha256).Replace("-", "")}\n" +
-                                $"createTime = {tmpArchiveCreateTime:O}",
-                                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
+                //                $"name = {tmpArchiveName}\n" +
+                //                $"size = {tmpArchiveSize}\n" +
+                //                $"sha256 = {BitConverter.ToString(tmpArchiveSha256).Replace("-", "")}\n" +
+                //                $"createTime = {tmpArchiveCreateTime:O}",
+                //                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 // upload
+                progressBarDialog.ViewModel.StateText = $"Uploading game save file({SizeBytesToHRStringHelper.SizeBytesToHRString(tmpArchiveSizeBytes)})...";
                 var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFile(client,
                                                                               AppPackageSetting.AppPackageId,
                                                                               new FileMetadata
                                                                               {
                                                                                   Name = tmpArchiveName,
-                                                                                  SizeBytes = tmpArchiveSize,
+                                                                                  SizeBytes = tmpArchiveSizeBytes,
                                                                                   Type = FileType.GeburaSave,
                                                                                   Sha256 = UnsafeByteOperations.UnsafeWrap(tmpArchiveSha256),
                                                                                   CreateTime = Timestamp.FromDateTime(tmpArchiveCreateTime.ToUniversalTime())
                                                                               });
                 tmpArchiveReadStream.Position = 0;
+                progressBarDialog.ViewModel.PbIsIndeterminate = false;
                 await GlobalContext.LibrarianClientService.SimpleUploadFile(client,
                                                                             uploadToken,
                                                                             tmpArchiveReadStream,
-                                                                            GlobalContext.SystemConfig.FileTransferChunkBytes);
-                MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                                                                            GlobalContext.SystemConfig.FileTransferChunkBytes,
+                                                                            tmpArchiveSizeBytes,
+                                                                            new Progress<int>(p => progressBarDialog.ViewModel.PbValue = p));
+                progressBarDialog.Title = $"Finalizing";
+                progressBarDialog.ViewModel.StateText = $"Finalizing...";
+                progressBarDialog.ViewModel.PbIsIndeterminate = true;
+                //MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (TimeoutException ex)
             {
@@ -203,6 +222,10 @@ namespace Waiter.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                progressBarDialog.Close();
             }
         }
 

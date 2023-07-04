@@ -10,11 +10,12 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Progress"
     MinWidth="800" MaxWidth="800"
-    MinHeight="120" MaxHeight="120"
+    MinHeight="160" MaxHeight="160"
     d:DataContext="{d:DesignInstance local:ProgressBarWindow,
                                      IsDesignTimeCreatable=True}"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    WindowStyle="ToolWindow"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
 

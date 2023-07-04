@@ -17,7 +17,8 @@ namespace Waiter.Core.Services
 {
     public partial class LibrarianClientService : ILibrarianClientService
     {
-        public async Task SimpleUploadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken, Stream stream, int chunkBytes)
+        public async Task SimpleUploadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken,
+            Stream stream, int chunkBytes, long? fileSizeBytes = null, IProgress<int>? progress = null)
         {
             var call = client.SimpleUploadFile(headers: JwtHelper.GetMetadataWithJwt(uploadToken));
 
@@ -37,6 +38,7 @@ namespace Waiter.Core.Services
                 }
             });
 
+            long uploadedBytes = 0;
             var buffer = new byte[chunkBytes];
             while (true)
             {
@@ -50,6 +52,11 @@ namespace Waiter.Core.Services
                 {
                     Data = UnsafeByteOperations.UnsafeWrap(buffer.AsMemory(0, readBytes))
                 });
+                if (fileSizeBytes != null && progress != null)
+                {
+                    uploadedBytes += readBytes;
+                    progress.Report((int)((double)uploadedBytes / (double)fileSizeBytes * 100.0));
+                }
             }
             await call.RequestStream.CompleteAsync();
             await readTask;
