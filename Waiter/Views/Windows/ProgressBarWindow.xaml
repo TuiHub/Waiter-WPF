@@ -15,7 +15,6 @@
                                      IsDesignTimeCreatable=True}"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-    WindowStyle="ToolWindow"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
 

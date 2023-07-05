@@ -257,8 +257,14 @@ namespace Waiter.ViewModels
         {
             if (SelectedGameSave == null) return;
             if (AppPackageSetting == null) return;
+            // create progressBarDialog
+            var progressBarDialog = new ProgressBarWindow();
+            progressBarDialog.Owner = App.Current.MainWindow;
             try
             {
+                progressBarDialog.Title = $"Restoring GameSave";
+                progressBarDialog.Show();
+                progressBarDialog.ViewModel.StateText = "Getting download token...";
                 string downloadToken = string.Empty;
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
@@ -266,33 +272,45 @@ namespace Waiter.ViewModels
                     downloadToken = await GlobalContext.LibrarianClientService.DownloadGameSaveFile(client, SelectedGameSave.InternalId);
                 },
                 async () => { });
+                progressBarDialog.ViewModel.StateText = "Gererating temp file name...";
                 var cachedArchivePath = Path.Combine(GlobalContext.SystemConfig.CacheDirPath, SelectedGameSave.InternalId.ToString() + ".zip");
                 if (File.Exists(cachedArchivePath))
                     File.Delete(cachedArchivePath);
+                progressBarDialog.ViewModel.StateText = "Downloading game save file...";
+                progressBarDialog.ViewModel.PbIsIndeterminate = false;
                 await using (var cachedArchiveWriteFileStream = File.OpenWrite(cachedArchivePath))
                     await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                     {
                         var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                        await GlobalContext.LibrarianClientService.SimpleDownloadFile(client, downloadToken, cachedArchiveWriteFileStream);
+                        await GlobalContext.LibrarianClientService.SimpleDownloadFile(client, downloadToken, cachedArchiveWriteFileStream,
+                            SelectedGameSave.SizeBytes, new Progress<int>(p => progressBarDialog.ViewModel.PbValue = p));
                     },
                     async () => { });
-                MessageBox.Show($"Cached archive {cachedArchivePath} downloaded.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"Cached archive {cachedArchivePath} downloaded.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                progressBarDialog.ViewModel.PbIsIndeterminate = true;
+                progressBarDialog.ViewModel.StateText = "Calculating sha256...";
                 var cachedArchiveFileInfo = new FileInfo(cachedArchivePath);
                 var cachedArchiveSize = cachedArchiveFileInfo.Length;
                 await using var cachedArchiveReadStream = File.OpenRead(cachedArchivePath);
                 using SHA256 sha256 = SHA256.Create();
                 var cachedArchiveSha256 = await sha256.ComputeHashAsync(cachedArchiveReadStream);
-                MessageBox.Show($"Cached archive size = {cachedArchiveSize}\n" +
-                                $"sha256 = {BitConverter.ToString(cachedArchiveSha256).Replace("-", "")}",
-                                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"Cached archive size = {cachedArchiveSize}\n" +
+                //                $"sha256 = {BitConverter.ToString(cachedArchiveSha256).Replace("-", "")}",
+                //                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 cachedArchiveReadStream.Position = 0;
-                MessageBox.Show($"Starting restore.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"Starting restore.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                progressBarDialog.ViewModel.StateText = "Restoring game save...";
                 await Task.Run(() => _savedataManager.Restore(cachedArchiveReadStream, AppPackageSetting.AppBaseDir));
+                progressBarDialog.ViewModel.StateText = "Finalizing...";
                 MessageBox.Show($"Restore complete.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                progressBarDialog.Close();
             }
         }
 

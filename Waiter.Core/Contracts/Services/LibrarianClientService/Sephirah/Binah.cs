@@ -12,6 +12,7 @@ namespace Waiter.Core.Contracts.Services
     {
         Task SimpleUploadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string uploadToken, Stream stream,
             int chunkBytes, long? fileSizeBytes = null, IProgress<int>? progress = null);
-        Task SimpleDownloadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string downloadToken, Stream stream);
+        Task SimpleDownloadFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, string downloadToken, Stream stream,
+            long? fileSizeBytes = null, IProgress<int>? progress = null);
     }
 }
