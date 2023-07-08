@@ -82,6 +82,8 @@ namespace Waiter
                 services.AddScoped<ViewModels.AppsViewModel>();
                 services.AddScoped<Views.Pages.UserPage>();
                 services.AddScoped<ViewModels.UserViewModel>();
+                services.AddScoped<Views.Pages.AppStorePage>();
+                services.AddScoped<ViewModels.AppStoreViewModel>();
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

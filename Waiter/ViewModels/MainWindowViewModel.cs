@@ -53,6 +53,13 @@ namespace Waiter.ViewModels
                 },
                 new NavigationItem()
                 {
+                    Content = "AppStore",
+                    PageTag = "appStore",
+                    Icon = SymbolRegular.Cart24,
+                    PageType = typeof(Views.Pages.AppsPage)
+                },
+                new NavigationItem()
+                {
                     Content = "Apps",
                     PageTag = "apps",
                     Icon = SymbolRegular.Apps24,
