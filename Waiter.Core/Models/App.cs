@@ -16,7 +16,8 @@ namespace Waiter.Core.Models
         public string Name { get; set; } = null!;
         public AppType Type { get; set; }
         public string? ShortDescription { get; set; }
-        public string? ImageUrl { get; set; }
+        public string? IconImageUrl { get; set; }
+        public string? HeroImageUrl { get; set; }
         public AppDetails? AppDetails { get; set; }
         public App(TuiHub.Protos.Librarian.V1.App app)
         {
@@ -27,7 +28,8 @@ namespace Waiter.Core.Models
             Name = app.Name;
             Type = app.Type;
             ShortDescription = string.IsNullOrEmpty(app.ShortDescription) ? null : app.ShortDescription;
-            ImageUrl = string.IsNullOrEmpty(app.ImageUrl) ? null : app.ImageUrl;
+            IconImageUrl = string.IsNullOrEmpty(app.IconImageUrl) ? null : app.IconImageUrl;
+            HeroImageUrl = string.IsNullOrEmpty(app.HeroImageUrl) ? null : app.HeroImageUrl;
             AppDetails = new AppDetails(app.Details);
         }
         public App() { }
