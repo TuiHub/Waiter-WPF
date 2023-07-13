@@ -66,6 +66,7 @@ namespace Waiter.ViewModels
                     _appCategories = await GlobalContext.LibrarianClientService.ListAppCategoriesAsync(client);
                 },
                 async () => { });
+                // https://blog.lindexi.com/post/WPF-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%B7%A8%E7%BA%BF%E7%A8%8B%E5%A4%84%E7%90%86-ObservableCollection-%E6%95%B0%E6%8D%AE.html
                 await Task.Run(() =>
                 {
                     var rlist = new List<Models.AppCategoryWithApps>();
