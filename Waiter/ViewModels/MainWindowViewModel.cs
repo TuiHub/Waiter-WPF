@@ -56,7 +56,7 @@ namespace Waiter.ViewModels
                     Content = "AppStore",
                     PageTag = "appStore",
                     Icon = SymbolRegular.Cart24,
-                    PageType = typeof(Views.Pages.AppsPage)
+                    PageType = typeof(Views.Pages.AppStorePage)
                 },
                 new NavigationItem()
                 {
