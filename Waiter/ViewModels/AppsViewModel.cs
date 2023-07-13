@@ -7,8 +7,10 @@ using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,8 +37,10 @@ namespace Waiter.ViewModels
             _processTimeMonitor = processTimeMonitor;
             _savedataManager = savedataManager;
         }
+        private IEnumerable<Core.Models.App> _apps;
+        private IEnumerable<Core.Models.AppCategory> _appCategories;
         [ObservableProperty]
-        private IEnumerable<Core.Models.App> _apps = new List<Core.Models.App>();
+        private List<Models.AppCategoryWithApps> _appCategoriesWithApps = new();
         [ObservableProperty]
         private Core.Models.App? _selectedApp;
         [ObservableProperty]
@@ -58,9 +62,32 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    Apps = await GlobalContext.LibrarianClientService.GetPurchasedAppsAsync(client);
+                    _apps = await GlobalContext.LibrarianClientService.GetPurchasedAppsAsync(client);
+                    _appCategories = await GlobalContext.LibrarianClientService.ListAppCategoriesAsync(client);
                 },
                 async () => { });
+                await Task.Run(() =>
+                {
+                    var rlist = new List<Models.AppCategoryWithApps>();
+                    var groups = _apps.SelectMany(a => a.AppCategoryIds,
+                                                  (a, c) => new
+                                                  {
+                                                      AppCategoryId = c,
+                                                      App = a
+                                                  })
+                                      .GroupBy(x => x.AppCategoryId, x => x.App);
+                    _appCategories.ToList().ForEach(x => rlist.Add(new Models.AppCategoryWithApps { AppCategory = x }));
+                    foreach (var group in groups)
+                    {
+                        var appCategoryWithApps = rlist.Single(x => x.AppCategory?.InternalId == group.Key);
+                        appCategoryWithApps.Apps.AddRange(group);
+                    }
+                    rlist.Add(new Models.AppCategoryWithApps { AppCategory = null });
+                    _apps.Where(x => x.AppCategoryIds.Any() == false)
+                         .ToList()
+                         .ForEach(x => rlist.Last().Apps.Add(x));
+                    AppCategoriesWithApps = rlist;
+                });
             }
             catch (Exception ex)
             {

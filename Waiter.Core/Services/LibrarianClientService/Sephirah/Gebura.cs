@@ -113,5 +113,13 @@ namespace Waiter.Core.Services
                                                            headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.Results.Select(x => new GameSave(x));
         }
+
+        public async Task<IEnumerable<Models.AppCategory>> ListAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
+        {
+            var ListAppCategoriesRequest = new ListAppCategoriesRequest();
+            var resp = await client.ListAppCategoriesAsync(ListAppCategoriesRequest,
+                                                           headers: JwtHelper.GetMetadataWithAccessToken());
+            return resp.AppCategories.Select(x => new Models.AppCategory(x));
+        }
     }
 }

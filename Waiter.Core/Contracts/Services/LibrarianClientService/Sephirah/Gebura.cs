@@ -20,5 +20,6 @@ namespace Waiter.Core.Contracts.Services
         Task<string> UploadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata);
         Task<string> DownloadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId);
         Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
+        Task<IEnumerable<AppCategory>> ListAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
     }
 }

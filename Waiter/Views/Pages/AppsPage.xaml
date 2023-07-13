@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:helpers="clr-namespace:Waiter.Helpers"
+    xmlns:models="clr-namespace:Waiter.Models"
+    xmlns:cmodels="clr-namespace:Waiter.Core.Models;assembly=Waiter.Core"
     Title="AppsPage"
     d:DataContext="{d:DesignInstance local:AppsPage, IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -18,38 +20,7 @@
         <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <helpers:SizeBytesToHRStringConverter x:Key="SizeBytesToHRStringConverter" />
         <!--<helpers:BoolToStringConverter x:Key="BoolToStringConverter" />-->
-        <DataTemplate x:Key="ItemTemplate">
-            <Grid
-                Height="50">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <Image
-                    Grid.Column="0"
-                    Grid.Row="0"
-                    Grid.RowSpan="3"
-                    Source="{Binding IconImageUrl}" />
-                <TextBlock
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Text="{Binding InternalId}" />
-                <TextBlock
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    Text="{Binding Name}" />
-                <TextBlock
-                    Grid.Column="1"
-                    Grid.Row="2"
-                    Text="{Binding Source}" />
-            </Grid>
-        </DataTemplate>
+        
     </Page.Resources>
 
     <Grid>
@@ -58,11 +29,56 @@
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <ListView
+        <!--<ListView
             Grid.Column="0"
             ItemsSource="{Binding ViewModel.Apps}"
             ItemTemplate="{StaticResource ItemTemplate}"
-            SelectedItem="{Binding ViewModel.SelectedApp, Mode=TwoWay}" />
+            SelectedItem="{Binding ViewModel.SelectedApp, Mode=TwoWay}" />-->
+        <TreeView
+            Grid.Column="0"
+            ItemsSource="{Binding ViewModel.AppCategoriesWithApps, Mode=OneWay}"
+            SelectedItemChanged="TreeView_SelectedItemChanged">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate
+                    DataType="{x:Type models:AppCategoryWithApps}"
+                    ItemsSource="{Binding Apps}">
+                    <TextBlock Text="{Binding AppCategoryName}" />
+                </HierarchicalDataTemplate>
+                <DataTemplate
+                    DataType="{x:Type cmodels:App}">
+                    <Grid
+                        Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Image
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Source="{Binding IconImageUrl}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{Binding InternalId}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Name}" />
+                        <TextBlock
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Text="{Binding Source}" />
+                    </Grid>
+                </DataTemplate>
+            </TreeView.Resources>
+        </TreeView>
 
         <TabControl
             Grid.Column="1"
