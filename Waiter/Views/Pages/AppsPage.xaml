@@ -42,39 +42,39 @@
                 <HierarchicalDataTemplate
                     DataType="{x:Type models:AppCategoryWithApps}"
                     ItemsSource="{Binding Apps}">
-                    <TextBlock Text="{Binding AppCategoryName}" />
+                    <TreeViewItem Header="{Binding AppCategoryName}" />
                 </HierarchicalDataTemplate>
                 <DataTemplate
                     DataType="{x:Type cmodels:App}">
                     <Grid
-                        Height="50">
+                        Height="20">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
+                        <!--<Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>-->
 
                         <Image
                             Grid.Column="0"
-                            Grid.Row="0"
-                            Grid.RowSpan="3"
+                            Stretch="Uniform"
                             Source="{Binding IconImageUrl}" />
-                        <TextBlock
+                        <!--<TextBlock
                             Grid.Column="1"
                             Grid.Row="0"
-                            Text="{Binding InternalId}" />
+                            Text="{Binding InternalId}" />-->
                         <TextBlock
+                            Margin="3,0,0,0"
                             Grid.Column="1"
-                            Grid.Row="1"
+                            VerticalAlignment="Center"
                             Text="{Binding Name}" />
-                        <TextBlock
+                        <!--<TextBlock
                             Grid.Column="1"
                             Grid.Row="2"
-                            Text="{Binding Source}" />
+                            Text="{Binding Source}" />-->
                     </Grid>
                 </DataTemplate>
             </TreeView.Resources>
