@@ -1,6 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.Views.Pages
@@ -39,6 +45,46 @@ namespace Waiter.Views.Pages
             {
                 ViewModel.SelectedApp = e.NewValue as Core.Models.App;
             }
+            else
+            {
+                ViewModel.SelectedApp = null;
+            }
+        }
+
+        private void AppAddToMenuItem_SubmenuOpened(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.OnAppAddToSubMenuOpen();
+        }
+        private void AppAddToMenuItem_SubmenuClosed(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.OnAppAddToSubMenuClose();
+        }
+        private void AppRemoveFromMenuItem_SubmenuOpened(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.OnAppRemoveFromSubMenuOpen();
+        }
+        private void AppRemoveFromMenuItem_SubmenuClosed(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.OnAppRemoveFromSubMenuClose();
+        }
+
+        // https://stackoverflow.com/questions/592373/select-treeview-node-on-right-click-before-displaying-contextmenu
+        private void TreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem treeViewItem = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+
+            if (treeViewItem != null)
+            {
+                treeViewItem.Focus();
+                e.Handled = true;
+            }
+        }
+        static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source as TreeViewItem;
         }
 
         //public List<Models.AppCategoryWithApps> TestAppCategoriesWithApps { get; } = new();

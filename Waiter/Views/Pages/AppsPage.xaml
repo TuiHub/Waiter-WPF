@@ -37,7 +37,8 @@
         <TreeView
             Grid.Column="0"
             ItemsSource="{Binding ViewModel.AppCategoriesWithApps, Mode=OneWay}"
-            SelectedItemChanged="TreeView_SelectedItemChanged">
+            SelectedItemChanged="TreeView_SelectedItemChanged"
+            PreviewMouseRightButtonDown="TreeView_PreviewMouseRightButtonDown">
             <TreeView.Resources>
                 <HierarchicalDataTemplate
                     DataType="{x:Type models:AppCategoryWithApps}"
@@ -78,6 +79,42 @@
                     </Grid>
                 </DataTemplate>
             </TreeView.Resources>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <!--<ContextMenu.ItemTemplate>
+                        <HierarchicalDataTemplate
+                            DataType="{x:Type cmo}">
+                            
+                        </HierarchicalDataTemplate>
+                    </ContextMenu.ItemTemplate>-->
+                    <MenuItem
+                        Header="Show selected"
+                        Command="{Binding ViewModel.ShowSelectedAppCommand}" />
+                    <!--https://stackoverflow.com/questions/43678100/wpf-contextmenu-binding-itemssource-on-sub-menuitem-->
+                    <MenuItem
+                        Header="Add to..."
+                        ItemsSource="{Binding ViewModel.SelectedAppNonExistingAppCategories}"
+                        SubmenuOpened="AppAddToMenuItem_SubmenuOpened"
+                        SubmenuClosed="AppAddToMenuItem_SubmenuClosed">
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
+                    <MenuItem
+                        Header="Remove from..."
+                        ItemsSource="{Binding ViewModel.SelectedAppExistingAppCategories}"
+                        SubmenuOpened="AppRemoveFromMenuItem_SubmenuOpened"
+                        SubmenuClosed="AppRemoveFromMenuItem_SubmenuClosed">
+                        <MenuItem.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </MenuItem.ItemTemplate>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
         </TreeView>
 
         <TabControl

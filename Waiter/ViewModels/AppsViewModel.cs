@@ -55,6 +55,10 @@ namespace Waiter.ViewModels
         private IEnumerable<Core.Models.GameSave> _gameSaves = new List<Core.Models.GameSave>();
         [ObservableProperty]
         private Core.Models.GameSave? _selectedGameSave;
+        [ObservableProperty]
+        private ObservableCollection<Core.Models.AppCategory> _selectedAppNonExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
+        [ObservableProperty]
+        private ObservableCollection<Core.Models.AppCategory> _selectedAppExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
         public async void OnNavigatedTo()
         {
             try
@@ -344,6 +348,57 @@ namespace Waiter.ViewModels
 
         public void OnNavigatedFrom()
         {
+        }
+
+        [RelayCommand]
+        private void OnShowSelectedApp()
+        {
+            string appInfoStr;
+            if (SelectedApp == null)
+                appInfoStr = "null";
+            else
+                appInfoStr = $"InternalId = {SelectedApp.InternalId}, " +
+                             $"Name = {SelectedApp.Name}";
+            MessageBox.Show($"Selected GameSave = {appInfoStr}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+
+        public void OnAppAddToSubMenuOpen()
+        {
+            if (SelectedApp == null) return;
+            SelectedAppNonExistingAppCategories.Clear();
+            //foreach (var appCategory in _appCategories)
+            //{
+            //    if (SelectedApp.AppCategoryIds.Contains(appCategory.InternalId) == false)
+            //        SelectedAppNonExistingAppCategories.Add(appCategory);
+            //}
+            _appCategories.Where(x => SelectedApp.AppCategoryIds.Contains(x.InternalId) == false)
+                          .ToList()
+                          .ForEach(x => SelectedAppNonExistingAppCategories.Add(x));
+            if (SelectedAppNonExistingAppCategories.Any() == false)
+                SelectedAppNonExistingAppCategories.Add(new Core.Models.AppCategory { Name = "null" });
+        }
+        public void OnAppAddToSubMenuClose()
+        {
+            if (SelectedApp == null) return;
+            SelectedAppNonExistingAppCategories.Clear();
+            SelectedAppNonExistingAppCategories.Add(new Core.Models.AppCategory { Name = "Loading..." });
+        }
+        public void OnAppRemoveFromSubMenuOpen()
+        {
+            if (SelectedApp == null) return;
+            SelectedAppExistingAppCategories.Clear();
+            SelectedApp.AppCategoryIds.Select(x => _appCategories.Single(c => c.InternalId == x))
+                                      .ToList()
+                                      .ForEach(x => SelectedAppExistingAppCategories.Add(x));
+            if (SelectedAppExistingAppCategories.Any() == false)
+                SelectedAppExistingAppCategories.Add(new Core.Models.AppCategory { Name = "null" });
+        }
+        public void OnAppRemoveFromSubMenuClose()
+        {
+            if (SelectedApp == null) return;
+            SelectedAppExistingAppCategories.Clear();
+            SelectedAppExistingAppCategories.Add(new Core.Models.AppCategory { Name = "Loading..." });
         }
     }
 }

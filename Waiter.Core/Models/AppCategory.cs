@@ -10,6 +10,7 @@ namespace Waiter.Core.Models
     {
         public long InternalId { get; set; }
         public string Name { get; set; } = null!;
+        public AppCategory() { }
         public AppCategory(TuiHub.Protos.Librarian.V1.AppCategory appCategory)
         {
             InternalId = appCategory.Id.Id;
