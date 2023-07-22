@@ -14,4 +14,12 @@
     <PackageReference Include="TuiHub.Protos" Version="0.2.37" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Commander.Core\Commander.Core.csproj" />
+  </ItemGroup>
+
 </Project>
