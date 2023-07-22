@@ -63,11 +63,11 @@
             // 
             label.Anchor = AnchorStyles.Bottom;
             label.AutoSize = true;
-            label.Location = new Point(272, 16);
+            label.Location = new Point(267, 16);
             label.Name = "label";
-            label.Size = new Size(56, 17);
+            label.Size = new Size(65, 17);
             label.TabIndex = 1;
-            label.Text = "正在加载";
+            label.Text = "正在加载...";
             // 
             // LoadingForm
             // 
@@ -90,6 +90,6 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private ProgressBar progressBar1;
-        private Label label;
+        public Label label;
     }
 }

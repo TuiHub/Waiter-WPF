@@ -44,7 +44,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { systemSettingsToolStripMenuItem, accountToolStripMenuItem1, manageToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 25);
+            menuStrip1.Size = new Size(1200, 25);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -94,14 +94,14 @@
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Location = new Point(0, 25);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(800, 425);
+            mainPanel.Size = new Size(1200, 650);
             mainPanel.TabIndex = 1;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1200, 675);
             Controls.Add(mainPanel);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
