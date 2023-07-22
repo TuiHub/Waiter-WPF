@@ -28,34 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            listView1 = new ListView();
+            appsListView = new ListView();
             internalIdHeader = new ColumnHeader();
-            nameHeader = new ColumnHeader();
             typeHeader = new ColumnHeader();
             sourceHeader = new ColumnHeader();
+            nameHeader = new ColumnHeader();
             shortDescptionHeader = new ColumnHeader();
+            toolStrip = new ToolStrip();
             SuspendLayout();
             // 
-            // listView1
+            // appsListView
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { internalIdHeader, typeHeader, sourceHeader, nameHeader, shortDescptionHeader });
-            listView1.Dock = DockStyle.Fill;
-            listView1.Location = new Point(0, 0);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(800, 450);
-            listView1.TabIndex = 0;
-            listView1.UseCompatibleStateImageBehavior = false;
-            listView1.View = View.Details;
+            appsListView.Columns.AddRange(new ColumnHeader[] { internalIdHeader, typeHeader, sourceHeader, nameHeader, shortDescptionHeader });
+            appsListView.Dock = DockStyle.Fill;
+            appsListView.FullRowSelect = true;
+            appsListView.Location = new Point(0, 25);
+            appsListView.Name = "appsListView";
+            appsListView.Size = new Size(800, 425);
+            appsListView.TabIndex = 0;
+            appsListView.UseCompatibleStateImageBehavior = false;
+            appsListView.View = View.Details;
             // 
             // internalIdHeader
             // 
             internalIdHeader.Text = "InternalID";
             internalIdHeader.Width = 100;
-            // 
-            // nameHeader
-            // 
-            nameHeader.Text = "名称";
-            nameHeader.Width = 120;
             // 
             // typeHeader
             // 
@@ -66,10 +63,23 @@
             sourceHeader.Text = "来源";
             sourceHeader.Width = 80;
             // 
+            // nameHeader
+            // 
+            nameHeader.Text = "名称";
+            nameHeader.Width = 120;
+            // 
             // shortDescptionHeader
             // 
             shortDescptionHeader.Text = "简要描述";
             shortDescptionHeader.Width = 400;
+            // 
+            // toolStrip
+            // 
+            toolStrip.Location = new Point(0, 0);
+            toolStrip.Name = "toolStrip";
+            toolStrip.Size = new Size(800, 25);
+            toolStrip.TabIndex = 1;
+            toolStrip.Text = "toolStrip";
             // 
             // AppsManagePage
             // 
@@ -77,20 +87,23 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             ControlBox = false;
-            Controls.Add(listView1);
+            Controls.Add(appsListView);
+            Controls.Add(toolStrip);
             FormBorderStyle = FormBorderStyle.None;
             Name = "AppsManagePage";
             Text = "AppsManagePage";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private ListView listView1;
+        private ListView appsListView;
         private ColumnHeader internalIdHeader;
         private ColumnHeader nameHeader;
         private ColumnHeader typeHeader;
         private ColumnHeader sourceHeader;
         private ColumnHeader shortDescptionHeader;
+        private ToolStrip toolStrip;
     }
 }
