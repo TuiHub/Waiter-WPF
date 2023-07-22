@@ -111,6 +111,7 @@
             // 
             // LoginForm
             // 
+            AcceptButton = loginButton;
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(400, 210);
