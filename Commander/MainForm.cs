@@ -16,13 +16,13 @@ namespace Commander
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var loginForm = new LoginForm();
+            using var loginForm = new LoginForm();
             loginForm.ShowDialog(this);
         }
 
         private void systemSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var systemSettingsForm = new SystemSettingsForm();
+            using var systemSettingsForm = new SystemSettingsForm();
             systemSettingsForm.ShowDialog(this);
         }
 
