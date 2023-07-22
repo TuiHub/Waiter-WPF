@@ -81,6 +81,7 @@
             appManageToolStripMenuItem.Name = "appManageToolStripMenuItem";
             appManageToolStripMenuItem.Size = new Size(180, 22);
             appManageToolStripMenuItem.Text = "App管理";
+            appManageToolStripMenuItem.Click += appManageToolStripMenuItem_Click;
             // 
             // appPackageManageToolStripMenuItem
             // 

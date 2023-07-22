@@ -1,4 +1,5 @@
 using Commander.Forms;
+using Commander.Pages;
 using Grpc.Net.Client;
 using TuiHub.Protos.Librarian.Sephirah.V1;
 
@@ -23,6 +24,20 @@ namespace Commander
         {
             var systemSettingsForm = new SystemSettingsForm();
             systemSettingsForm.ShowDialog(this);
+        }
+
+        private void appManageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var appsManagePage = new AppsManagePage();
+            foreach (var control in mainPanel.Controls)
+            {
+                (control as Form)?.Close();
+            }
+            mainPanel.Controls.Clear();
+            appsManagePage.TopLevel = false;
+            appsManagePage.Dock = DockStyle.Fill;
+            mainPanel.Controls.Add(appsManagePage);
+            appsManagePage.Show();
         }
     }
 }
