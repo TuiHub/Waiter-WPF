@@ -43,15 +43,18 @@ namespace Commander.Pages
 
                 // https://blog.csdn.net/zxsean/article/details/51985021
                 loadingForm.label.Text = "正在更新列表...";
+                currentPageSizeToolStripTextBox.Text = apps.Count().ToString();
+                appsListView.Items.Clear();
                 appsListView.BeginUpdate();
                 foreach (var app in apps)
                 {
-                    ListViewItem item = new ListViewItem();
+                    ListViewItem item = new();
                     item.Text = app.InternalId.ToString();
                     item.SubItems.Add(ProtoEnumsHelper.AppTypeToString(app.Type));
                     item.SubItems.Add(ProtoEnumsHelper.AppSourceToString(app.Source));
                     item.SubItems.Add(app.Name);
                     item.SubItems.Add(app.ShortDescription);
+                    appsListView.Items.Add(item);
                 }
                 appsListView.EndUpdate();
 

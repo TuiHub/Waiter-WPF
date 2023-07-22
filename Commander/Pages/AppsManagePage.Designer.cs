@@ -53,6 +53,10 @@
             toolStripLabel2 = new ToolStripLabel();
             pageSizeToolStripTextBox = new ToolStripTextBox();
             toolStripSeparator2 = new ToolStripSeparator();
+            toolStripLabel7 = new ToolStripLabel();
+            currentPageSizeToolStripTextBox = new ToolStripTextBox();
+            toolStripLabel8 = new ToolStripLabel();
+            toolStripSeparator5 = new ToolStripSeparator();
             loadToolStripButton = new ToolStripButton();
             toolStrip.SuspendLayout();
             toolStrip1.SuspendLayout();
@@ -73,11 +77,12 @@
             // internalIdHeader
             // 
             internalIdHeader.Text = "InternalID";
-            internalIdHeader.Width = 100;
+            internalIdHeader.Width = 150;
             // 
             // typeHeader
             // 
             typeHeader.Text = "类型";
+            typeHeader.Width = 100;
             // 
             // sourceHeader
             // 
@@ -112,7 +117,7 @@
             // internalIdToolStripTextBox
             // 
             internalIdToolStripTextBox.Name = "internalIdToolStripTextBox";
-            internalIdToolStripTextBox.Size = new Size(100, 25);
+            internalIdToolStripTextBox.Size = new Size(150, 25);
             // 
             // toolStripSeparator3
             // 
@@ -127,10 +132,9 @@
             // 
             // appTypeToolStripComboBox
             // 
-            appTypeToolStripComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            appTypeToolStripComboBox.Items.AddRange(new object[] { "Game" });
+            appTypeToolStripComboBox.Items.AddRange(new object[] { "Game", "Unspecified" });
             appTypeToolStripComboBox.Name = "appTypeToolStripComboBox";
-            appTypeToolStripComboBox.Size = new Size(81, 25);
+            appTypeToolStripComboBox.Size = new Size(101, 25);
             // 
             // toolStripSeparator4
             // 
@@ -145,8 +149,7 @@
             // 
             // appSourceToolStripComboBox
             // 
-            appSourceToolStripComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            appSourceToolStripComboBox.Items.AddRange(new object[] { "Internal", "Steam", "vndb" });
+            appSourceToolStripComboBox.Items.AddRange(new object[] { "Internal", "Steam", "vndb", "Unspecified" });
             appSourceToolStripComboBox.Name = "appSourceToolStripComboBox";
             appSourceToolStripComboBox.Size = new Size(81, 25);
             // 
@@ -163,7 +166,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, pageNumToolStripTextBox, toolStripSeparator1, toolStripLabel2, pageSizeToolStripTextBox, toolStripSeparator2, loadToolStripButton });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, pageNumToolStripTextBox, toolStripSeparator1, toolStripLabel2, pageSizeToolStripTextBox, toolStripSeparator2, toolStripLabel7, currentPageSizeToolStripTextBox, toolStripLabel8, toolStripSeparator5, loadToolStripButton });
             toolStrip1.Location = new Point(0, 25);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1200, 25);
@@ -203,6 +206,30 @@
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(6, 25);
+            // 
+            // toolStripLabel7
+            // 
+            toolStripLabel7.Name = "toolStripLabel7";
+            toolStripLabel7.Size = new Size(56, 22);
+            toolStripLabel7.Text = "当前页共";
+            // 
+            // currentPageSizeToolStripTextBox
+            // 
+            currentPageSizeToolStripTextBox.Name = "currentPageSizeToolStripTextBox";
+            currentPageSizeToolStripTextBox.ReadOnly = true;
+            currentPageSizeToolStripTextBox.Size = new Size(40, 25);
+            currentPageSizeToolStripTextBox.Text = "0";
+            // 
+            // toolStripLabel8
+            // 
+            toolStripLabel8.Name = "toolStripLabel8";
+            toolStripLabel8.Size = new Size(32, 22);
+            toolStripLabel8.Text = "条目";
+            // 
+            // toolStripSeparator5
+            // 
+            toolStripSeparator5.Name = "toolStripSeparator5";
+            toolStripSeparator5.Size = new Size(6, 25);
             // 
             // loadToolStripButton
             // 
@@ -260,5 +287,9 @@
         private ToolStripComboBox appSourceToolStripComboBox;
         private ToolStripLabel toolStripLabel6;
         private ToolStripTextBox appNameToolStripTextBox;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripLabel toolStripLabel7;
+        private ToolStripTextBox currentPageSizeToolStripTextBox;
+        private ToolStripLabel toolStripLabel8;
     }
 }
