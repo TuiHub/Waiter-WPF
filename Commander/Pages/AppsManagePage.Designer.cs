@@ -149,7 +149,7 @@
             // 
             // appSourceToolStripComboBox
             // 
-            appSourceToolStripComboBox.Items.AddRange(new object[] { "Internal", "Steam", "vndb", "Unspecified" });
+            appSourceToolStripComboBox.Items.AddRange(new object[] { "Internal", "Steam", "VNDB", "Bangumi", "Unspecified" });
             appSourceToolStripComboBox.Name = "appSourceToolStripComboBox";
             appSourceToolStripComboBox.Size = new Size(81, 25);
             // 

@@ -38,6 +38,8 @@ namespace Commander.Helpers
             {
                 "Internal" => AppSource.Internal,
                 "Steam" => AppSource.Steam,
+                "VNDB" => AppSource.Vndb,
+                "Bangumi" => AppSource.Bangumi,
                 _ => AppSource.Unspecified,
             };
         }
@@ -49,6 +51,8 @@ namespace Commander.Helpers
                 AppSource.Unspecified => "Unspecified",
                 AppSource.Internal => "Internal",
                 AppSource.Steam => "Steam",
+                AppSource.Vndb => "VNDB",
+                AppSource.Bangumi => "Bangumi",
                 null => "null",
                 _ => "Unknown",
             };
