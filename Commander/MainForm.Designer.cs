@@ -79,14 +79,14 @@
             // appManageToolStripMenuItem
             // 
             appManageToolStripMenuItem.Name = "appManageToolStripMenuItem";
-            appManageToolStripMenuItem.Size = new Size(180, 22);
+            appManageToolStripMenuItem.Size = new Size(173, 22);
             appManageToolStripMenuItem.Text = "App管理";
             appManageToolStripMenuItem.Click += appManageToolStripMenuItem_Click;
             // 
             // appPackageManageToolStripMenuItem
             // 
             appPackageManageToolStripMenuItem.Name = "appPackageManageToolStripMenuItem";
-            appPackageManageToolStripMenuItem.Size = new Size(180, 22);
+            appPackageManageToolStripMenuItem.Size = new Size(173, 22);
             appPackageManageToolStripMenuItem.Text = "AppPackage管理";
             // 
             // mainPanel
@@ -107,6 +107,7 @@
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "Commander";
+            Load += MainForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);

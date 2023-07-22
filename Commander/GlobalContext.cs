@@ -9,8 +9,8 @@ namespace Commander
 {
     public static class GlobalContext
     {
-        public static string ServerAddress = Helpers.ConfigurationHelper.GetAppSetting("ServerAddress") ?? "https://theam.example.com";
-        public static GrpcChannel GrpcChannel { get; set; } = GrpcChannel.ForAddress(ServerAddress);
+        public static string ServerAddress = null!;
+        public static GrpcChannel GrpcChannel { get; set; } = null!;
         public static Core.Services.LibrarianClientService LibrarianClientService { get; } = new();
     }
 }

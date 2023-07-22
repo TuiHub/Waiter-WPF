@@ -39,5 +39,15 @@ namespace Commander
             mainPanel.Controls.Add(appsManagePage);
             appsManagePage.Show();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // init GlobalContext
+            GlobalContext.ServerAddress = Helpers.ConfigurationHelper.GetAppSetting("ServerAddress") ?? "https://theam.example.com";
+            GlobalContext.GrpcChannel = GrpcChannel.ForAddress(GlobalContext.ServerAddress);
+            // init AccessToken, RefreshToken
+            Core.GlobalContext.AccessToken = Helpers.ConfigurationHelper.GetAppSetting("AccessToken") ?? string.Empty;
+            Core.GlobalContext.RefreshToken = Helpers.ConfigurationHelper.GetAppSetting("RefreshToken") ?? string.Empty;
+        }
     }
 }

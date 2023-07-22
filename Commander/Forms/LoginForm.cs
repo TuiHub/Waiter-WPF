@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using Commander.Helpers;
+using Grpc.Net.Client;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +36,9 @@ namespace Commander.Forms
                 }
                 Core.GlobalContext.AccessToken = accessToken;
                 Core.GlobalContext.RefreshToken = refreshToken;
+                // save to AppSettings
+                ConfigurationHelper.SetAppSetting("AccessToken", accessToken);
+                ConfigurationHelper.SetAppSetting("RefreshToken", refreshToken);
 
                 loadingForm.Close();
                 this.Enabled = true;
@@ -72,6 +76,9 @@ namespace Commander.Forms
                     {
                         Core.GlobalContext.AccessToken = accessToken;
                         Core.GlobalContext.RefreshToken = refreshToken;
+                        // save to AppSettings
+                        ConfigurationHelper.SetAppSetting("AccessToken", accessToken);
+                        ConfigurationHelper.SetAppSetting("RefreshToken", refreshToken);
 
                         MessageBox.Show(this, "已使用RefreshToken登录");
                         this.Close();
