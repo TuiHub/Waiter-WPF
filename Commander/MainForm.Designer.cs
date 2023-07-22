@@ -32,16 +32,16 @@
             systemSettingsToolStripMenuItem = new ToolStripMenuItem();
             accountToolStripMenuItem1 = new ToolStripMenuItem();
             loginToolStripMenuItem = new ToolStripMenuItem();
-            managementToolStripMenuItem = new ToolStripMenuItem();
-            appManagementToolStripMenuItem = new ToolStripMenuItem();
-            appPackageManagementToolStripMenuItem = new ToolStripMenuItem();
+            manageToolStripMenuItem = new ToolStripMenuItem();
+            appManageToolStripMenuItem = new ToolStripMenuItem();
+            appPackageManageToolStripMenuItem = new ToolStripMenuItem();
             mainPanel = new Panel();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { systemSettingsToolStripMenuItem, accountToolStripMenuItem1, managementToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { systemSettingsToolStripMenuItem, accountToolStripMenuItem1, manageToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 25);
@@ -65,28 +65,28 @@
             // loginToolStripMenuItem
             // 
             loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            loginToolStripMenuItem.Size = new Size(180, 22);
+            loginToolStripMenuItem.Size = new Size(100, 22);
             loginToolStripMenuItem.Text = "登录";
             loginToolStripMenuItem.Click += loginToolStripMenuItem_Click;
             // 
-            // managementToolStripMenuItem
+            // manageToolStripMenuItem
             // 
-            managementToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { appManagementToolStripMenuItem, appPackageManagementToolStripMenuItem });
-            managementToolStripMenuItem.Name = "managementToolStripMenuItem";
-            managementToolStripMenuItem.Size = new Size(44, 21);
-            managementToolStripMenuItem.Text = "管理";
+            manageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { appManageToolStripMenuItem, appPackageManageToolStripMenuItem });
+            manageToolStripMenuItem.Name = "manageToolStripMenuItem";
+            manageToolStripMenuItem.Size = new Size(44, 21);
+            manageToolStripMenuItem.Text = "管理";
             // 
-            // appManagementToolStripMenuItem
+            // appManageToolStripMenuItem
             // 
-            appManagementToolStripMenuItem.Name = "appManagementToolStripMenuItem";
-            appManagementToolStripMenuItem.Size = new Size(173, 22);
-            appManagementToolStripMenuItem.Text = "App管理";
+            appManageToolStripMenuItem.Name = "appManageToolStripMenuItem";
+            appManageToolStripMenuItem.Size = new Size(180, 22);
+            appManageToolStripMenuItem.Text = "App管理";
             // 
-            // appPackageManagementToolStripMenuItem
+            // appPackageManageToolStripMenuItem
             // 
-            appPackageManagementToolStripMenuItem.Name = "appPackageManagementToolStripMenuItem";
-            appPackageManagementToolStripMenuItem.Size = new Size(173, 22);
-            appPackageManagementToolStripMenuItem.Text = "AppPackage管理";
+            appPackageManageToolStripMenuItem.Name = "appPackageManageToolStripMenuItem";
+            appPackageManageToolStripMenuItem.Size = new Size(180, 22);
+            appPackageManageToolStripMenuItem.Text = "AppPackage管理";
             // 
             // mainPanel
             // 
@@ -118,9 +118,9 @@
         private ToolStripMenuItem systemSettingsToolStripMenuItem;
         private ToolStripMenuItem accountToolStripMenuItem1;
         private ToolStripMenuItem loginToolStripMenuItem;
-        private ToolStripMenuItem managementToolStripMenuItem;
-        private ToolStripMenuItem appManagementToolStripMenuItem;
-        private ToolStripMenuItem appPackageManagementToolStripMenuItem;
+        private ToolStripMenuItem manageToolStripMenuItem;
+        private ToolStripMenuItem appManageToolStripMenuItem;
+        private ToolStripMenuItem appPackageManageToolStripMenuItem;
         private Panel mainPanel;
     }
 }
