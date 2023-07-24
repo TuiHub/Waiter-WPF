@@ -49,5 +49,19 @@ namespace Commander
             Core.GlobalContext.AccessToken = Helpers.ConfigurationHelper.GetAppSetting("AccessToken") ?? string.Empty;
             Core.GlobalContext.RefreshToken = Helpers.ConfigurationHelper.GetAppSetting("RefreshToken") ?? string.Empty;
         }
+
+        private void appPackageManageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var appPackagesManagePage = new AppPackagesManagePage();
+            foreach (var control in mainPanel.Controls)
+            {
+                (control as Form)?.Close();
+            }
+            mainPanel.Controls.Clear();
+            appPackagesManagePage.TopLevel = false;
+            appPackagesManagePage.Dock = DockStyle.Fill;
+            mainPanel.Controls.Add(appPackagesManagePage);
+            appPackagesManagePage.Show();
+        }
     }
 }

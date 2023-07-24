@@ -30,5 +30,23 @@ namespace Commander.Core.Services
                                                       headers: JwtHelper.GetMetadataWithAccessToken());
             return response.Apps.Select(x => new Models.App(x));
         }
+        public async Task<IEnumerable<Models.AppPackage>> ListAppPackagesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client,
+            int pageNum, int pageSize, AppPackageSource? appPackageSource, long? internalId, long? parentAppInternalId)
+        {
+            var request = new ListAppPackagesRequest
+            {
+                Paging = new PagingRequest
+                {
+                    PageNum = pageNum,
+                    PageSize = pageSize
+                }
+            };
+            if (internalId != null) request.IdFilter.Add(new InternalID { Id = (long)internalId });
+            if (parentAppInternalId != null) request.IdFilter.Add(new InternalID { Id = (long)parentAppInternalId });
+            if (appPackageSource != null) request.SourceFilter.Add((AppPackageSource)appPackageSource);
+            var response = await client.ListAppPackagesAsync(request,
+                                                             headers: JwtHelper.GetMetadataWithAccessToken());
+            return response.AppPackages.Select(x => new Models.AppPackage(x));
+        }
     }
 }

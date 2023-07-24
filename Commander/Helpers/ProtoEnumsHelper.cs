@@ -57,5 +57,28 @@ namespace Commander.Helpers
                 _ => "Unknown",
             };
         }
+
+        public static AppPackageSource? StringToAppPackageSource(string? str)
+        {
+            if (string.IsNullOrEmpty(str)) return null;
+            return str switch
+            {
+                "Manual" => AppPackageSource.Manual,
+                "Sentinel" => AppPackageSource.Sentinel,
+                _ => AppPackageSource.Unspecified,
+            };
+        }
+
+        public static string AppPackageSourceToString(AppPackageSource? appPackageSource)
+        {
+            return appPackageSource switch
+            {
+                AppPackageSource.Unspecified => "Unspecified",
+                AppPackageSource.Manual => "Manual",
+                AppPackageSource.Sentinel => "Sentinal",
+                null => "null",
+                _ => "Unknown",
+            };
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Commander.Pages
 {
-    partial class AppsManagePage
+    partial class AppPackagesManagePage
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppsManagePage));
-            appsListView = new ListView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppPackagesManagePage));
+            appPackagesListView = new ListView();
             internalIdHeader = new ColumnHeader();
-            typeHeader = new ColumnHeader();
+            parentAppHeader = new ColumnHeader();
             sourceHeader = new ColumnHeader();
             nameHeader = new ColumnHeader();
             shortDescptionHeader = new ColumnHeader();
@@ -40,12 +40,10 @@
             internalIdToolStripTextBox = new ToolStripTextBox();
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripLabel4 = new ToolStripLabel();
-            appTypeToolStripComboBox = new ToolStripComboBox();
+            parentAppInternalIdToolStripTextBox = new ToolStripTextBox();
             toolStripSeparator4 = new ToolStripSeparator();
             toolStripLabel5 = new ToolStripLabel();
-            appSourceToolStripComboBox = new ToolStripComboBox();
-            toolStripLabel6 = new ToolStripLabel();
-            appNameToolStripTextBox = new ToolStripTextBox();
+            appPackageSourceToolStripComboBox = new ToolStripComboBox();
             toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
             pageNumToolStripTextBox = new ToolStripTextBox();
@@ -62,27 +60,27 @@
             toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // appsListView
+            // appPackagesListView
             // 
-            appsListView.Columns.AddRange(new ColumnHeader[] { internalIdHeader, typeHeader, sourceHeader, nameHeader, shortDescptionHeader });
-            appsListView.Dock = DockStyle.Fill;
-            appsListView.FullRowSelect = true;
-            appsListView.Location = new Point(0, 50);
-            appsListView.Name = "appsListView";
-            appsListView.Size = new Size(1200, 625);
-            appsListView.TabIndex = 0;
-            appsListView.UseCompatibleStateImageBehavior = false;
-            appsListView.View = View.Details;
+            appPackagesListView.Columns.AddRange(new ColumnHeader[] { internalIdHeader, parentAppHeader, sourceHeader, nameHeader, shortDescptionHeader });
+            appPackagesListView.Dock = DockStyle.Fill;
+            appPackagesListView.FullRowSelect = true;
+            appPackagesListView.Location = new Point(0, 50);
+            appPackagesListView.Name = "appPackagesListView";
+            appPackagesListView.Size = new Size(1200, 625);
+            appPackagesListView.TabIndex = 0;
+            appPackagesListView.UseCompatibleStateImageBehavior = false;
+            appPackagesListView.View = View.Details;
             // 
             // internalIdHeader
             // 
             internalIdHeader.Text = "InternalID";
             internalIdHeader.Width = 150;
             // 
-            // typeHeader
+            // parentAppHeader
             // 
-            typeHeader.Text = "类型";
-            typeHeader.Width = 80;
+            parentAppHeader.Text = "父App";
+            parentAppHeader.Width = 200;
             // 
             // sourceHeader
             // 
@@ -101,7 +99,7 @@
             // 
             // toolStrip
             // 
-            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripLabel3, internalIdToolStripTextBox, toolStripSeparator3, toolStripLabel4, appTypeToolStripComboBox, toolStripSeparator4, toolStripLabel5, appSourceToolStripComboBox, toolStripLabel6, appNameToolStripTextBox });
+            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripLabel3, internalIdToolStripTextBox, toolStripSeparator3, toolStripLabel4, parentAppInternalIdToolStripTextBox, toolStripSeparator4, toolStripLabel5, appPackageSourceToolStripComboBox });
             toolStrip.Location = new Point(0, 0);
             toolStrip.Name = "toolStrip";
             toolStrip.Size = new Size(1200, 25);
@@ -127,14 +125,13 @@
             // toolStripLabel4
             // 
             toolStripLabel4.Name = "toolStripLabel4";
-            toolStripLabel4.Size = new Size(44, 22);
-            toolStripLabel4.Text = "类型：";
+            toolStripLabel4.Size = new Size(117, 22);
+            toolStripLabel4.Text = "父App InternalID：";
             // 
-            // appTypeToolStripComboBox
+            // parentAppInternalIdToolStripTextBox
             // 
-            appTypeToolStripComboBox.Items.AddRange(new object[] { "Game", "Unspecified" });
-            appTypeToolStripComboBox.Name = "appTypeToolStripComboBox";
-            appTypeToolStripComboBox.Size = new Size(101, 25);
+            parentAppInternalIdToolStripTextBox.Name = "parentAppInternalIdToolStripTextBox";
+            parentAppInternalIdToolStripTextBox.Size = new Size(150, 25);
             // 
             // toolStripSeparator4
             // 
@@ -147,22 +144,11 @@
             toolStripLabel5.Size = new Size(44, 22);
             toolStripLabel5.Text = "来源：";
             // 
-            // appSourceToolStripComboBox
+            // appPackageSourceToolStripComboBox
             // 
-            appSourceToolStripComboBox.Items.AddRange(new object[] { "Internal", "Steam", "VNDB", "Bangumi", "Unspecified" });
-            appSourceToolStripComboBox.Name = "appSourceToolStripComboBox";
-            appSourceToolStripComboBox.Size = new Size(101, 25);
-            // 
-            // toolStripLabel6
-            // 
-            toolStripLabel6.Name = "toolStripLabel6";
-            toolStripLabel6.Size = new Size(44, 22);
-            toolStripLabel6.Text = "名称：";
-            // 
-            // appNameToolStripTextBox
-            // 
-            appNameToolStripTextBox.Name = "appNameToolStripTextBox";
-            appNameToolStripTextBox.Size = new Size(400, 25);
+            appPackageSourceToolStripComboBox.Items.AddRange(new object[] { "Manual", "Sentinel", "Unspecified" });
+            appPackageSourceToolStripComboBox.Name = "appPackageSourceToolStripComboBox";
+            appPackageSourceToolStripComboBox.Size = new Size(101, 25);
             // 
             // toolStrip1
             // 
@@ -240,17 +226,17 @@
             loadToolStripButton.Text = "加载";
             loadToolStripButton.Click += loadToolStripButton_Click;
             // 
-            // AppsManagePage
+            // AppPackagesManagePage
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1200, 675);
             ControlBox = false;
-            Controls.Add(appsListView);
+            Controls.Add(appPackagesListView);
             Controls.Add(toolStrip1);
             Controls.Add(toolStrip);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "AppsManagePage";
+            Name = "AppPackagesManagePage";
             Text = "AppsManagePage";
             toolStrip.ResumeLayout(false);
             toolStrip.PerformLayout();
@@ -262,10 +248,10 @@
 
         #endregion
 
-        private ListView appsListView;
+        private ListView appPackagesListView;
         private ColumnHeader internalIdHeader;
         private ColumnHeader nameHeader;
-        private ColumnHeader typeHeader;
+        private ColumnHeader parentAppHeader;
         private ColumnHeader sourceHeader;
         private ColumnHeader shortDescptionHeader;
         private ToolStrip toolStrip;
@@ -281,15 +267,13 @@
         private ToolStripTextBox internalIdToolStripTextBox;
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripLabel toolStripLabel4;
-        private ToolStripComboBox appTypeToolStripComboBox;
         private ToolStripSeparator toolStripSeparator4;
         private ToolStripLabel toolStripLabel5;
-        private ToolStripComboBox appSourceToolStripComboBox;
-        private ToolStripLabel toolStripLabel6;
-        private ToolStripTextBox appNameToolStripTextBox;
+        private ToolStripComboBox appPackageSourceToolStripComboBox;
         private ToolStripSeparator toolStripSeparator5;
         private ToolStripLabel toolStripLabel7;
         private ToolStripTextBox currentPageSizeToolStripTextBox;
         private ToolStripLabel toolStripLabel8;
+        private ToolStripTextBox parentAppInternalIdToolStripTextBox;
     }
 }
