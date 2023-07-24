@@ -191,7 +191,8 @@
             Controls.Add(appsListView);
             Controls.Add(toolStrip2);
             Name = "SearchAppsForm";
-            Text = "AppSearchForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "SearchAppsForm";
             toolStrip2.ResumeLayout(false);
             toolStrip2.PerformLayout();
             ResumeLayout(false);

@@ -15,8 +15,11 @@ namespace Commander.Pages
 {
     public partial class AppsManagePage : Form
     {
-        public AppsManagePage()
+        private Form _parentForm;
+
+        public AppsManagePage(Form parentForm)
         {
+            _parentForm = parentForm;
             InitializeComponent();
         }
 
@@ -26,7 +29,7 @@ namespace Commander.Pages
             try
             {
                 this.Enabled = false;
-                loadingForm.Show(this);
+                loadingForm.Show(_parentForm);
 
                 var appType = ProtoEnumsHelper.StringToAppType(appTypeToolStripComboBox.Text);
                 var appSource = ProtoEnumsHelper.StringToAppSource(appSourceToolStripComboBox.Text);

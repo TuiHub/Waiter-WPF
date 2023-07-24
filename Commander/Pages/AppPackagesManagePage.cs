@@ -15,10 +15,12 @@ namespace Commander.Pages
 {
     public partial class AppPackagesManagePage : Form
     {
+        private Form _parentForm;
         private Core.Models.App? _parentApp;
 
-        public AppPackagesManagePage()
+        public AppPackagesManagePage(Form parentForm)
         {
+            _parentForm = parentForm;
             InitializeComponent();
         }
 
@@ -28,7 +30,7 @@ namespace Commander.Pages
             try
             {
                 this.Enabled = false;
-                loadingForm.Show(this);
+                loadingForm.Show(_parentForm);
 
                 var appPackageSource = ProtoEnumsHelper.StringToAppPackageSource(appPackageSourceToolStripComboBox.Text);
                 long? internalId = string.IsNullOrEmpty(internalIdToolStripTextBox.Text) ? null :
@@ -76,7 +78,7 @@ namespace Commander.Pages
         private void searchAppsToolStripButton_Click(object sender, EventArgs e)
         {
             var searchAppsForm = new SearchAppsForm();
-            searchAppsForm.ShowDialog(this);
+            searchAppsForm.ShowDialog(_parentForm);
             if (searchAppsForm.SelectedApp != null)
             {
                 parentAppInternalIdToolStripTextBox.Text = searchAppsForm.SelectedApp.InternalId.ToString();

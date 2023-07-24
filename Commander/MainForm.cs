@@ -28,7 +28,7 @@ namespace Commander
 
         private void appManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var appsManagePage = new AppsManagePage();
+            var appsManagePage = new AppsManagePage(this);
             foreach (var control in mainPanel.Controls)
             {
                 (control as Form)?.Close();
@@ -52,7 +52,7 @@ namespace Commander
 
         private void appPackageManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var appPackagesManagePage = new AppPackagesManagePage();
+            var appPackagesManagePage = new AppPackagesManagePage(this);
             foreach (var control in mainPanel.Controls)
             {
                 (control as Form)?.Close();
