@@ -60,6 +60,8 @@ namespace Commander.Forms
 
                 loadingForm.Close();
                 this.Enabled = true;
+                // https://stackoverflow.com/questions/66030125/closing-child-form-causes-parent-form-to-lose-focus
+                this.Focus();
             }
             catch (Exception ex)
             {
