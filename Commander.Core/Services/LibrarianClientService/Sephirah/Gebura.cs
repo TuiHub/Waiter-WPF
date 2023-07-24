@@ -42,7 +42,7 @@ namespace Commander.Core.Services
                 }
             };
             if (internalId != null) request.IdFilter.Add(new InternalID { Id = (long)internalId });
-            if (parentAppInternalId != null) request.IdFilter.Add(new InternalID { Id = (long)parentAppInternalId });
+            if (parentAppInternalId != null) request.AssignedAppIdFilter.Add(new InternalID { Id = (long)parentAppInternalId });
             if (appPackageSource != null) request.SourceFilter.Add((AppPackageSource)appPackageSource);
             var response = await client.ListAppPackagesAsync(request,
                                                              headers: JwtHelper.GetMetadataWithAccessToken());

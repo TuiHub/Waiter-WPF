@@ -16,7 +16,6 @@ namespace Commander.Pages
     public partial class AppPackagesManagePage : Form
     {
         private Form _parentForm;
-        private Core.Models.App? _parentApp;
 
         public AppPackagesManagePage(Form parentForm)
         {
@@ -34,8 +33,9 @@ namespace Commander.Pages
 
                 var appPackageSource = ProtoEnumsHelper.StringToAppPackageSource(appPackageSourceToolStripComboBox.Text);
                 long? internalId = string.IsNullOrEmpty(internalIdToolStripTextBox.Text) ? null :
-                                     long.Parse(internalIdToolStripTextBox.Text);
-                var parentAppInternalId = _parentApp?.InternalId;
+                                       long.Parse(internalIdToolStripTextBox.Text);
+                long? parentAppInternalId = string.IsNullOrEmpty(parentAppInternalIdToolStripTextBox.Text) ? null : 
+                                                long.Parse(parentAppInternalIdToolStripTextBox.Text);
                 var pageNum = Int32.Parse(pageNumToolStripTextBox.Text);
                 var pageSize = Int32.Parse(pageSizeToolStripTextBox.Text);
 
