@@ -72,5 +72,15 @@ namespace Commander.Pages
                                 MessageBoxIcon.Warning);
             }
         }
+
+        private void searchAppsToolStripButton_Click(object sender, EventArgs e)
+        {
+            var searchAppsForm = new SearchAppsForm();
+            searchAppsForm.ShowDialog(this);
+            if (searchAppsForm.SelectedApp != null)
+            {
+                parentAppInternalIdToolStripTextBox.Text = searchAppsForm.SelectedApp.InternalId.ToString();
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace Commander.Pages
+﻿namespace Commander.Forms
 {
-    partial class AppPackagesManagePage
+    partial class SearchAppsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,23 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppPackagesManagePage));
-            appPackagesListView = new ListView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchAppsForm));
+            appsListView = new ListView();
             internalIdHeader = new ColumnHeader();
-            parentAppHeader = new ColumnHeader();
+            typeHeader = new ColumnHeader();
             sourceHeader = new ColumnHeader();
             nameHeader = new ColumnHeader();
             shortDescptionHeader = new ColumnHeader();
-            toolStrip = new ToolStrip();
+            toolStrip2 = new ToolStrip();
             toolStripLabel3 = new ToolStripLabel();
-            internalIdToolStripTextBox = new ToolStripTextBox();
+            keywordToolStripTextBox = new ToolStripTextBox();
             toolStripSeparator3 = new ToolStripSeparator();
-            toolStripLabel4 = new ToolStripLabel();
-            parentAppInternalIdToolStripTextBox = new ToolStripTextBox();
-            toolStripSeparator4 = new ToolStripSeparator();
-            toolStripLabel5 = new ToolStripLabel();
-            appPackageSourceToolStripComboBox = new ToolStripComboBox();
-            toolStrip1 = new ToolStrip();
             toolStripLabel1 = new ToolStripLabel();
             pageNumToolStripTextBox = new ToolStripTextBox();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -56,32 +50,31 @@
             toolStripLabel8 = new ToolStripLabel();
             toolStripSeparator5 = new ToolStripSeparator();
             loadToolStripButton = new ToolStripButton();
-            searchAppsToolStripButton = new ToolStripButton();
-            toolStrip.SuspendLayout();
-            toolStrip1.SuspendLayout();
+            toolStrip2.SuspendLayout();
             SuspendLayout();
             // 
-            // appPackagesListView
+            // appsListView
             // 
-            appPackagesListView.Columns.AddRange(new ColumnHeader[] { internalIdHeader, parentAppHeader, sourceHeader, nameHeader, shortDescptionHeader });
-            appPackagesListView.Dock = DockStyle.Fill;
-            appPackagesListView.FullRowSelect = true;
-            appPackagesListView.Location = new Point(0, 50);
-            appPackagesListView.Name = "appPackagesListView";
-            appPackagesListView.Size = new Size(1200, 625);
-            appPackagesListView.TabIndex = 0;
-            appPackagesListView.UseCompatibleStateImageBehavior = false;
-            appPackagesListView.View = View.Details;
+            appsListView.Columns.AddRange(new ColumnHeader[] { internalIdHeader, typeHeader, sourceHeader, nameHeader, shortDescptionHeader });
+            appsListView.Dock = DockStyle.Fill;
+            appsListView.FullRowSelect = true;
+            appsListView.Location = new Point(0, 25);
+            appsListView.Name = "appsListView";
+            appsListView.Size = new Size(800, 425);
+            appsListView.TabIndex = 1;
+            appsListView.UseCompatibleStateImageBehavior = false;
+            appsListView.View = View.Details;
+            appsListView.DoubleClick += appsListView_DoubleClick;
             // 
             // internalIdHeader
             // 
             internalIdHeader.Text = "InternalID";
             internalIdHeader.Width = 150;
             // 
-            // parentAppHeader
+            // typeHeader
             // 
-            parentAppHeader.Text = "父App";
-            parentAppHeader.Width = 200;
+            typeHeader.Text = "类型";
+            typeHeader.Width = 80;
             // 
             // sourceHeader
             // 
@@ -96,69 +89,32 @@
             // shortDescptionHeader
             // 
             shortDescptionHeader.Text = "简要描述";
-            shortDescptionHeader.Width = 400;
+            shortDescptionHeader.Width = 370;
             // 
-            // toolStrip
+            // toolStrip2
             // 
-            toolStrip.Items.AddRange(new ToolStripItem[] { toolStripLabel3, internalIdToolStripTextBox, toolStripSeparator3, toolStripLabel4, parentAppInternalIdToolStripTextBox, searchAppsToolStripButton, toolStripSeparator4, toolStripLabel5, appPackageSourceToolStripComboBox });
-            toolStrip.Location = new Point(0, 0);
-            toolStrip.Name = "toolStrip";
-            toolStrip.Size = new Size(1200, 25);
-            toolStrip.TabIndex = 1;
-            toolStrip.Text = "toolStrip";
+            toolStrip2.Items.AddRange(new ToolStripItem[] { toolStripLabel3, keywordToolStripTextBox, toolStripSeparator3, toolStripLabel1, pageNumToolStripTextBox, toolStripSeparator1, toolStripLabel2, pageSizeToolStripTextBox, toolStripSeparator2, toolStripLabel7, currentPageSizeToolStripTextBox, toolStripLabel8, toolStripSeparator5, loadToolStripButton });
+            toolStrip2.Location = new Point(0, 0);
+            toolStrip2.Name = "toolStrip2";
+            toolStrip2.Size = new Size(800, 25);
+            toolStrip2.TabIndex = 3;
+            toolStrip2.Text = "toolStrip2";
             // 
             // toolStripLabel3
             // 
             toolStripLabel3.Name = "toolStripLabel3";
-            toolStripLabel3.Size = new Size(77, 22);
-            toolStripLabel3.Text = "InternalID：";
+            toolStripLabel3.Size = new Size(56, 22);
+            toolStripLabel3.Text = "关键词：";
             // 
-            // internalIdToolStripTextBox
+            // keywordToolStripTextBox
             // 
-            internalIdToolStripTextBox.Name = "internalIdToolStripTextBox";
-            internalIdToolStripTextBox.Size = new Size(150, 25);
+            keywordToolStripTextBox.Name = "keywordToolStripTextBox";
+            keywordToolStripTextBox.Size = new Size(150, 25);
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
             toolStripSeparator3.Size = new Size(6, 25);
-            // 
-            // toolStripLabel4
-            // 
-            toolStripLabel4.Name = "toolStripLabel4";
-            toolStripLabel4.Size = new Size(117, 22);
-            toolStripLabel4.Text = "父App InternalID：";
-            // 
-            // parentAppInternalIdToolStripTextBox
-            // 
-            parentAppInternalIdToolStripTextBox.Name = "parentAppInternalIdToolStripTextBox";
-            parentAppInternalIdToolStripTextBox.Size = new Size(150, 25);
-            // 
-            // toolStripSeparator4
-            // 
-            toolStripSeparator4.Name = "toolStripSeparator4";
-            toolStripSeparator4.Size = new Size(6, 25);
-            // 
-            // toolStripLabel5
-            // 
-            toolStripLabel5.Name = "toolStripLabel5";
-            toolStripLabel5.Size = new Size(44, 22);
-            toolStripLabel5.Text = "来源：";
-            // 
-            // appPackageSourceToolStripComboBox
-            // 
-            appPackageSourceToolStripComboBox.Items.AddRange(new object[] { "Manual", "Sentinel", "Unspecified" });
-            appPackageSourceToolStripComboBox.Name = "appPackageSourceToolStripComboBox";
-            appPackageSourceToolStripComboBox.Size = new Size(101, 25);
-            // 
-            // toolStrip1
-            // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, pageNumToolStripTextBox, toolStripSeparator1, toolStripLabel2, pageSizeToolStripTextBox, toolStripSeparator2, toolStripLabel7, currentPageSizeToolStripTextBox, toolStripLabel8, toolStripSeparator5, loadToolStripButton });
-            toolStrip1.Location = new Point(0, 25);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1200, 25);
-            toolStrip1.TabIndex = 2;
-            toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel1
             // 
@@ -227,64 +183,43 @@
             loadToolStripButton.Text = "加载";
             loadToolStripButton.Click += loadToolStripButton_Click;
             // 
-            // searchAppsToolStripButton
-            // 
-            searchAppsToolStripButton.Image = (Image)resources.GetObject("searchAppsToolStripButton.Image");
-            searchAppsToolStripButton.ImageTransparentColor = Color.Magenta;
-            searchAppsToolStripButton.Name = "searchAppsToolStripButton";
-            searchAppsToolStripButton.Size = new Size(85, 22);
-            searchAppsToolStripButton.Text = "搜索App...";
-            searchAppsToolStripButton.Click += searchAppsToolStripButton_Click;
-            // 
-            // AppPackagesManagePage
+            // SearchAppsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1200, 675);
-            ControlBox = false;
-            Controls.Add(appPackagesListView);
-            Controls.Add(toolStrip1);
-            Controls.Add(toolStrip);
-            FormBorderStyle = FormBorderStyle.None;
-            Name = "AppPackagesManagePage";
-            Text = "AppsManagePage";
-            toolStrip.ResumeLayout(false);
-            toolStrip.PerformLayout();
-            toolStrip1.ResumeLayout(false);
-            toolStrip1.PerformLayout();
+            ClientSize = new Size(800, 450);
+            Controls.Add(appsListView);
+            Controls.Add(toolStrip2);
+            Name = "SearchAppsForm";
+            Text = "AppSearchForm";
+            toolStrip2.ResumeLayout(false);
+            toolStrip2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private ListView appPackagesListView;
+        private ListView appsListView;
         private ColumnHeader internalIdHeader;
-        private ColumnHeader nameHeader;
-        private ColumnHeader parentAppHeader;
+        private ColumnHeader typeHeader;
         private ColumnHeader sourceHeader;
+        private ColumnHeader nameHeader;
         private ColumnHeader shortDescptionHeader;
-        private ToolStrip toolStrip;
-        private ToolStrip toolStrip1;
-        private ToolStripButton loadToolStripButton;
+        private ToolStrip toolStrip2;
+        private ToolStripLabel toolStripLabel3;
+        private ToolStripTextBox keywordToolStripTextBox;
+        private ToolStripSeparator toolStripSeparator3;
         private ToolStripLabel toolStripLabel1;
         private ToolStripTextBox pageNumToolStripTextBox;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripLabel toolStripLabel2;
         private ToolStripTextBox pageSizeToolStripTextBox;
         private ToolStripSeparator toolStripSeparator2;
-        private ToolStripLabel toolStripLabel3;
-        private ToolStripTextBox internalIdToolStripTextBox;
-        private ToolStripSeparator toolStripSeparator3;
-        private ToolStripLabel toolStripLabel4;
-        private ToolStripSeparator toolStripSeparator4;
-        private ToolStripLabel toolStripLabel5;
-        private ToolStripComboBox appPackageSourceToolStripComboBox;
-        private ToolStripSeparator toolStripSeparator5;
         private ToolStripLabel toolStripLabel7;
         private ToolStripTextBox currentPageSizeToolStripTextBox;
         private ToolStripLabel toolStripLabel8;
-        private ToolStripTextBox parentAppInternalIdToolStripTextBox;
-        private ToolStripButton searchAppsToolStripButton;
+        private ToolStripSeparator toolStripSeparator5;
+        private ToolStripButton loadToolStripButton;
     }
 }

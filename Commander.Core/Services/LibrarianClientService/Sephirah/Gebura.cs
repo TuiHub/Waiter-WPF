@@ -48,5 +48,21 @@ namespace Commander.Core.Services
                                                              headers: JwtHelper.GetMetadataWithAccessToken());
             return response.AppPackages.Select(x => new Models.AppPackage(x));
         }
+        public async Task<IEnumerable<Models.App>> SearchAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client,
+            int pageNum, int pageSize, string? name)
+        {
+            var request = new SearchAppsRequest
+            {
+                Paging = new PagingRequest
+                {
+                    PageNum = pageNum,
+                    PageSize = pageSize
+                }
+            };
+            if (string.IsNullOrEmpty(name) == false) request.Keywords = name;
+            var response = await client.SearchAppsAsync(request,
+                                                        headers: JwtHelper.GetMetadataWithAccessToken());
+            return response.Apps.Select(x => new Models.App(x));
+        }
     }
 }
