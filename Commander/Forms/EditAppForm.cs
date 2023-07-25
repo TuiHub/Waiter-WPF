@@ -12,11 +12,15 @@ namespace Commander.Forms
 {
     public partial class EditAppForm : Form
     {
-        private readonly bool _isViewOnly;
+        private IEnumerable<string> _tags = Enumerable.Empty<string>();
 
-        public EditAppForm(bool isViewOnly = false)
+        private readonly bool _isViewOnly;
+        private readonly long _internalId;
+
+        public EditAppForm(long internalId, bool isViewOnly = false)
         {
             _isViewOnly = isViewOnly;
+            _internalId = internalId;
             InitializeComponent();
         }
 
@@ -37,7 +41,13 @@ namespace Commander.Forms
 
         private void tagsEditButton_Click(object sender, EventArgs e)
         {
-
+            var stringCollectionEditForm = new StringCollectionEditForm(_tags);
+            var dialogResult = stringCollectionEditForm.ShowDialog(this);
+            if (dialogResult == DialogResult.OK)
+            {
+                _tags = stringCollectionEditForm.Strings;
+                tagsNumTextBox.Text = stringCollectionEditForm.Strings.Count().ToString();
+            }
         }
 
         private void detailsEditButton_Click(object sender, EventArgs e)

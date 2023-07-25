@@ -73,6 +73,7 @@
             appsListView.TabIndex = 0;
             appsListView.UseCompatibleStateImageBehavior = false;
             appsListView.View = View.Details;
+            appsListView.DoubleClick += appsListView_DoubleClick;
             // 
             // internalIdHeader
             // 

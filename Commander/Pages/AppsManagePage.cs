@@ -75,5 +75,15 @@ namespace Commander.Pages
                                 MessageBoxIcon.Warning);
             }
         }
+
+        private void appsListView_DoubleClick(object sender, EventArgs e)
+        {
+            if (appsListView.SelectedItems.Count == 1)
+            {
+                var appInternalId = long.Parse(appsListView.SelectedItems[0].Text);
+                var editAppForm = new EditAppForm(appInternalId);
+                editAppForm.ShowDialog(_parentForm);
+            }
+        }
     }
 }

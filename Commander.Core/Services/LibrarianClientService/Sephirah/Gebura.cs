@@ -64,5 +64,15 @@ namespace Commander.Core.Services
                                                         headers: JwtHelper.GetMetadataWithAccessToken());
             return response.Apps.Select(x => new Models.App(x));
         }
+        public async Task<Models.App> GetAppAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long internalId)
+        {
+            var request = new GetAppRequest
+            {
+                AppId = new InternalID { Id = internalId }
+            };
+            var response = await client.GetAppAsync(request,
+                                                    headers: JwtHelper.GetMetadataWithAccessToken());
+            return new Models.App(response.App);
+        }
     }
 }

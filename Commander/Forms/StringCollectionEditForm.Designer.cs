@@ -30,7 +30,7 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             label1 = new Label();
-            textBox1 = new TextBox();
+            textBox = new TextBox();
             tableLayoutPanel2 = new TableLayoutPanel();
             cancelButton = new Button();
             okButton = new Button();
@@ -43,7 +43,7 @@
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
-            tableLayoutPanel1.Controls.Add(textBox1, 0, 1);
+            tableLayoutPanel1.Controls.Add(textBox, 0, 1);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
@@ -65,14 +65,14 @@
             label1.TabIndex = 0;
             label1.Text = "在集合中输入字符串（每行一个）：";
             // 
-            // textBox1
+            // textBox
             // 
-            textBox1.Dock = DockStyle.Fill;
-            textBox1.Location = new Point(3, 33);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(394, 134);
-            textBox1.TabIndex = 1;
+            textBox.Dock = DockStyle.Fill;
+            textBox.Location = new Point(3, 33);
+            textBox.Multiline = true;
+            textBox.Name = "textBox";
+            textBox.Size = new Size(394, 134);
+            textBox.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
@@ -116,7 +116,6 @@
             // 
             // StringCollectionEditForm
             // 
-            AcceptButton = okButton;
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = cancelButton;
@@ -127,6 +126,7 @@
             Name = "StringCollectionEditForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "StringCollectionEditForm";
+            Load += StringCollectionEditForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
@@ -137,7 +137,7 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox textBox;
         private TableLayoutPanel tableLayoutPanel2;
         private Button cancelButton;
         private Button okButton;
