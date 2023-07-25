@@ -17,7 +17,7 @@ namespace Commander.Forms
     {
         public Core.Models.App? SelectedApp;
 
-        private IEnumerable<Core.Models.App> _apps;
+        private IEnumerable<Core.Models.App> _apps = Enumerable.Empty<Core.Models.App>();
 
         public SearchAppsForm()
         {
