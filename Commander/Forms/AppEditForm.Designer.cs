@@ -286,6 +286,7 @@
             internalIdTextBox.Location = new Point(141, 3);
             internalIdTextBox.Margin = new Padding(3, 3, 30, 3);
             internalIdTextBox.Name = "internalIdTextBox";
+            internalIdTextBox.ReadOnly = true;
             internalIdTextBox.Size = new Size(429, 23);
             internalIdTextBox.TabIndex = 0;
             // 
