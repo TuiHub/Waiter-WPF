@@ -125,7 +125,7 @@
             MinimizeBox = false;
             Name = "StringCollectionEditForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "StringCollectionEditForm";
+            Text = "字符串集合编辑器";
             Load += StringCollectionEditForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();

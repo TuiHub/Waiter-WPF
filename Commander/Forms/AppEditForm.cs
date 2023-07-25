@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Commander.Forms
 {
-    public partial class EditAppForm : Form
+    public partial class AppEditForm : Form
     {
         private IEnumerable<string> _tags = Enumerable.Empty<string>();
 
         private readonly bool _isViewOnly;
         private readonly long _internalId;
 
-        public EditAppForm(long internalId, bool isViewOnly = false)
+        public AppEditForm(long internalId, bool isViewOnly = false)
         {
             _isViewOnly = isViewOnly;
             _internalId = internalId;

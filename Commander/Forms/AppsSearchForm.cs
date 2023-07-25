@@ -13,13 +13,13 @@ using TuiHub.Protos.Librarian.V1;
 
 namespace Commander.Forms
 {
-    public partial class SearchAppsForm : Form
+    public partial class AppsSearchForm : Form
     {
         public Core.Models.App? SelectedApp;
 
         private IEnumerable<Core.Models.App> _apps = Enumerable.Empty<Core.Models.App>();
 
-        public SearchAppsForm()
+        public AppsSearchForm()
         {
             InitializeComponent();
         }

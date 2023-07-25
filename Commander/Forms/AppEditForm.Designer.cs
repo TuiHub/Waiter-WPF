@@ -1,7 +1,7 @@
 ﻿namespace Commander.Forms
 {
     // https://stackoverflow.com/a/25601129
-    partial class EditAppForm
+    partial class AppEditForm
     {
         /// <summary>
         /// Required designer variable.
@@ -449,13 +449,13 @@
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
             // 
-            // EditAppForm
+            // AppEditForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(600, 600);
             Controls.Add(tableLayoutPanel1);
-            Name = "EditAppForm";
+            Name = "AppEditForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "编辑App";
             Load += EditAppForm_Load;

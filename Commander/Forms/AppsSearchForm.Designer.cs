@@ -1,6 +1,6 @@
 ﻿namespace Commander.Forms
 {
-    partial class SearchAppsForm
+    partial class AppsSearchForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchAppsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppsSearchForm));
             appsListView = new ListView();
             internalIdHeader = new ColumnHeader();
             typeHeader = new ColumnHeader();
@@ -183,16 +183,16 @@
             loadToolStripButton.Text = "加载";
             loadToolStripButton.Click += loadToolStripButton_Click;
             // 
-            // SearchAppsForm
+            // AppsSearchForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(appsListView);
             Controls.Add(toolStrip2);
-            Name = "SearchAppsForm";
+            Name = "AppsSearchForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "SearchAppsForm";
+            Text = "搜索App";
             toolStrip2.ResumeLayout(false);
             toolStrip2.PerformLayout();
             ResumeLayout(false);

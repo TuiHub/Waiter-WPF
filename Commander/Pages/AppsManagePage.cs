@@ -81,7 +81,7 @@ namespace Commander.Pages
             if (appsListView.SelectedItems.Count == 1)
             {
                 var appInternalId = long.Parse(appsListView.SelectedItems[0].Text);
-                var editAppForm = new EditAppForm(appInternalId);
+                var editAppForm = new AppEditForm(appInternalId);
                 editAppForm.ShowDialog(_parentForm);
             }
         }

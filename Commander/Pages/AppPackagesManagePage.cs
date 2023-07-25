@@ -77,7 +77,7 @@ namespace Commander.Pages
 
         private void searchAppsToolStripButton_Click(object sender, EventArgs e)
         {
-            var searchAppsForm = new SearchAppsForm();
+            var searchAppsForm = new AppsSearchForm();
             searchAppsForm.ShowDialog(_parentForm);
             if (searchAppsForm.SelectedApp != null)
             {
