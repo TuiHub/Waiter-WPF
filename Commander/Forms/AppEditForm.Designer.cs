@@ -59,9 +59,15 @@
             okButton = new Button();
             closeButton = new Button();
             cancelButton = new Button();
+            label13 = new Label();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            label14 = new Label();
+            altNamesNumTextBox = new TextBox();
+            altNamesEditButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -70,13 +76,15 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 23.07692F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 76.92308F));
-            tableLayoutPanel1.Controls.Add(label12, 0, 10);
-            tableLayoutPanel1.Controls.Add(label9, 0, 8);
-            tableLayoutPanel1.Controls.Add(label8, 0, 7);
-            tableLayoutPanel1.Controls.Add(iconImageUrlTextBox, 1, 6);
-            tableLayoutPanel1.Controls.Add(label7, 0, 6);
-            tableLayoutPanel1.Controls.Add(typeComboBox, 1, 5);
-            tableLayoutPanel1.Controls.Add(label6, 0, 5);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 1, 5);
+            tableLayoutPanel1.Controls.Add(label13, 0, 5);
+            tableLayoutPanel1.Controls.Add(label12, 0, 11);
+            tableLayoutPanel1.Controls.Add(label9, 0, 9);
+            tableLayoutPanel1.Controls.Add(label8, 0, 8);
+            tableLayoutPanel1.Controls.Add(iconImageUrlTextBox, 1, 7);
+            tableLayoutPanel1.Controls.Add(label7, 0, 7);
+            tableLayoutPanel1.Controls.Add(typeComboBox, 1, 6);
+            tableLayoutPanel1.Controls.Add(label6, 0, 6);
             tableLayoutPanel1.Controls.Add(nameTextBox, 1, 4);
             tableLayoutPanel1.Controls.Add(label5, 0, 4);
             tableLayoutPanel1.Controls.Add(sourceUrlTextBox, 1, 3);
@@ -87,16 +95,17 @@
             tableLayoutPanel1.Controls.Add(label1, 0, 0);
             tableLayoutPanel1.Controls.Add(internalIdTextBox, 1, 0);
             tableLayoutPanel1.Controls.Add(sourceComboBox, 1, 1);
-            tableLayoutPanel1.Controls.Add(heroImageUrlTextBox, 1, 7);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 8);
-            tableLayoutPanel1.Controls.Add(label11, 0, 9);
-            tableLayoutPanel1.Controls.Add(detailsEditButton, 1, 9);
-            tableLayoutPanel1.Controls.Add(shortDescrptionTextBox, 1, 10);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 11);
+            tableLayoutPanel1.Controls.Add(heroImageUrlTextBox, 1, 8);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 9);
+            tableLayoutPanel1.Controls.Add(label11, 0, 10);
+            tableLayoutPanel1.Controls.Add(detailsEditButton, 1, 10);
+            tableLayoutPanel1.Controls.Add(shortDescrptionTextBox, 1, 11);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 12);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 12;
+            tableLayoutPanel1.RowCount = 13;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
@@ -109,6 +118,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(600, 600);
             tableLayoutPanel1.TabIndex = 0;
             // 
@@ -116,7 +126,7 @@
             // 
             label12.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label12.AutoSize = true;
-            label12.Location = new Point(3, 426);
+            label12.Location = new Point(3, 441);
             label12.Margin = new Padding(3, 0, 15, 0);
             label12.Name = "label12";
             label12.Size = new Size(120, 17);
@@ -128,7 +138,7 @@
             // 
             label9.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label9.AutoSize = true;
-            label9.Location = new Point(3, 246);
+            label9.Location = new Point(3, 276);
             label9.Margin = new Padding(3, 0, 15, 0);
             label9.Name = "label9";
             label9.Size = new Size(120, 17);
@@ -140,7 +150,7 @@
             // 
             label8.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label8.AutoSize = true;
-            label8.Location = new Point(3, 216);
+            label8.Location = new Point(3, 246);
             label8.Margin = new Padding(3, 0, 15, 0);
             label8.Name = "label8";
             label8.Size = new Size(120, 17);
@@ -151,17 +161,17 @@
             // iconImageUrlTextBox
             // 
             iconImageUrlTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            iconImageUrlTextBox.Location = new Point(141, 183);
+            iconImageUrlTextBox.Location = new Point(141, 213);
             iconImageUrlTextBox.Margin = new Padding(3, 3, 30, 3);
             iconImageUrlTextBox.Name = "iconImageUrlTextBox";
             iconImageUrlTextBox.Size = new Size(429, 23);
-            iconImageUrlTextBox.TabIndex = 6;
+            iconImageUrlTextBox.TabIndex = 7;
             // 
             // label7
             // 
             label7.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label7.AutoSize = true;
-            label7.Location = new Point(3, 186);
+            label7.Location = new Point(3, 216);
             label7.Margin = new Padding(3, 0, 15, 0);
             label7.Name = "label7";
             label7.Size = new Size(120, 17);
@@ -175,17 +185,17 @@
             typeComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             typeComboBox.FormattingEnabled = true;
             typeComboBox.Items.AddRange(new object[] { "Game", "Unspecified" });
-            typeComboBox.Location = new Point(141, 153);
+            typeComboBox.Location = new Point(141, 183);
             typeComboBox.Margin = new Padding(3, 3, 30, 3);
             typeComboBox.Name = "typeComboBox";
             typeComboBox.Size = new Size(429, 25);
-            typeComboBox.TabIndex = 5;
+            typeComboBox.TabIndex = 6;
             // 
             // label6
             // 
             label6.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label6.AutoSize = true;
-            label6.Location = new Point(3, 156);
+            label6.Location = new Point(3, 186);
             label6.Margin = new Padding(3, 0, 15, 0);
             label6.Name = "label6";
             label6.Size = new Size(120, 17);
@@ -305,11 +315,11 @@
             // heroImageUrlTextBox
             // 
             heroImageUrlTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            heroImageUrlTextBox.Location = new Point(141, 213);
+            heroImageUrlTextBox.Location = new Point(141, 243);
             heroImageUrlTextBox.Margin = new Padding(3, 3, 30, 3);
             heroImageUrlTextBox.Name = "heroImageUrlTextBox";
             heroImageUrlTextBox.Size = new Size(429, 23);
-            heroImageUrlTextBox.TabIndex = 7;
+            heroImageUrlTextBox.TabIndex = 8;
             // 
             // tableLayoutPanel2
             // 
@@ -321,7 +331,7 @@
             tableLayoutPanel2.Controls.Add(tagsNumTextBox, 1, 0);
             tableLayoutPanel2.Controls.Add(tagsEditButton, 2, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(138, 240);
+            tableLayoutPanel2.Location = new Point(138, 270);
             tableLayoutPanel2.Margin = new Padding(0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
@@ -356,7 +366,7 @@
             tagsEditButton.Location = new Point(99, 3);
             tagsEditButton.Name = "tagsEditButton";
             tagsEditButton.Size = new Size(50, 23);
-            tagsEditButton.TabIndex = 8;
+            tagsEditButton.TabIndex = 9;
             tagsEditButton.Text = "编辑...";
             tagsEditButton.UseVisualStyleBackColor = true;
             tagsEditButton.Click += tagsEditButton_Click;
@@ -365,7 +375,7 @@
             // 
             label11.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label11.AutoSize = true;
-            label11.Location = new Point(3, 276);
+            label11.Location = new Point(3, 306);
             label11.Margin = new Padding(3, 0, 15, 0);
             label11.Name = "label11";
             label11.Size = new Size(120, 17);
@@ -376,10 +386,10 @@
             // detailsEditButton
             // 
             detailsEditButton.Anchor = AnchorStyles.Left;
-            detailsEditButton.Location = new Point(141, 273);
+            detailsEditButton.Location = new Point(141, 303);
             detailsEditButton.Name = "detailsEditButton";
             detailsEditButton.Size = new Size(50, 23);
-            detailsEditButton.TabIndex = 9;
+            detailsEditButton.TabIndex = 10;
             detailsEditButton.Text = "编辑...";
             detailsEditButton.UseVisualStyleBackColor = true;
             detailsEditButton.Click += detailsEditButton_Click;
@@ -387,13 +397,13 @@
             // shortDescrptionTextBox
             // 
             shortDescrptionTextBox.Dock = DockStyle.Fill;
-            shortDescrptionTextBox.Location = new Point(141, 303);
+            shortDescrptionTextBox.Location = new Point(141, 333);
             shortDescrptionTextBox.Margin = new Padding(3, 3, 30, 3);
             shortDescrptionTextBox.Multiline = true;
             shortDescrptionTextBox.Name = "shortDescrptionTextBox";
             shortDescrptionTextBox.ScrollBars = ScrollBars.Both;
-            shortDescrptionTextBox.Size = new Size(429, 264);
-            shortDescrptionTextBox.TabIndex = 10;
+            shortDescrptionTextBox.Size = new Size(429, 234);
+            shortDescrptionTextBox.TabIndex = 11;
             // 
             // tableLayoutPanel3
             // 
@@ -421,7 +431,7 @@
             okButton.Location = new Point(152, 3);
             okButton.Name = "okButton";
             okButton.Size = new Size(75, 23);
-            okButton.TabIndex = 11;
+            okButton.TabIndex = 12;
             okButton.Text = "确定";
             okButton.UseVisualStyleBackColor = true;
             okButton.Click += okButton_Click;
@@ -433,7 +443,7 @@
             closeButton.Location = new Point(261, 3);
             closeButton.Name = "closeButton";
             closeButton.Size = new Size(75, 23);
-            closeButton.TabIndex = 13;
+            closeButton.TabIndex = 14;
             closeButton.Text = "关闭";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Visible = false;
@@ -445,10 +455,71 @@
             cancelButton.Location = new Point(371, 3);
             cancelButton.Name = "cancelButton";
             cancelButton.Size = new Size(75, 23);
-            cancelButton.TabIndex = 12;
+            cancelButton.TabIndex = 13;
             cancelButton.Text = "取消";
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
+            // 
+            // label13
+            // 
+            label13.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label13.AutoSize = true;
+            label13.Location = new Point(3, 156);
+            label13.Margin = new Padding(3, 0, 15, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(120, 17);
+            label13.TabIndex = 24;
+            label13.Text = "其他名称";
+            label13.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 3;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel4.Controls.Add(label14, 0, 0);
+            tableLayoutPanel4.Controls.Add(altNamesNumTextBox, 1, 0);
+            tableLayoutPanel4.Controls.Add(altNamesEditButton, 2, 0);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(138, 150);
+            tableLayoutPanel4.Margin = new Padding(0);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 1;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.Size = new Size(462, 30);
+            tableLayoutPanel4.TabIndex = 25;
+            // 
+            // label14
+            // 
+            label14.Anchor = AnchorStyles.Left;
+            label14.AutoSize = true;
+            label14.Location = new Point(3, 6);
+            label14.Name = "label14";
+            label14.Size = new Size(44, 17);
+            label14.TabIndex = 0;
+            label14.Text = "数量：";
+            // 
+            // altNamesNumTextBox
+            // 
+            altNamesNumTextBox.Anchor = AnchorStyles.Left;
+            altNamesNumTextBox.Location = new Point(53, 3);
+            altNamesNumTextBox.Name = "altNamesNumTextBox";
+            altNamesNumTextBox.ReadOnly = true;
+            altNamesNumTextBox.Size = new Size(40, 23);
+            altNamesNumTextBox.TabIndex = 1;
+            altNamesNumTextBox.TabStop = false;
+            altNamesNumTextBox.Text = "0";
+            // 
+            // altNamesEditButton
+            // 
+            altNamesEditButton.Anchor = AnchorStyles.Left;
+            altNamesEditButton.Location = new Point(99, 3);
+            altNamesEditButton.Name = "altNamesEditButton";
+            altNamesEditButton.Size = new Size(50, 23);
+            altNamesEditButton.TabIndex = 5;
+            altNamesEditButton.Text = "编辑...";
+            altNamesEditButton.UseVisualStyleBackColor = true;
             // 
             // AppEditForm
             // 
@@ -465,6 +536,8 @@
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel4.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -499,5 +572,10 @@
         private Button okButton;
         private Button closeButton;
         private Button cancelButton;
+        private Label label13;
+        private TableLayoutPanel tableLayoutPanel4;
+        private Label label14;
+        private TextBox altNamesNumTextBox;
+        private Button altNamesEditButton;
     }
 }
