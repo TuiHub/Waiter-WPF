@@ -30,6 +30,11 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            label14 = new Label();
+            altNamesNumTextBox = new TextBox();
+            altNamesEditButton = new Button();
+            label13 = new Label();
             label12 = new Label();
             label9 = new Label();
             label8 = new Label();
@@ -59,15 +64,10 @@
             okButton = new Button();
             closeButton = new Button();
             cancelButton = new Button();
-            label13 = new Label();
-            tableLayoutPanel4 = new TableLayoutPanel();
-            label14 = new Label();
-            altNamesNumTextBox = new TextBox();
-            altNamesEditButton = new Button();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
-            tableLayoutPanel4.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -121,6 +121,68 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(600, 600);
             tableLayoutPanel1.TabIndex = 0;
+            // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 3;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
+            tableLayoutPanel4.Controls.Add(label14, 0, 0);
+            tableLayoutPanel4.Controls.Add(altNamesNumTextBox, 1, 0);
+            tableLayoutPanel4.Controls.Add(altNamesEditButton, 2, 0);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(138, 150);
+            tableLayoutPanel4.Margin = new Padding(0);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 1;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.Size = new Size(462, 30);
+            tableLayoutPanel4.TabIndex = 25;
+            // 
+            // label14
+            // 
+            label14.Anchor = AnchorStyles.Left;
+            label14.AutoSize = true;
+            label14.Location = new Point(3, 6);
+            label14.Name = "label14";
+            label14.Size = new Size(44, 17);
+            label14.TabIndex = 0;
+            label14.Text = "数量：";
+            // 
+            // altNamesNumTextBox
+            // 
+            altNamesNumTextBox.Anchor = AnchorStyles.Left;
+            altNamesNumTextBox.Location = new Point(53, 3);
+            altNamesNumTextBox.Name = "altNamesNumTextBox";
+            altNamesNumTextBox.ReadOnly = true;
+            altNamesNumTextBox.Size = new Size(40, 23);
+            altNamesNumTextBox.TabIndex = 1;
+            altNamesNumTextBox.TabStop = false;
+            altNamesNumTextBox.Text = "0";
+            // 
+            // altNamesEditButton
+            // 
+            altNamesEditButton.Anchor = AnchorStyles.Left;
+            altNamesEditButton.Location = new Point(99, 3);
+            altNamesEditButton.Name = "altNamesEditButton";
+            altNamesEditButton.Size = new Size(50, 23);
+            altNamesEditButton.TabIndex = 5;
+            altNamesEditButton.Text = "编辑...";
+            altNamesEditButton.UseVisualStyleBackColor = true;
+            altNamesEditButton.Click += altNamesEditButton_Click;
+            // 
+            // label13
+            // 
+            label13.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label13.AutoSize = true;
+            label13.Location = new Point(3, 156);
+            label13.Margin = new Padding(3, 0, 15, 0);
+            label13.Name = "label13";
+            label13.Size = new Size(120, 17);
+            label13.TabIndex = 24;
+            label13.Text = "其他名称";
+            label13.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label12
             // 
@@ -460,67 +522,6 @@
             cancelButton.UseVisualStyleBackColor = true;
             cancelButton.Click += cancelButton_Click;
             // 
-            // label13
-            // 
-            label13.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label13.AutoSize = true;
-            label13.Location = new Point(3, 156);
-            label13.Margin = new Padding(3, 0, 15, 0);
-            label13.Name = "label13";
-            label13.Size = new Size(120, 17);
-            label13.TabIndex = 24;
-            label13.Text = "其他名称";
-            label13.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // tableLayoutPanel4
-            // 
-            tableLayoutPanel4.ColumnCount = 3;
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle());
-            tableLayoutPanel4.Controls.Add(label14, 0, 0);
-            tableLayoutPanel4.Controls.Add(altNamesNumTextBox, 1, 0);
-            tableLayoutPanel4.Controls.Add(altNamesEditButton, 2, 0);
-            tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(138, 150);
-            tableLayoutPanel4.Margin = new Padding(0);
-            tableLayoutPanel4.Name = "tableLayoutPanel4";
-            tableLayoutPanel4.RowCount = 1;
-            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(462, 30);
-            tableLayoutPanel4.TabIndex = 25;
-            // 
-            // label14
-            // 
-            label14.Anchor = AnchorStyles.Left;
-            label14.AutoSize = true;
-            label14.Location = new Point(3, 6);
-            label14.Name = "label14";
-            label14.Size = new Size(44, 17);
-            label14.TabIndex = 0;
-            label14.Text = "数量：";
-            // 
-            // altNamesNumTextBox
-            // 
-            altNamesNumTextBox.Anchor = AnchorStyles.Left;
-            altNamesNumTextBox.Location = new Point(53, 3);
-            altNamesNumTextBox.Name = "altNamesNumTextBox";
-            altNamesNumTextBox.ReadOnly = true;
-            altNamesNumTextBox.Size = new Size(40, 23);
-            altNamesNumTextBox.TabIndex = 1;
-            altNamesNumTextBox.TabStop = false;
-            altNamesNumTextBox.Text = "0";
-            // 
-            // altNamesEditButton
-            // 
-            altNamesEditButton.Anchor = AnchorStyles.Left;
-            altNamesEditButton.Location = new Point(99, 3);
-            altNamesEditButton.Name = "altNamesEditButton";
-            altNamesEditButton.Size = new Size(50, 23);
-            altNamesEditButton.TabIndex = 5;
-            altNamesEditButton.Text = "编辑...";
-            altNamesEditButton.UseVisualStyleBackColor = true;
-            // 
             // AppEditForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -533,11 +534,11 @@
             Load += EditAppForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel4.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel4.ResumeLayout(false);
-            tableLayoutPanel4.PerformLayout();
             ResumeLayout(false);
         }
 

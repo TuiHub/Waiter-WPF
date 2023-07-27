@@ -16,6 +16,7 @@ namespace Commander.Forms
     public partial class AppEditForm : Form
     {
         private IEnumerable<string> _tags = Enumerable.Empty<string>();
+        private IEnumerable<string> _altNames = Enumerable.Empty<string>();
 
         private readonly bool _isViewOnly;
         private readonly long _internalId;
@@ -40,6 +41,17 @@ namespace Commander.Forms
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void altNamesEditButton_Click(object sender, EventArgs e)
+        {
+            var stringCollectionEditForm = new StringCollectionEditForm(_altNames);
+            var dialogResult = stringCollectionEditForm.ShowDialog(this);
+            if (dialogResult == DialogResult.OK)
+            {
+                _altNames = stringCollectionEditForm.Strings;
+                altNamesNumTextBox.Text = stringCollectionEditForm.Strings.Count().ToString();
+            }
         }
 
         private void tagsEditButton_Click(object sender, EventArgs e)
@@ -87,6 +99,7 @@ namespace Commander.Forms
                 sourceIdTextBox.Text = app.SourceAppId;
                 sourceUrlTextBox.Text = app.SourceUrl;
                 nameTextBox.Text = app.Name;
+                _altNames = app.AltNames;
                 typeComboBox.Text = Helpers.ProtoEnumsHelper.AppTypeToString(app.Type);
                 iconImageUrlTextBox.Text = app.IconImageUrl;
                 heroImageUrlTextBox.Text = app.HeroImageUrl;

@@ -14,6 +14,7 @@ namespace Commander.Core.Models
         public string? SourceAppId { get; set; }
         public string? SourceUrl { get; set; }
         public string Name { get; set; } = null!;
+        public IEnumerable<string> AltNames { get; set; } = new List<string>();
         public AppType Type { get; set; }
         public string? ShortDescription { get; set; }
         public string? IconImageUrl { get; set; }
@@ -27,6 +28,7 @@ namespace Commander.Core.Models
             SourceAppId = string.IsNullOrEmpty(app.SourceAppId) ? null : app.SourceAppId;
             SourceUrl = string.IsNullOrEmpty(app.SourceUrl) ? null : app.SourceUrl;
             Name = app.Name;
+            AltNames = app.AltNames;
             Type = app.Type;
             ShortDescription = string.IsNullOrEmpty(app.ShortDescription) ? null : app.ShortDescription;
             IconImageUrl = string.IsNullOrEmpty(app.IconImageUrl) ? null : app.IconImageUrl;
