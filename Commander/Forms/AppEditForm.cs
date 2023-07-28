@@ -13,6 +13,12 @@ using TuiHub.Protos.Librarian.V1;
 
 namespace Commander.Forms
 {
+    public enum AppEditFormType
+    {
+        Edit,
+        Add
+    }
+
     public partial class AppEditForm : Form
     {
         private IEnumerable<string> _tags = Enumerable.Empty<string>();
@@ -21,17 +27,64 @@ namespace Commander.Forms
 
         private readonly bool _isViewOnly;
         private readonly long _internalId;
+        private readonly AppEditFormType _appEditFormType;
 
-        public AppEditForm(long internalId, bool isViewOnly = false)
+        public AppEditForm(long internalId = -1, AppEditFormType appEditFormType = AppEditFormType.Edit, bool isViewOnly = false)
         {
+            _appEditFormType = appEditFormType;
             _isViewOnly = isViewOnly;
             _internalId = internalId;
             InitializeComponent();
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private async void okButton_Click(object sender, EventArgs e)
         {
+            var app = new Core.Models.App
+            {
+                Source = Helpers.ProtoEnumsHelper.StringToAppSource(sourceComboBox.Text) ?? AppSource.Unspecified,
+                SourceAppId = string.IsNullOrWhiteSpace(sourceIdTextBox.Text) ? null : sourceIdTextBox.Text,
+                SourceUrl = string.IsNullOrWhiteSpace(sourceUrlTextBox.Text) ? null : sourceUrlTextBox.Text,
+                Name = nameTextBox.Text,
+                AltNames = _altNames,
+                Type = Helpers.ProtoEnumsHelper.StringToAppType(typeComboBox.Text) ?? AppType.Unspecified,
+                IconImageUrl = string.IsNullOrWhiteSpace(iconImageUrlTextBox.Text) ? null : iconImageUrlTextBox.Text,
+                HeroImageUrl = string.IsNullOrWhiteSpace(heroImageUrlTextBox.Text) ? null : heroImageUrlTextBox.Text,
+                Tags = _tags,
+                AppDetails = _appDetails,
+                ShortDescription = string.IsNullOrWhiteSpace(shortDescrptionTextBox.Text) ? null : shortDescrptionTextBox.Text,
+            };
+            if (_appEditFormType == AppEditFormType.Edit)
+            {
+                app.InternalId = _internalId;
+                var loadingForm = new LoadingForm();
+                try
+                {
+                    this.Enabled = false;
+                    loadingForm.Show(this);
 
+                    loadingForm.label.Text = "正在连接服务器修改信息...";
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    await GlobalContext.LibrarianClientService.UpdateAppAsync(client, app);
+
+                    loadingForm.Close();
+                    this.Enabled = true;
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    loadingForm.Close();
+                    this.Enabled = true;
+                    MessageBox.Show(this,
+                    $"发生异常：{ex.Message}",
+                                    "运行时错误",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                }
+            }
+            else if (_appEditFormType == AppEditFormType.Add)
+            {
+
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

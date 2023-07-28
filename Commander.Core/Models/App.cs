@@ -39,5 +39,26 @@ namespace Commander.Core.Models
             Tags = app.Tags;
         }
         public App() { }
+
+        public TuiHub.Protos.Librarian.V1.App ToProtoApp()
+        {
+            var app = new TuiHub.Protos.Librarian.V1.App
+            {
+                Id = new InternalID { Id = this.InternalId },
+                Source = this.Source,
+                SourceAppId = this.SourceAppId ?? string.Empty,
+                SourceUrl = this.SourceUrl ?? string.Empty,
+                Name = this.Name,
+                Type = this.Type,
+                ShortDescription = this.ShortDescription ?? string.Empty,
+                IconImageUrl = this.IconImageUrl ?? string.Empty,
+                HeroImageUrl = this.HeroImageUrl ?? string.Empty,
+                Details = (this.AppDetails ?? new AppDetails()).ToProtoAppDetails(),
+            };
+            app.AltNames.AddRange(this.AltNames);
+            app.Tags.AddRange(this.Tags);
+
+            return app;
+        }
     }
 }

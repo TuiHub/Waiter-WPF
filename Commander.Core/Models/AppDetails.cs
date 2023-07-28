@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Commander.Core.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,5 +30,20 @@ namespace Commander.Core.Models
             ImageUrls = appDetails == null ? new List<string>() : appDetails.ImageUrls;
         }
         public AppDetails() { }
+
+        public TuiHub.Protos.Librarian.V1.AppDetails ToProtoAppDetails()
+        {
+            var appDetails = new TuiHub.Protos.Librarian.V1.AppDetails
+            {
+                Description = this.Description ?? string.Empty,
+                ReleaseDate = (this.ReleaseDate ?? DateTime.MinValue).ToISO8601String(),
+                Developer = this.Developer ?? string.Empty,
+                Publisher = this.Publisher ?? string.Empty,
+                Version = this.Version ?? string.Empty
+            };
+            appDetails.ImageUrls.AddRange(this.ImageUrls);
+
+            return appDetails;
+        }
     }
 }
