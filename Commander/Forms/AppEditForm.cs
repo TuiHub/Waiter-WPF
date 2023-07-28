@@ -91,7 +91,8 @@ namespace Commander.Forms
 
                 loadingForm.label.Text = "正在连接服务器请求信息...";
                 var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                var app = await GlobalContext.LibrarianClientService.GetAppAsync(client, _internalId);
+                //var app = await GlobalContext.LibrarianClientService.GetAppAsync(client, _internalId);
+                var app = (await GlobalContext.LibrarianClientService.ListAppsAsync(client, 1, 1, _internalId, null, null, null, true)).First();
 
                 loadingForm.label.Text = "正在更新UI...";
                 internalIdTextBox.Text = app.InternalId.ToString();
