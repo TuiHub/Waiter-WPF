@@ -13,6 +13,7 @@ namespace Commander.Core.Models
         public string? Developer { get; set; }
         public string? Publisher { get; set; }
         public string? Version { get; set; }
+        public IEnumerable<string> ImageUrls { get; set; } = new List<string>();
         public AppDetails(TuiHub.Protos.Librarian.V1.AppDetails? appDetails)
         {
             DateTime? releaseDate;
@@ -25,6 +26,7 @@ namespace Commander.Core.Models
             Developer = string.IsNullOrEmpty(appDetails?.Developer) ? null : appDetails.Developer;
             Publisher = string.IsNullOrEmpty(appDetails?.Publisher) ? null : appDetails.Publisher;
             Version = string.IsNullOrEmpty(appDetails?.Version) ? null : appDetails.Version;
+            ImageUrls = appDetails == null ? new List<string>() : appDetails.ImageUrls;
         }
         public AppDetails() { }
     }

@@ -17,6 +17,7 @@ namespace Commander.Forms
     {
         private IEnumerable<string> _tags = Enumerable.Empty<string>();
         private IEnumerable<string> _altNames = Enumerable.Empty<string>();
+        private Core.Models.AppDetails _appDetails = new();
 
         private readonly bool _isViewOnly;
         private readonly long _internalId;
@@ -67,7 +68,12 @@ namespace Commander.Forms
 
         private void detailsEditButton_Click(object sender, EventArgs e)
         {
-
+            var appDetailsEditForm = new AppDetailsEditForm(_appDetails, _isViewOnly);
+            var dialogResult = appDetailsEditForm.ShowDialog(this);
+            if (dialogResult == DialogResult.OK)
+            {
+                _appDetails = appDetailsEditForm.AppDetails;
+            }
         }
 
         private async void EditAppForm_Load(object sender, EventArgs e)
@@ -104,7 +110,8 @@ namespace Commander.Forms
                 typeComboBox.Text = Helpers.ProtoEnumsHelper.AppTypeToString(app.Type);
                 iconImageUrlTextBox.Text = app.IconImageUrl;
                 heroImageUrlTextBox.Text = app.HeroImageUrl;
-                // TODO: tags, details
+                _tags = app.Tags;
+                _appDetails = app.AppDetails ?? new Core.Models.AppDetails();
                 shortDescrptionTextBox.Text = app.ShortDescription;
 
                 loadingForm.Close();
