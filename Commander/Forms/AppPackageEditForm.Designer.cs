@@ -29,24 +29,24 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
+            appBinaryEditButton = new Button();
+            nameTextBox = new TextBox();
+            sourceIdTextBox = new TextBox();
+            label3 = new Label();
+            label2 = new Label();
+            descrptionTextBox = new TextBox();
+            internalIdTextBox = new TextBox();
+            label1 = new Label();
             tableLayoutPanel3 = new TableLayoutPanel();
             okButton = new Button();
             closeButton = new Button();
             cancelButton = new Button();
-            label1 = new Label();
-            internalIdTextBox = new TextBox();
             sourceComboBox = new ComboBox();
-            descrptionTextBox = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
             label4 = new Label();
-            label5 = new Label();
             label6 = new Label();
+            label5 = new Label();
             label7 = new Label();
             isPublicComboBox = new ComboBox();
-            sourceIdTextBox = new TextBox();
-            nameTextBox = new TextBox();
-            appBinaryEditButton = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
@@ -90,6 +90,90 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(600, 450);
             tableLayoutPanel1.TabIndex = 0;
+            // 
+            // appBinaryEditButton
+            // 
+            appBinaryEditButton.Anchor = AnchorStyles.Left;
+            appBinaryEditButton.Location = new Point(141, 123);
+            appBinaryEditButton.Name = "appBinaryEditButton";
+            appBinaryEditButton.Size = new Size(50, 23);
+            appBinaryEditButton.TabIndex = 4;
+            appBinaryEditButton.Text = "编辑...";
+            appBinaryEditButton.UseVisualStyleBackColor = true;
+            // 
+            // nameTextBox
+            // 
+            nameTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            nameTextBox.Location = new Point(141, 93);
+            nameTextBox.Margin = new Padding(3, 3, 30, 3);
+            nameTextBox.Name = "nameTextBox";
+            nameTextBox.Size = new Size(429, 23);
+            nameTextBox.TabIndex = 3;
+            // 
+            // sourceIdTextBox
+            // 
+            sourceIdTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            sourceIdTextBox.Location = new Point(141, 63);
+            sourceIdTextBox.Margin = new Padding(3, 3, 30, 3);
+            sourceIdTextBox.Name = "sourceIdTextBox";
+            sourceIdTextBox.Size = new Size(429, 23);
+            sourceIdTextBox.TabIndex = 2;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Location = new Point(3, 66);
+            label3.Margin = new Padding(3, 0, 15, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(120, 17);
+            label3.TabIndex = 44;
+            label3.Text = "父App Internal ID";
+            label3.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 36);
+            label2.Margin = new Padding(3, 0, 15, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(120, 17);
+            label2.TabIndex = 43;
+            label2.Text = "来源";
+            label2.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // descrptionTextBox
+            // 
+            descrptionTextBox.Dock = DockStyle.Fill;
+            descrptionTextBox.Location = new Point(141, 183);
+            descrptionTextBox.Margin = new Padding(3, 3, 30, 3);
+            descrptionTextBox.Multiline = true;
+            descrptionTextBox.Name = "descrptionTextBox";
+            descrptionTextBox.ScrollBars = ScrollBars.Both;
+            descrptionTextBox.Size = new Size(429, 234);
+            descrptionTextBox.TabIndex = 6;
+            // 
+            // internalIdTextBox
+            // 
+            internalIdTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            internalIdTextBox.Location = new Point(141, 3);
+            internalIdTextBox.Margin = new Padding(3, 3, 30, 3);
+            internalIdTextBox.Name = "internalIdTextBox";
+            internalIdTextBox.Size = new Size(429, 23);
+            internalIdTextBox.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 6);
+            label1.Margin = new Padding(3, 0, 15, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(120, 17);
+            label1.TabIndex = 39;
+            label1.Text = "Internal ID";
+            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // tableLayoutPanel3
             // 
@@ -143,27 +227,6 @@
             cancelButton.Text = "取消";
             cancelButton.UseVisualStyleBackColor = true;
             // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 6);
-            label1.Margin = new Padding(3, 0, 15, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(120, 17);
-            label1.TabIndex = 39;
-            label1.Text = "Internal ID";
-            label1.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // internalIdTextBox
-            // 
-            internalIdTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            internalIdTextBox.Location = new Point(141, 3);
-            internalIdTextBox.Margin = new Padding(3, 3, 30, 3);
-            internalIdTextBox.Name = "internalIdTextBox";
-            internalIdTextBox.Size = new Size(429, 23);
-            internalIdTextBox.TabIndex = 0;
-            // 
             // sourceComboBox
             // 
             sourceComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -175,41 +238,6 @@
             sourceComboBox.Name = "sourceComboBox";
             sourceComboBox.Size = new Size(429, 25);
             sourceComboBox.TabIndex = 1;
-            // 
-            // descrptionTextBox
-            // 
-            descrptionTextBox.Dock = DockStyle.Fill;
-            descrptionTextBox.Location = new Point(141, 183);
-            descrptionTextBox.Margin = new Padding(3, 3, 30, 3);
-            descrptionTextBox.Multiline = true;
-            descrptionTextBox.Name = "descrptionTextBox";
-            descrptionTextBox.ScrollBars = ScrollBars.Both;
-            descrptionTextBox.Size = new Size(429, 234);
-            descrptionTextBox.TabIndex = 6;
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 36);
-            label2.Margin = new Padding(3, 0, 15, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(120, 17);
-            label2.TabIndex = 43;
-            label2.Text = "来源";
-            label2.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Location = new Point(3, 66);
-            label3.Margin = new Padding(3, 0, 15, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(120, 17);
-            label3.TabIndex = 44;
-            label3.Text = "源App Internal ID";
-            label3.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label4
             // 
@@ -223,18 +251,6 @@
             label4.Text = "名称";
             label4.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // label5
-            // 
-            label5.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label5.AutoSize = true;
-            label5.Location = new Point(3, 156);
-            label5.Margin = new Padding(3, 0, 15, 0);
-            label5.Name = "label5";
-            label5.Size = new Size(120, 17);
-            label5.TabIndex = 46;
-            label5.Text = "是否公开";
-            label5.TextAlign = ContentAlignment.MiddleRight;
-            // 
             // label6
             // 
             label6.Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -246,6 +262,18 @@
             label6.TabIndex = 47;
             label6.Text = "文件";
             label6.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label5
+            // 
+            label5.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label5.AutoSize = true;
+            label5.Location = new Point(3, 156);
+            label5.Margin = new Padding(3, 0, 15, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(120, 17);
+            label5.TabIndex = 46;
+            label5.Text = "是否公开";
+            label5.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label7
             // 
@@ -271,34 +299,6 @@
             isPublicComboBox.Size = new Size(429, 25);
             isPublicComboBox.TabIndex = 5;
             // 
-            // sourceIdTextBox
-            // 
-            sourceIdTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            sourceIdTextBox.Location = new Point(141, 63);
-            sourceIdTextBox.Margin = new Padding(3, 3, 30, 3);
-            sourceIdTextBox.Name = "sourceIdTextBox";
-            sourceIdTextBox.Size = new Size(429, 23);
-            sourceIdTextBox.TabIndex = 2;
-            // 
-            // nameTextBox
-            // 
-            nameTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nameTextBox.Location = new Point(141, 93);
-            nameTextBox.Margin = new Padding(3, 3, 30, 3);
-            nameTextBox.Name = "nameTextBox";
-            nameTextBox.Size = new Size(429, 23);
-            nameTextBox.TabIndex = 3;
-            // 
-            // appBinaryEditButton
-            // 
-            appBinaryEditButton.Anchor = AnchorStyles.Left;
-            appBinaryEditButton.Location = new Point(141, 123);
-            appBinaryEditButton.Name = "appBinaryEditButton";
-            appBinaryEditButton.Size = new Size(50, 23);
-            appBinaryEditButton.TabIndex = 4;
-            appBinaryEditButton.Text = "编辑...";
-            appBinaryEditButton.UseVisualStyleBackColor = true;
-            // 
             // AppPackageEditForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -307,7 +307,7 @@
             Controls.Add(tableLayoutPanel1);
             Name = "AppPackageEditForm";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "AppPackageEditForm";
+            Text = "编辑AppPackage";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
