@@ -75,9 +75,33 @@ namespace Commander.Helpers
             {
                 AppPackageSource.Unspecified => "Unspecified",
                 AppPackageSource.Manual => "Manual",
-                AppPackageSource.Sentinel => "Sentinal",
+                AppPackageSource.Sentinel => "Sentinel",
                 null => "null",
                 _ => "Unknown",
+            };
+        }
+
+        public static bool? StringToBool(string? str)
+        {
+            return str switch
+            {
+                "True" => true,
+                "true" => true,
+                "TRUE" => true,
+                "False" => false,
+                "false" => false,
+                "FALSE" => false,
+                _ => null
+            };
+        }
+
+        public static string BoolToString(bool? b)
+        {
+            return b switch
+            {
+                true => "True",
+                false => "False",
+                _ => "null"
             };
         }
     }

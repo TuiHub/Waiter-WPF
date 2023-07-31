@@ -41,6 +41,7 @@
             toolStripSeparator3 = new ToolStripSeparator();
             toolStripLabel4 = new ToolStripLabel();
             parentAppInternalIdToolStripTextBox = new ToolStripTextBox();
+            searchAppsToolStripButton = new ToolStripButton();
             toolStripSeparator4 = new ToolStripSeparator();
             toolStripLabel5 = new ToolStripLabel();
             appPackageSourceToolStripComboBox = new ToolStripComboBox();
@@ -56,7 +57,6 @@
             toolStripLabel8 = new ToolStripLabel();
             toolStripSeparator5 = new ToolStripSeparator();
             loadToolStripButton = new ToolStripButton();
-            searchAppsToolStripButton = new ToolStripButton();
             toolStrip.SuspendLayout();
             toolStrip1.SuspendLayout();
             SuspendLayout();
@@ -72,6 +72,7 @@
             appPackagesListView.TabIndex = 0;
             appPackagesListView.UseCompatibleStateImageBehavior = false;
             appPackagesListView.View = View.Details;
+            appPackagesListView.DoubleClick += appPackagesListView_DoubleClick;
             // 
             // internalIdHeader
             // 
@@ -133,6 +134,15 @@
             // 
             parentAppInternalIdToolStripTextBox.Name = "parentAppInternalIdToolStripTextBox";
             parentAppInternalIdToolStripTextBox.Size = new Size(150, 25);
+            // 
+            // searchAppsToolStripButton
+            // 
+            searchAppsToolStripButton.Image = (Image)resources.GetObject("searchAppsToolStripButton.Image");
+            searchAppsToolStripButton.ImageTransparentColor = Color.Magenta;
+            searchAppsToolStripButton.Name = "searchAppsToolStripButton";
+            searchAppsToolStripButton.Size = new Size(85, 22);
+            searchAppsToolStripButton.Text = "搜索App...";
+            searchAppsToolStripButton.Click += searchAppsToolStripButton_Click;
             // 
             // toolStripSeparator4
             // 
@@ -226,15 +236,6 @@
             loadToolStripButton.Size = new Size(52, 22);
             loadToolStripButton.Text = "加载";
             loadToolStripButton.Click += loadToolStripButton_Click;
-            // 
-            // searchAppsToolStripButton
-            // 
-            searchAppsToolStripButton.Image = (Image)resources.GetObject("searchAppsToolStripButton.Image");
-            searchAppsToolStripButton.ImageTransparentColor = Color.Magenta;
-            searchAppsToolStripButton.Name = "searchAppsToolStripButton";
-            searchAppsToolStripButton.Size = new Size(85, 22);
-            searchAppsToolStripButton.Text = "搜索App...";
-            searchAppsToolStripButton.Click += searchAppsToolStripButton_Click;
             // 
             // AppPackagesManagePage
             // 

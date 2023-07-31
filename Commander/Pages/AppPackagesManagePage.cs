@@ -34,7 +34,7 @@ namespace Commander.Pages
                 var appPackageSource = ProtoEnumsHelper.StringToAppPackageSource(appPackageSourceToolStripComboBox.Text);
                 long? internalId = string.IsNullOrEmpty(internalIdToolStripTextBox.Text) ? null :
                                        long.Parse(internalIdToolStripTextBox.Text);
-                long? parentAppInternalId = string.IsNullOrEmpty(parentAppInternalIdToolStripTextBox.Text) ? null : 
+                long? parentAppInternalId = string.IsNullOrEmpty(parentAppInternalIdToolStripTextBox.Text) ? null :
                                                 long.Parse(parentAppInternalIdToolStripTextBox.Text);
                 var pageNum = Int32.Parse(pageNumToolStripTextBox.Text);
                 var pageSize = Int32.Parse(pageSizeToolStripTextBox.Text);
@@ -82,6 +82,16 @@ namespace Commander.Pages
             if (searchAppsForm.SelectedApp != null)
             {
                 parentAppInternalIdToolStripTextBox.Text = searchAppsForm.SelectedApp.InternalId.ToString();
+            }
+        }
+
+        private void appPackagesListView_DoubleClick(object sender, EventArgs e)
+        {
+            if (appPackagesListView.SelectedItems.Count == 1)
+            {
+                var appInternalId = long.Parse(appPackagesListView.SelectedItems[0].Text);
+                var editAppForm = new AppPackageEditForm(appInternalId);
+                editAppForm.ShowDialog(_parentForm);
             }
         }
     }

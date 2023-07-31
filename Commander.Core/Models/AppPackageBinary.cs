@@ -33,5 +33,7 @@ namespace Commander.Core.Models
                 Sha256 = appPackageBinary.Sha256.ToArray();
             }
         }
+
+        public AppPackageBinary() { }
     }
 }

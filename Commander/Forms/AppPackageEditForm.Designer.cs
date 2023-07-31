@@ -204,6 +204,7 @@
             okButton.TabIndex = 7;
             okButton.Text = "确定";
             okButton.UseVisualStyleBackColor = true;
+            okButton.Click += okButton_Click;
             // 
             // closeButton
             // 
@@ -216,6 +217,7 @@
             closeButton.Text = "关闭";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Visible = false;
+            closeButton.Click += closeButton_Click;
             // 
             // cancelButton
             // 
@@ -226,13 +228,14 @@
             cancelButton.TabIndex = 8;
             cancelButton.Text = "取消";
             cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
             // 
             // sourceComboBox
             // 
             sourceComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             sourceComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             sourceComboBox.FormattingEnabled = true;
-            sourceComboBox.Items.AddRange(new object[] { "Game", "Unspecified" });
+            sourceComboBox.Items.AddRange(new object[] { "Manual", "Sentinel", "Unspecified" });
             sourceComboBox.Location = new Point(141, 33);
             sourceComboBox.Margin = new Padding(3, 3, 30, 3);
             sourceComboBox.Name = "sourceComboBox";
@@ -292,7 +295,7 @@
             isPublicComboBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             isPublicComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             isPublicComboBox.FormattingEnabled = true;
-            isPublicComboBox.Items.AddRange(new object[] { "Game", "Unspecified" });
+            isPublicComboBox.Items.AddRange(new object[] { "True", "False" });
             isPublicComboBox.Location = new Point(141, 153);
             isPublicComboBox.Margin = new Padding(3, 3, 30, 3);
             isPublicComboBox.Name = "isPublicComboBox";
@@ -308,6 +311,7 @@
             Name = "AppPackageEditForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "编辑AppPackage";
+            Load += AppPackageEditForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
