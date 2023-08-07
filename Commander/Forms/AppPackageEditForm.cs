@@ -59,6 +59,7 @@ namespace Commander.Forms
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
             }
+            this.Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

@@ -218,6 +218,7 @@
             ClientSize = new Size(600, 150);
             Controls.Add(tableLayoutPanel1);
             Name = "AppPackageBinaryEditForm";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "编辑AppPackageBinary";
             Load += AppPackageBinaryEditForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
