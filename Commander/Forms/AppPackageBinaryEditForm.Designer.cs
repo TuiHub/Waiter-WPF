@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            label1 = new Label();
-            nameTextBox = new TextBox();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            sizeBytesTextBox = new TextBox();
-            urlTextBox = new TextBox();
-            sha256TextBox = new TextBox();
             tableLayoutPanel3 = new TableLayoutPanel();
             okButton = new Button();
             closeButton = new Button();
             cancelButton = new Button();
+            nameTextBox = new TextBox();
+            label1 = new Label();
+            label2 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            sizeBytesTextBox = new TextBox();
+            urlTextBox = new TextBox();
+            sha256TextBox = new TextBox();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
@@ -72,90 +72,6 @@
             tableLayoutPanel1.Size = new Size(600, 150);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 6);
-            label1.Margin = new Padding(3, 0, 15, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(120, 17);
-            label1.TabIndex = 40;
-            label1.Text = "名称";
-            label1.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // nameTextBox
-            // 
-            nameTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            nameTextBox.Location = new Point(141, 3);
-            nameTextBox.Margin = new Padding(3, 3, 30, 3);
-            nameTextBox.Name = "nameTextBox";
-            nameTextBox.Size = new Size(429, 23);
-            nameTextBox.TabIndex = 0;
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 36);
-            label2.Margin = new Padding(3, 0, 15, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(120, 17);
-            label2.TabIndex = 42;
-            label2.Text = "大小（字节）";
-            label2.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            label3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Location = new Point(3, 96);
-            label3.Margin = new Padding(3, 0, 15, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(120, 17);
-            label3.TabIndex = 43;
-            label3.Text = "Sha256";
-            label3.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Location = new Point(3, 66);
-            label4.Margin = new Padding(3, 0, 15, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(120, 17);
-            label4.TabIndex = 44;
-            label4.Text = "URL";
-            label4.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // sizeBytesTextBox
-            // 
-            sizeBytesTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            sizeBytesTextBox.Location = new Point(141, 33);
-            sizeBytesTextBox.Margin = new Padding(3, 3, 30, 3);
-            sizeBytesTextBox.Name = "sizeBytesTextBox";
-            sizeBytesTextBox.Size = new Size(429, 23);
-            sizeBytesTextBox.TabIndex = 1;
-            // 
-            // urlTextBox
-            // 
-            urlTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            urlTextBox.Location = new Point(141, 63);
-            urlTextBox.Margin = new Padding(3, 3, 30, 3);
-            urlTextBox.Name = "urlTextBox";
-            urlTextBox.Size = new Size(429, 23);
-            urlTextBox.TabIndex = 2;
-            // 
-            // sha256TextBox
-            // 
-            sha256TextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            sha256TextBox.Location = new Point(141, 93);
-            sha256TextBox.Margin = new Padding(3, 3, 30, 3);
-            sha256TextBox.Name = "sha256TextBox";
-            sha256TextBox.Size = new Size(429, 23);
-            sha256TextBox.TabIndex = 3;
-            // 
             // tableLayoutPanel3
             // 
             tableLayoutPanel3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -185,6 +101,7 @@
             okButton.TabIndex = 4;
             okButton.Text = "确定";
             okButton.UseVisualStyleBackColor = true;
+            okButton.Click += okButton_Click;
             // 
             // closeButton
             // 
@@ -197,6 +114,7 @@
             closeButton.Text = "关闭";
             closeButton.UseVisualStyleBackColor = true;
             closeButton.Visible = false;
+            closeButton.Click += closeButton_Click;
             // 
             // cancelButton
             // 
@@ -207,6 +125,91 @@
             cancelButton.TabIndex = 5;
             cancelButton.Text = "取消";
             cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
+            // 
+            // nameTextBox
+            // 
+            nameTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            nameTextBox.Location = new Point(141, 3);
+            nameTextBox.Margin = new Padding(3, 3, 30, 3);
+            nameTextBox.Name = "nameTextBox";
+            nameTextBox.Size = new Size(429, 23);
+            nameTextBox.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 6);
+            label1.Margin = new Padding(3, 0, 15, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(120, 17);
+            label1.TabIndex = 40;
+            label1.Text = "名称";
+            label1.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new Point(3, 36);
+            label2.Margin = new Padding(3, 0, 15, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(120, 17);
+            label2.TabIndex = 42;
+            label2.Text = "大小（字节）";
+            label2.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.Location = new Point(3, 66);
+            label4.Margin = new Padding(3, 0, 15, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(120, 17);
+            label4.TabIndex = 44;
+            label4.Text = "URL";
+            label4.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label3
+            // 
+            label3.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            label3.AutoSize = true;
+            label3.Location = new Point(3, 96);
+            label3.Margin = new Padding(3, 0, 15, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(120, 17);
+            label3.TabIndex = 43;
+            label3.Text = "Sha256";
+            label3.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // sizeBytesTextBox
+            // 
+            sizeBytesTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            sizeBytesTextBox.Location = new Point(141, 33);
+            sizeBytesTextBox.Margin = new Padding(3, 3, 30, 3);
+            sizeBytesTextBox.Name = "sizeBytesTextBox";
+            sizeBytesTextBox.Size = new Size(429, 23);
+            sizeBytesTextBox.TabIndex = 1;
+            // 
+            // urlTextBox
+            // 
+            urlTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            urlTextBox.Location = new Point(141, 63);
+            urlTextBox.Margin = new Padding(3, 3, 30, 3);
+            urlTextBox.Name = "urlTextBox";
+            urlTextBox.Size = new Size(429, 23);
+            urlTextBox.TabIndex = 2;
+            // 
+            // sha256TextBox
+            // 
+            sha256TextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            sha256TextBox.Location = new Point(141, 93);
+            sha256TextBox.Margin = new Padding(3, 3, 30, 3);
+            sha256TextBox.Name = "sha256TextBox";
+            sha256TextBox.Size = new Size(429, 23);
+            sha256TextBox.TabIndex = 3;
             // 
             // AppPackageBinaryEditForm
             // 
@@ -216,6 +219,7 @@
             Controls.Add(tableLayoutPanel1);
             Name = "AppPackageBinaryEditForm";
             Text = "编辑AppPackageBinary";
+            Load += AppPackageBinaryEditForm_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             tableLayoutPanel3.ResumeLayout(false);
