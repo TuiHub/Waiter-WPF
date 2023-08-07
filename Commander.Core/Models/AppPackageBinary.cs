@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,6 @@ namespace Commander.Core.Models
 {
     public class AppPackageBinary
     {
-        // same as AppPackage Id
-        public long InternalId { get; set; }
         public string Name { get; set; } = null!;
         public long SizeBytes { get; set; }
         public string PublicUrl { get; set; } = null!;
@@ -18,7 +17,6 @@ namespace Commander.Core.Models
         {
             if (appPackageBinary == null)
             {
-                InternalId = id;
                 Name = string.Empty;
                 SizeBytes = 0;
                 PublicUrl = string.Empty;
@@ -26,7 +24,6 @@ namespace Commander.Core.Models
             }
             else
             {
-                InternalId = id;
                 Name = appPackageBinary.Name;
                 SizeBytes = appPackageBinary.SizeBytes;
                 PublicUrl = appPackageBinary.PublicUrl;
@@ -35,5 +32,16 @@ namespace Commander.Core.Models
         }
 
         public AppPackageBinary() { }
+
+        public TuiHub.Protos.Librarian.V1.AppPackageBinary ToProtoAppPackageBinary()
+        {
+            return new TuiHub.Protos.Librarian.V1.AppPackageBinary
+            {
+                Name = Name,
+                SizeBytes = SizeBytes,
+                PublicUrl = PublicUrl,
+                Sha256 = ByteString.CopyFrom(Sha256)
+            };
+        }
     }
 }

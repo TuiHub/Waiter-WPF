@@ -83,5 +83,15 @@ namespace Commander.Core.Services
             await client.UpdateAppAsync(request,
                                         headers: JwtHelper.GetMetadataWithAccessToken());
         }
+
+        public async Task UpdateAppPackageAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, Core.Models.AppPackage appPackage)
+        {
+            var request = new UpdateAppPackageRequest
+            {
+                AppPackage = appPackage.ToProtoAppPackage()
+            };
+            await client.UpdateAppPackageAsync(request,
+                                               headers: JwtHelper.GetMetadataWithAccessToken());
+        }
     }
 }

@@ -100,6 +100,7 @@
             appBinaryEditButton.TabIndex = 4;
             appBinaryEditButton.Text = "编辑...";
             appBinaryEditButton.UseVisualStyleBackColor = true;
+            appBinaryEditButton.Click += appBinaryEditButton_Click;
             // 
             // nameTextBox
             // 

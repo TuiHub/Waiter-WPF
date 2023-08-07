@@ -31,5 +31,22 @@ namespace Commander.Core.Models
         {
             return $"[{InternalId}]{Name}";
         }
+        public TuiHub.Protos.Librarian.V1.AppPackage ToProtoAppPackage()
+        {
+            var appPackage = new TuiHub.Protos.Librarian.V1.AppPackage
+            {
+                Id = new InternalID { Id = this.InternalId },
+                Source = this.Source,
+                SourceId = new InternalID { Id = this.SourceAppId },
+                Name = this.Name,
+                Description = this.Description,
+                Public = this.IsPublic,
+            };
+            if (this.AppPackageBinary != null)
+            {
+                appPackage.Binary = this.AppPackageBinary.ToProtoAppPackageBinary();
+            }
+            return appPackage;
+        }
     }
 }

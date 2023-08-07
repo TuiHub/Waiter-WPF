@@ -14,7 +14,7 @@ namespace Commander.Forms
 {
     public partial class AppPackageEditForm : Form
     {
-        private Core.Models.AppPackageBinary _appPackageBinary;
+        private Core.Models.AppPackageBinary _appPackageBinary = new();
 
         private readonly long _internalId;
 
@@ -24,9 +24,41 @@ namespace Commander.Forms
             InitializeComponent();
         }
 
-        private void okButton_Click(object sender, EventArgs e)
+        private async void okButton_Click(object sender, EventArgs e)
         {
+            var loadingForm = new LoadingForm();
+            try
+            {
+                this.Enabled = false;
+                loadingForm.Show(this);
 
+                var appPackage = new Core.Models.AppPackage
+                {
+                    InternalId = _internalId,
+                    Source = Helpers.ProtoEnumsHelper.StringToAppPackageSource(sourceComboBox.Text) ?? AppPackageSource.Unspecified,
+                    SourceAppId = long.Parse(sourceIdTextBox.Text),
+                    Name = nameTextBox.Text,
+                    IsPublic = Helpers.ProtoEnumsHelper.StringToBool(isPublicComboBox.Text) ?? false,
+                    Description = descrptionTextBox.Text,
+                    AppPackageBinary = _appPackageBinary
+                };
+
+                var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                await GlobalContext.LibrarianClientService.UpdateAppPackageAsync(client, appPackage);
+
+                loadingForm.Close();
+                this.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                loadingForm.Close();
+                this.Enabled = true;
+                MessageBox.Show(this,
+                                $"发生异常：{ex.Message}",
+                                "运行时错误",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -70,6 +102,16 @@ namespace Commander.Forms
                                 "运行时错误",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
+            }
+        }
+
+        private void appBinaryEditButton_Click(object sender, EventArgs e)
+        {
+            var appPackageBinaryEditForm = new AppPackageBinaryEditForm(_appPackageBinary);
+            appPackageBinaryEditForm.ShowDialog();
+            if (appPackageBinaryEditForm.DialogResult == DialogResult.OK)
+            {
+                _appPackageBinary = appPackageBinaryEditForm.AppPackageBinary;
             }
         }
     }
