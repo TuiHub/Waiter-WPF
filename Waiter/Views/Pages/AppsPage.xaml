@@ -21,6 +21,7 @@
         <helpers:SizeBytesToHRStringConverter x:Key="SizeBytesToHRStringConverter" />
         <!--<helpers:BoolToStringConverter x:Key="BoolToStringConverter" />-->
         <helpers:MultiplyByFactorConverter x:Key="MultiplyByFactorConverter" />
+        <helpers:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter" />
 
     </Page.Resources>
 
@@ -186,7 +187,7 @@
                             <Button
                                 Content="Start"
                                 Command="{Binding ViewModel.StartAppCommand}"
-                                IsEnabled="{Binding ViewModel.BtnStartAppEnabled}"/>
+                                IsEnabled="{Binding ViewModel.AppPackageSetting, Converter={StaticResource ObjectNotNullToBoolConverter}}"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>

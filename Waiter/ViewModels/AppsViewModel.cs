@@ -44,7 +44,7 @@ namespace Waiter.ViewModels
         [ObservableProperty]
         private Core.Models.App? _selectedApp;
         [ObservableProperty]
-        private IEnumerable<Core.Models.AppPackage> _appPackages = new List<Core.Models.AppPackage>();
+        private IList<Core.Models.AppPackage> _appPackages = new List<Core.Models.AppPackage>();
         [ObservableProperty]
         private Core.Models.AppPackage? _selectedAppPackage;
         [ObservableProperty]
@@ -52,15 +52,15 @@ namespace Waiter.ViewModels
         [ObservableProperty]
         private TimeSpan _appPackageTotalRunTime;
         [ObservableProperty]
-        private IEnumerable<Core.Models.GameSave> _gameSaves = new List<Core.Models.GameSave>();
+        private IList<Core.Models.GameSave> _gameSaves = new List<Core.Models.GameSave>();
         [ObservableProperty]
         private Core.Models.GameSave? _selectedGameSave;
         [ObservableProperty]
         private ObservableCollection<Core.Models.AppCategory> _selectedAppNonExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
         [ObservableProperty]
         private ObservableCollection<Core.Models.AppCategory> _selectedAppExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
-        [ObservableProperty]
-        private bool _btnStartAppEnabled = false;
+        //[ObservableProperty]
+        //private bool _btnStartAppEnabled = false;
         public async void OnNavigatedTo()
         {
             try
@@ -107,10 +107,19 @@ namespace Waiter.ViewModels
             if (value == null) return;
             try
             {
+                AppPackages.Clear();
+                SelectedAppPackage = null;
+                AppPackageSetting = null;
+                AppPackageTotalRunTime = TimeSpan.Zero;
+                GameSaves.Clear();
+                SelectedGameSave = null;
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    AppPackages = await GlobalContext.LibrarianClientService.GetAppPackagesAsync(client, value.InternalId);
+                    AppPackages = (await GlobalContext.LibrarianClientService.GetAppPackagesAsync(client, value.InternalId)).ToList();
+                    // default select if there is only one AppPackage
+                    if (AppPackages.Count() == 1)
+                        SelectedAppPackage = AppPackages.First();
                 },
                 async () => { });
             }
@@ -272,7 +281,7 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    GameSaves = await GlobalContext.LibrarianClientService.GetAppPackageGameSaves(client, SelectedAppPackage.InternalId);
+                    GameSaves = (await GlobalContext.LibrarianClientService.GetAppPackageGameSaves(client, SelectedAppPackage.InternalId)).ToList();
                 },
                 async () => { });
             }
