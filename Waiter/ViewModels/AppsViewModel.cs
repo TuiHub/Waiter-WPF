@@ -59,6 +59,8 @@ namespace Waiter.ViewModels
         private ObservableCollection<Core.Models.AppCategory> _selectedAppNonExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
         [ObservableProperty]
         private ObservableCollection<Core.Models.AppCategory> _selectedAppExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
+        [ObservableProperty]
+        private bool _btnStartAppEnabled = false;
         public async void OnNavigatedTo()
         {
             try
@@ -174,7 +176,7 @@ namespace Waiter.ViewModels
         }
 
         [RelayCommand]
-        private async void OnRunApp()
+        private async void OnStartApp()
         {
             // TODO: add RunWithEnsureLoginAsync
             if (AppPackageSetting == null) return;

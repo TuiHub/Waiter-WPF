@@ -20,7 +20,8 @@
         <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <helpers:SizeBytesToHRStringConverter x:Key="SizeBytesToHRStringConverter" />
         <!--<helpers:BoolToStringConverter x:Key="BoolToStringConverter" />-->
-        
+        <helpers:MultiplyByFactorConverter x:Key="MultiplyByFactorConverter" />
+
     </Page.Resources>
 
     <Grid>
@@ -123,216 +124,230 @@
             </TreeView.ContextMenu>
         </TreeView>
 
-        <TabControl
-            Grid.Column="1"
-            Visibility="{Binding ViewModel.SelectedApp, Converter={StaticResource NullToVisibilityConverter}}" >
-            <TabItem Header="Main">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="AppPackage: " />
-                    <ComboBox
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        ItemsSource="{Binding ViewModel.AppPackages, Mode=OneWay}"
-                        SelectedItem="{Binding ViewModel.SelectedAppPackage, Mode=TwoWay}" >
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock
-                                    Text="{Binding}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+            <!--https://stackoverflow.com/questions/1755329/how-to-keep-the-aspect-ratio-of-a-usercontrol-->
+            <Image 
+                Grid.Row="0"
+                Stretch="Uniform"
+                Height="{Binding ActualWidth, Converter={StaticResource MultiplyByFactorConverter}, 
+                            ConverterParameter=0.16145833}"
+                Source="{Binding ViewModel.SelectedApp.HeroImageUrl}" />
+            <TabControl
+                Grid.Row="1"
+                Visibility="{Binding ViewModel.SelectedApp, Converter={StaticResource NullToVisibilityConverter}}" >
+                <TabItem Header="Main">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Text="RunTime: " />
-                    <ui:TextBox
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        IsReadOnly="True"
-                        Text="{Binding ViewModel.AppPackageTotalRunTime, StringFormat={}{0:g}}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="AppPackage: " />
+                        <ComboBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            ItemsSource="{Binding ViewModel.AppPackages, Mode=OneWay}"
+                            SelectedItem="{Binding ViewModel.SelectedAppPackage, Mode=TwoWay}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
-                    <StackPanel
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2" >
-                        <Button
-                            Content="Run"
-                            Command="{Binding ViewModel.RunAppCommand}" />
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Manage Saves">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <StackPanel
-                        Grid.Row="0"
-                        Orientation="Vertical" >
-                        <Button
-                            Content="Refresh"
-                            Command="{Binding ViewModel.RefreshGameSaveCommand}" />
-                    </StackPanel>
-                    <ListView
-                        Grid.Row="1"
-                        ItemsSource="{Binding ViewModel.GameSaves, Mode=OneWay}"
-                        SelectedItem="{Binding ViewModel.SelectedGameSave, Mode=TwoWay}" >
-                        <!--https://github.com/lepoco/wpfui/issues/198--><!--
-                        <ListView.Style>
-                            <Style TargetType="{x:Type ListView}" />
-                        </ListView.Style>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Internal Id" Width="50" DisplayMemberBinding="{Binding InternalId}" />
-                                <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
-                                <GridViewColumn Header="Create Time" Width="50" DisplayMemberBinding="{Binding CreateTime, StringFormat={}{0:O}}" />
-                                <GridViewColumn Header="Is Pinned" Width="50" DisplayMemberBinding="{Binding IsPinned}" />
-                            </GridView>
-                        </ListView.View>-->
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock>
-                                    <Run Text="Internal Id = " />
-                                    <Run Text="{Binding InternalId}" />
-                                    <Run Text=", " />
-                                    <Run Text="Size = " />
-                                    <Run Text="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
-                                    <Run Text=", " />
-                                    <Run Text="Create Time = " />
-                                    <Run Text="{Binding CreateTime, StringFormat={}{0:O}}" />
-                                    <Run Text=", " />
-                                    <Run Text="Is Pinned = " />
-                                    <Run Text="{Binding IsPinned}" />
-                                </TextBlock>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                        <ListView.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem
-                                    Header="Show selected"
-                                    Command="{Binding ViewModel.ShowSelectedGameSaveCommand}" />
-                                <MenuItem
-                                    Header="Download and restore"
-                                    Command="{Binding ViewModel.DownloadAndRestoreGameSaveCommand}" />
-                            </ContextMenu>
-                        </ListView.ContextMenu>
-                    </ListView>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Manage Runtimes">
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="RunTime: " />
+                        <ui:TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.AppPackageTotalRunTime, StringFormat={}{0:g}}" />
 
-            </TabItem>
-            <TabItem Header="Settings">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2" >
+                            <Button
+                                Content="Start"
+                                Command="{Binding ViewModel.StartAppCommand}"
+                                IsEnabled="{Binding ViewModel.BtnStartAppEnabled}"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Manage Saves">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel
+                            Grid.Row="0"
+                            Orientation="Vertical" >
+                            <Button
+                                Content="Refresh"
+                                Command="{Binding ViewModel.RefreshGameSaveCommand}" />
+                        </StackPanel>
+                        <ListView
+                            Grid.Row="1"
+                            ItemsSource="{Binding ViewModel.GameSaves, Mode=OneWay}"
+                            SelectedItem="{Binding ViewModel.SelectedGameSave, Mode=TwoWay}" >
+                            <!--https://github.com/lepoco/wpfui/issues/198-->
+                            <!--
+                            <ListView.Style>
+                                <Style TargetType="{x:Type ListView}" />
+                            </ListView.Style>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Internal Id" Width="50" DisplayMemberBinding="{Binding InternalId}" />
+                                    <GridViewColumn Header="Size" Width="50" DisplayMemberBinding="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
+                                    <GridViewColumn Header="Create Time" Width="50" DisplayMemberBinding="{Binding CreateTime, StringFormat={}{0:O}}" />
+                                    <GridViewColumn Header="Is Pinned" Width="50" DisplayMemberBinding="{Binding IsPinned}" />
+                                </GridView>
+                            </ListView.View>-->
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="Internal Id = " />
+                                        <Run Text="{Binding InternalId}" />
+                                        <Run Text=", " />
+                                        <Run Text="Size = " />
+                                        <Run Text="{Binding SizeBytes, Converter={StaticResource SizeBytesToHRStringConverter}}" />
+                                        <Run Text=", " />
+                                        <Run Text="Create Time = " />
+                                        <Run Text="{Binding CreateTime, StringFormat={}{0:O}}" />
+                                        <Run Text=", " />
+                                        <Run Text="Is Pinned = " />
+                                        <Run Text="{Binding IsPinned}" />
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem
+                                        Header="Show selected"
+                                        Command="{Binding ViewModel.ShowSelectedGameSaveCommand}" />
+                                    <MenuItem
+                                        Header="Download and restore"
+                                        Command="{Binding ViewModel.DownloadAndRestoreGameSaveCommand}" />
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Settings">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="AppPath" />
-                    <ui:TextBox
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        PlaceholderText="AppPath..."
-                        Text="{Binding ViewModel.AppPackageSetting.AppPath, Mode=TwoWay}" />
-                    <ui:Button
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Content="..."
-                        Command="{Binding ViewModel.SelectAppPathCommand}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="AppPath" />
+                        <ui:TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            PlaceholderText="AppPath..."
+                            Text="{Binding ViewModel.AppPackageSetting.AppPath, Mode=TwoWay}" />
+                        <ui:Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Content="..."
+                            Command="{Binding ViewModel.SelectAppPathCommand}" />
 
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Text="AppBaseDir" />
-                    <ui:TextBox
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        PlaceholderText="AppBaseDir..."
-                        Text="{Binding ViewModel.AppPackageSetting.AppBaseDir, Mode=TwoWay}" />
-                    <ui:Button
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Content="..." />
-                    
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        Text="AppWorkDir" />
-                    <ui:TextBox
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        PlaceholderText="AppWorkDir..."
-                        Text="{Binding ViewModel.AppPackageSetting.AppWorkDir, Mode=TwoWay}" />
-                    <ui:Button
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        Content="..." />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Text="AppBaseDir" />
+                        <ui:TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            PlaceholderText="AppBaseDir..."
+                            Text="{Binding ViewModel.AppPackageSetting.AppBaseDir, Mode=TwoWay}" />
+                        <ui:Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Content="..." />
 
-                    <TextBlock
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Text="ProcMonName" />
-                    <ui:TextBox
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        PlaceholderText="ProcMonName..."
-                        Text="{Binding ViewModel.AppPackageSetting.ProcMonName, Mode=TwoWay}" />
-                    <ui:Button
-                        Grid.Row="3"
-                        Grid.Column="2"
-                        Content="..." />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Text="AppWorkDir" />
+                        <ui:TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            PlaceholderText="AppWorkDir..."
+                            Text="{Binding ViewModel.AppPackageSetting.AppWorkDir, Mode=TwoWay}" />
+                        <ui:Button
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Content="..." />
 
-                    <TextBlock
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Text="ProcMonPath" />
-                    <ui:TextBox
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        PlaceholderText="ProcMonPath..."
-                        Text="{Binding ViewModel.AppPackageSetting.ProcMonPath, Mode=TwoWay}" />
-                    <ui:Button
-                        Grid.Row="4"
-                        Grid.Column="2"
-                        Content="..." />
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="ProcMonName" />
+                        <ui:TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            PlaceholderText="ProcMonName..."
+                            Text="{Binding ViewModel.AppPackageSetting.ProcMonName, Mode=TwoWay}" />
+                        <ui:Button
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Content="..." />
 
-                    <StackPanel
-                        Grid.Row="5"
-                        Grid.Column="0" >
-                        <Button
-                            Content="Save"
-                            Command="{Binding ViewModel.SaveAppPackageSettingCommand}"/>
-                    </StackPanel>
-                </Grid>
-            </TabItem>
-        </TabControl>
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Text="ProcMonPath" />
+                        <ui:TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            PlaceholderText="ProcMonPath..."
+                            Text="{Binding ViewModel.AppPackageSetting.ProcMonPath, Mode=TwoWay}" />
+                        <ui:Button
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Content="..." />
+
+                        <StackPanel
+                            Grid.Row="5"
+                            Grid.Column="0" >
+                            <Button
+                                Content="Save"
+                                Command="{Binding ViewModel.SaveAppPackageSettingCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+        
     </Grid>
 </ui:UiPage>
