@@ -199,10 +199,13 @@
                         </Grid.RowDefinitions>
                         <StackPanel
                             Grid.Row="0"
-                            Orientation="Vertical" >
+                            Orientation="Horizontal" >
                             <Button
                                 Content="Refresh"
                                 Command="{Binding ViewModel.RefreshGameSaveCommand}" />
+                            <Button
+                                Content="Manual Create"
+                                Command="{Binding ViewModel.ManualCreateGameSaveCommand}" />
                         </StackPanel>
                         <ListView
                             Grid.Row="1"

@@ -214,45 +214,7 @@ namespace Waiter.ViewModels
                 var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                 await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
                 //MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                // create ZipArchive
-                progressBarDialog.ViewModel.StateText = $"Creating game save file...";
-                var tmpArchiveName = Guid.NewGuid().ToString() + ".zip";
-                var tmpArchivePath = Path.Combine(GlobalContext.SystemConfig.GetRealCacheDirPath(), tmpArchiveName);
-                using (var tmpArchiveFileStream = new FileStream(tmpArchivePath, FileMode.Create, FileAccess.ReadWrite))
-                    await Task.Run(() => _savedataManager.Store(AppPackageSetting.AppBaseDir, tmpArchiveFileStream));
-                var tmpArchiveFileInfo = new FileInfo(tmpArchivePath);
-                var tmpArchiveSizeBytes = tmpArchiveFileInfo.Length;
-                progressBarDialog.ViewModel.StateText = $"Calculating SHA256 diagram...";
-                using SHA256 sha256 = SHA256.Create();
-                using var tmpArchiveReadStream = File.OpenRead(tmpArchivePath);
-                var tmpArchiveSha256 = await sha256.ComputeHashAsync(tmpArchiveReadStream);
-                var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
-                //MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
-                //                $"name = {tmpArchiveName}\n" +
-                //                $"size = {tmpArchiveSize}\n" +
-                //                $"sha256 = {BitConverter.ToString(tmpArchiveSha256).Replace("-", "")}\n" +
-                //                $"createTime = {tmpArchiveCreateTime:O}",
-                //                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                // upload
-                progressBarDialog.ViewModel.StateText = $"Uploading game save file({SizeBytesToHRStringHelper.SizeBytesToHRString(tmpArchiveSizeBytes)})...";
-                var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFile(client,
-                                                                              AppPackageSetting.AppPackageId,
-                                                                              new FileMetadata
-                                                                              {
-                                                                                  Name = tmpArchiveName,
-                                                                                  SizeBytes = tmpArchiveSizeBytes,
-                                                                                  Type = FileType.GeburaSave,
-                                                                                  Sha256 = UnsafeByteOperations.UnsafeWrap(tmpArchiveSha256),
-                                                                                  CreateTime = Timestamp.FromDateTime(tmpArchiveCreateTime.ToUniversalTime())
-                                                                              });
-                tmpArchiveReadStream.Position = 0;
-                progressBarDialog.ViewModel.PbIsIndeterminate = false;
-                await GlobalContext.LibrarianClientService.SimpleUploadFile(client,
-                                                                            uploadToken,
-                                                                            tmpArchiveReadStream,
-                                                                            GlobalContext.SystemConfig.FileTransferChunkBytes,
-                                                                            tmpArchiveSizeBytes,
-                                                                            new Progress<int>(p => progressBarDialog.ViewModel.PbValue = p));
+                CreateZipArchive(progressBarDialog, true, client);
                 progressBarDialog.Title = $"Finalizing";
                 progressBarDialog.ViewModel.StateText = $"Finalizing...";
                 progressBarDialog.ViewModel.PbIsIndeterminate = true;
@@ -269,6 +231,68 @@ namespace Waiter.ViewModels
             finally
             {
                 progressBarDialog.Close();
+            }
+        }
+        [RelayCommand]
+        private async void OnManualCreateGameSave()
+        {
+            var progressRingDialog = new ProgressRingWindow();
+            progressRingDialog.Owner = App.Current.MainWindow;
+            progressRingDialog.ViewModel.WorkText = "Loading...";
+            App.Current.MainWindow.IsEnabled = false;
+            progressRingDialog.Show();
+
+            CreateZipArchive();
+
+            progressRingDialog.Close();
+            App.Current.MainWindow.IsEnabled = true;
+        }
+        private async void CreateZipArchive(ProgressBarWindow? progressBarDialog = null, bool upload = false, LibrarianSephirahService.LibrarianSephirahServiceClient? client = null)
+        {
+            // create ZipArchive
+            if (progressBarDialog != null) progressBarDialog.ViewModel.StateText = $"Creating game save file...";
+            var tmpArchiveName = Guid.NewGuid().ToString() + ".zip";
+            var tmpArchivePath = Path.Combine(GlobalContext.SystemConfig.GetRealCacheDirPath(), tmpArchiveName);
+            using (var tmpArchiveFileStream = new FileStream(tmpArchivePath, FileMode.Create, FileAccess.ReadWrite))
+                await Task.Run(() => _savedataManager.Store(AppPackageSetting!.AppBaseDir, tmpArchiveFileStream));
+            var tmpArchiveFileInfo = new FileInfo(tmpArchivePath);
+            var tmpArchiveSizeBytes = tmpArchiveFileInfo.Length;
+            if (progressBarDialog != null) progressBarDialog.ViewModel.StateText = $"Calculating SHA256 diagram...";
+            using SHA256 sha256 = SHA256.Create();
+            using var tmpArchiveReadStream = File.OpenRead(tmpArchivePath);
+            var tmpArchiveSha256 = await sha256.ComputeHashAsync(tmpArchiveReadStream);
+            var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
+            if (upload == false)
+            {
+                MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
+                                $"name = {tmpArchiveName}\n" +
+                                $"size = {tmpArchiveSizeBytes}\n" +
+                                $"sha256 = {BitConverter.ToString(tmpArchiveSha256).Replace("-", "")}\n" +
+                                $"createTime = {tmpArchiveCreateTime:O}",
+                                "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            // upload
+            if (upload == true)
+            {
+                progressBarDialog!.ViewModel.StateText = $"Uploading game save file({SizeBytesToHRStringHelper.SizeBytesToHRString(tmpArchiveSizeBytes)})...";
+                var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFile(client!,
+                                                                              AppPackageSetting!.AppPackageId,
+                                                                              new FileMetadata
+                                                                              {
+                                                                                  Name = tmpArchiveName,
+                                                                                  SizeBytes = tmpArchiveSizeBytes,
+                                                                                  Type = FileType.GeburaSave,
+                                                                                  Sha256 = UnsafeByteOperations.UnsafeWrap(tmpArchiveSha256),
+                                                                                  CreateTime = Timestamp.FromDateTime(tmpArchiveCreateTime.ToUniversalTime())
+                                                                              });
+                tmpArchiveReadStream.Position = 0;
+                progressBarDialog!.ViewModel.PbIsIndeterminate = false;
+                await GlobalContext.LibrarianClientService.SimpleUploadFile(client!,
+                                                                            uploadToken,
+                                                                            tmpArchiveReadStream,
+                                                                            GlobalContext.SystemConfig.FileTransferChunkBytes,
+                                                                            tmpArchiveSizeBytes,
+                                                                            new Progress<int>(p => progressBarDialog!.ViewModel.PbValue = p));
             }
         }
 
