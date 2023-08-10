@@ -362,6 +362,31 @@ namespace Waiter.ViewModels
             MessageBox.Show($"Selected GameSave = {appInfoStr}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        [RelayCommand]
+        private async void OnAppAddToSubMenuClick(Core.Models.AppCategory? appCategory)
+        {
+            if (SelectedApp != null && appCategory != null)
+            {
+                try
+                {
+                    var appCategoryIds = new List<long>(SelectedApp.AppCategoryIds)
+                    {
+                        appCategory.InternalId
+                    };
+                    await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                    {
+                        var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                        await GlobalContext.LibrarianClientService.UpdateAppAppCategoriesAsync(client, SelectedApp.InternalId, appCategoryIds);
+                    },
+                    async () => { });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
 
         public void OnAppAddToSubMenuOpen()
         {

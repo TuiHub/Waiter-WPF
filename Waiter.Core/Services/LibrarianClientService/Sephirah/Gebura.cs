@@ -121,5 +121,16 @@ namespace Waiter.Core.Services
                                                            headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.AppCategories.Select(x => new Models.AppCategory(x));
         }
+
+        public async Task UpdateAppAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId, IEnumerable<long> appCategoryIds)
+        {
+            var req = new UpdateAppAppCategoriesRequest
+            {
+                AppId = new InternalID { Id = appId }
+            };
+            req.AppCategoryIds.AddRange(appCategoryIds.Select(x => new InternalID { Id = x }));
+            await client.UpdateAppAppCategoriesAsync(req,
+                                                     headers: JwtHelper.GetMetadataWithAccessToken());
+        }
     }
 }
