@@ -110,11 +110,14 @@
                         ItemsSource="{Binding ViewModel.SelectedAppExistingAppCategories}"
                         SubmenuOpened="AppRemoveFromMenuItem_SubmenuOpened"
                         SubmenuClosed="AppRemoveFromMenuItem_SubmenuClosed">
-                        <MenuItem.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Name}" />
-                            </DataTemplate>
-                        </MenuItem.ItemTemplate>
+                        <MenuItem.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="MenuItem.Header" Value="{Binding Name}" />
+                                <Setter Property="MenuItem.Command" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ui:UiPage},
+                                                                            Path=DataContext.ViewModel.AppRemoveFromSubMenuClickCommand}" />
+                                <Setter Property="MenuItem.CommandParameter" Value="{Binding}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
                     </MenuItem>
                 </ContextMenu>
             </TreeView.ContextMenu>
