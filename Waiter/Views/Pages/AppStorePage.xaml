@@ -37,22 +37,26 @@
         </Grid>
         <ListView
             Grid.Row="1"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ItemsSource="{Binding ViewModel.Apps}" >
             <ListView.ItemTemplate>
                 <DataTemplate
                     DataType="{x:Type cmodels:App}">
-                    <Grid Height="60">
+                    <Grid
+                        MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ListView}, Path=ActualWidth}"
+                        Height="100" >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <Image
-                            Margin="5"
+                            Margin="15"
                             Grid.Column="0"
                             Stretch="Uniform"
                             Source="{Binding IconImageUrl}" />
-                        <Grid>
+                        <Grid
+                            Grid.Column="1" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
