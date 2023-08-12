@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.Generic;
 using Wpf.Ui.Common.Interfaces;
 
 namespace Waiter.ViewModels
@@ -7,7 +8,9 @@ namespace Waiter.ViewModels
     public partial class AppStoreViewModel : ObservableObject, INavigationAware
     {
         [ObservableProperty]
-        private int _counter = 0;
+        private string _searchText = string.Empty;
+        [ObservableProperty]
+        private IList<Core.Models.App> _apps = new List<Core.Models.App>();
 
         public void OnNavigatedTo()
         {
@@ -18,9 +21,9 @@ namespace Waiter.ViewModels
         }
 
         [RelayCommand]
-        private void OnCounterIncrement()
+        private void OnSearchApps()
         {
-            Counter++;
+
         }
     }
 }

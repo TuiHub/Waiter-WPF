@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:Waiter.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:cmodels="clr-namespace:Waiter.Core.Models;assembly=Waiter.Core"
     Title="AppStore"
     d:DataContext="{d:DesignInstance local:AppStorePage, IsDesignTimeCreatable=False}"
     d:DesignHeight="450"
@@ -14,12 +15,67 @@
     mc:Ignorable="d">
 
     <Grid Margin="56,0" VerticalAlignment="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <ui:Button Grid.Column="0" Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}" Content="Click me!" Icon="Fluent24" />
-        <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+        <Grid
+            Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ui:TextBox 
+                Grid.Row="0"
+                PlaceholderText="Enter app name..."
+                Text="{Binding ViewModel.SearchText, Mode=OneWayToSource}" />
+            <ui:Button
+                Grid.Column="1"
+                Content="Search"
+                Command="{Binding ViewModel.SearchAppsCommand}" />
+        </Grid>
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding ViewModel.Apps}" >
+            <ListView.ItemTemplate>
+                <DataTemplate
+                    DataType="{x:Type cmodels:App}">
+                    <Grid Height="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Margin="5"
+                            Grid.Column="0"
+                            Stretch="Uniform"
+                            Source="{Binding IconImageUrl}" />
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                FontSize="10"
+                                Text="{Binding InternalId}" />
+                            <TextBlock
+                                Grid.Row="1"
+                                FontWeight="Bold"
+                                FontSize="20"
+                                Text="{Binding Name}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                TextWrapping="Wrap"
+                                Text="{Binding ShortDescription}" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </ui:UiPage>
