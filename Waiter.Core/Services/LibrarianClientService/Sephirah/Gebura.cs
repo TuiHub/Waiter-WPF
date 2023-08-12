@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using TuiHub.Protos.Librarian.Sephirah.V1;
@@ -131,6 +132,23 @@ namespace Waiter.Core.Services
             req.AppCategoryIds.AddRange(appCategoryIds.Select(x => new InternalID { Id = x }));
             await client.UpdateAppAppCategoriesAsync(req,
                                                      headers: JwtHelper.GetMetadataWithAccessToken());
+        }
+
+        // TODO: change Paging
+        public async Task<IEnumerable<Models.App>> SearchAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, string keyword)
+        {
+            var req = new SearchAppsRequest
+            {
+                Paging = new TuiHub.Protos.Librarian.V1.PagingRequest
+                {
+                    PageNum = 1,
+                    PageSize = 1000
+                },
+                Keywords = keyword
+            };
+            var resp = await client.SearchAppsAsync(req,
+                                                    headers: JwtHelper.GetMetadataWithAccessToken());
+            return resp.Apps.Select(x => new Models.App(x));
         }
     }
 }

@@ -22,5 +22,6 @@ namespace Waiter.Core.Contracts.Services
         Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
         Task<IEnumerable<AppCategory>> ListAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
         Task UpdateAppAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId, IEnumerable<long> appCategoryIds);
+        Task<IEnumerable<App>> SearchAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, string keyword);
     }
 }
