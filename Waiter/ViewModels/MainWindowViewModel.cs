@@ -64,6 +64,13 @@ namespace Waiter.ViewModels
                     PageTag = "apps",
                     Icon = SymbolRegular.Apps24,
                     PageType = typeof(Views.Pages.AppsPage)
+                },
+                new NavigationItem()
+                {
+                    Content = "AppCategory",
+                    PageTag = "appCategory",
+                    Icon = SymbolRegular.GroupList24,
+                    PageType = typeof(Views.Pages.AppCategoryPage)
                 }
             };
 
