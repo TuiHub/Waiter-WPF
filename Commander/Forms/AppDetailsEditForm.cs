@@ -12,7 +12,8 @@ namespace Commander.Forms
 {
     public partial class AppDetailsEditForm : Form
     {
-        private readonly DateTime _emptyDateTime = new DateTime(1753, 1, 1);
+        private readonly DateTime _minDateTime = new(1753, 1, 1);
+        private readonly DateTime _maxDateTime = new(9998, 12, 31);
 
         public Core.Models.AppDetails AppDetails;
 
@@ -32,7 +33,7 @@ namespace Commander.Forms
                 Developer = string.IsNullOrWhiteSpace(developerTextBox.Text) ? null : developerTextBox.Text,
                 Publisher = string.IsNullOrWhiteSpace(publisherTextBox.Text) ? null : publisherTextBox.Text,
                 Version = string.IsNullOrWhiteSpace(versionTextBox.Text) ? null : versionTextBox.Text,
-                ReleaseDate = releaseDateDateTimePicker.Value == _emptyDateTime ? null :
+                ReleaseDate = releaseDateDateTimePicker.Value == _minDateTime ? null :
                                   releaseDateDateTimePicker.Value,
                 ImageUrls = _imageUrls,
                 Description = string.IsNullOrWhiteSpace(descrptionTextBox.Text) ? null : descrptionTextBox.Text
@@ -81,7 +82,14 @@ namespace Commander.Forms
             developerTextBox.Text = AppDetails.Developer ?? string.Empty;
             publisherTextBox.Text = AppDetails.Publisher ?? string.Empty;
             versionTextBox.Text = AppDetails.Version ?? string.Empty;
-            releaseDateDateTimePicker.Value = AppDetails.ReleaseDate ?? _emptyDateTime;
+            if (AppDetails.ReleaseDate == null)
+                releaseDateDateTimePicker.Value = _minDateTime;
+            if (AppDetails.ReleaseDate < _minDateTime)
+                releaseDateDateTimePicker.Value = _minDateTime;
+            else if (AppDetails.ReleaseDate > _maxDateTime)
+                releaseDateDateTimePicker.Value = _maxDateTime;
+            else
+                releaseDateDateTimePicker.Value = (DateTime)AppDetails.ReleaseDate!;
             _imageUrls = AppDetails.ImageUrls;
             descrptionTextBox.Text = AppDetails.Description ?? string.Empty;
         }
