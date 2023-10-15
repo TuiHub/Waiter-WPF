@@ -18,8 +18,43 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
         <ui:Button Grid.Column="0" Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}" Content="Click me!" Icon="Fluent24" />
         <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding ViewModel.AppCategories, Mode=OneWay}"
+            SelectedItem="{Binding ViewModel.SelectedAppCategory, Mode=TwoWay}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="Internal Id = " />
+                        <Run Text="{Binding InternalId}" />
+                        <Run Text=", " />
+                        <Run Text="Name = " />
+                        <Run Text="{Binding Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Header="Show selected"
+                        Command="{Binding ViewModel.ShowSelectedAppCategoryCommand}" />
+                    <MenuItem
+                        Header="Edit"
+                        Command="{Binding ViewModel.EditAppCategoryCommand}" />
+                    <MenuItem
+                        Header="Delete"
+                        Command="{Binding ViewModel.DeleteAppCategoryCommand}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
     </Grid>
 </ui:UiPage>
