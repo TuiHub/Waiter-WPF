@@ -61,7 +61,9 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private void OnEditAppCategory()
         {
-
+            var editAppCategoryWindow = new Views.Windows.EditAppCategoryWindow(SelectedAppCategory);
+            editAppCategoryWindow.Owner = App.Current.MainWindow;
+            editAppCategoryWindow.ShowDialog();
         }
 
         [RelayCommand]
