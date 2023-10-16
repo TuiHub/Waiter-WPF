@@ -187,5 +187,15 @@ namespace Waiter.Core.Services
             await client.RemoveAppCategoryAsync(req,
                                                 headers: JwtHelper.GetMetadataWithAccessToken());
         }
+
+        public async Task PurchaseAppAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId)
+        {
+            var req = new PurchaseAppRequest
+            {
+                AppId = new InternalID { Id = appId }
+            };
+            await client.PurchaseAppAsync(req,
+                                          headers: JwtHelper.GetMetadataWithAccessToken());
+        }
     }
 }

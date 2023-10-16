@@ -43,5 +43,30 @@ namespace Waiter.ViewModels
                 MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        [RelayCommand]
+        private async void OnPurchaseApp(Core.Models.App app)
+        {
+            try
+            {
+                var dialogResult = MessageBox.Show($"Are you sure to purchase app ({app.InternalId}), " +
+                                                   $"Name = {app.Name}",
+                                                   "Confirm?",
+                                                   MessageBoxButton.YesNoCancel,
+                                                   MessageBoxImage.Question);
+                if (dialogResult == MessageBoxResult.Yes)
+                {
+                    await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                    {
+                        var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                        await GlobalContext.LibrarianClientService.PurchaseAppAsync(client, app.InternalId);
+                    }, async () => { });
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }

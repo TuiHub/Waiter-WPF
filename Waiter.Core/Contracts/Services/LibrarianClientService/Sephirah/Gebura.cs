@@ -26,5 +26,6 @@ namespace Waiter.Core.Contracts.Services
         Task CreateAppCategoryAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, AppCategory appCategory);
         Task UpdateAppCategoryAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, AppCategory appCategory);
         Task RemoveAppCategoryAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appCategoryId);
+        Task PurchaseAppAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId);
     }
 }

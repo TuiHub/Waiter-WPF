@@ -37,6 +37,7 @@
         </Grid>
         <ListView
             Grid.Row="1"
+            x:Name="appListView"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ItemsSource="{Binding ViewModel.Apps}" >
             <ListView.ItemTemplate>
@@ -48,6 +49,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <Image
@@ -77,6 +79,18 @@
                                 TextWrapping="Wrap"
                                 Text="{Binding ShortDescription}" />
                         </Grid>
+                        <StackPanel
+                            Grid.Column="2" >
+                            <ui:Button
+                                Command="{Binding ElementName=appListView, Path=DataContext.ViewModel.PurchaseAppCommand, Mode=OneWay}"
+                                CommandParameter="{Binding}"
+                                Content="Purchase"
+                                Icon="Add24" />
+                            <ui:Button
+                                IsEnabled="False"
+                                Content="UnPurchase"
+                                Icon="Delete24" />
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
