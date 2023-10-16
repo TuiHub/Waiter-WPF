@@ -88,12 +88,19 @@ namespace Waiter.ViewModels
                                                MessageBoxImage.Question);
             if (dialogResult == MessageBoxResult.Yes)
             {
-                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                try
                 {
-                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    await GlobalContext.LibrarianClientService.RemoveAppCategoryAsync(client, SelectedAppCategory.InternalId);
-                    OnNavigatedTo();
-                }, async () => { });
+                    await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                    {
+                        var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                        await GlobalContext.LibrarianClientService.RemoveAppCategoryAsync(client, SelectedAppCategory.InternalId);
+                        OnNavigatedTo();
+                    }, async () => { });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
     }

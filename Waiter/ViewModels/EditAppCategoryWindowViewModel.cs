@@ -42,30 +42,37 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private async void OnBtnClick()
         {
-            // add
-            if (AppCategory == null)
+            try
             {
-                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                // add
+                if (AppCategory == null)
                 {
-                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
-                    await LibrarianClientService.CreateAppCategoryAsync(client, new Core.Models.AppCategory { Name = AppCategoryName });
-                }, async () => { });
-            }
-            // edit
-            else
-            {
-                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
-                {
-                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
-                    await LibrarianClientService.UpdateAppCategoryAsync(client, new Core.Models.AppCategory
+                    await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                     {
-                        InternalId = AppCategory.InternalId,
-                        Name = AppCategoryName
-                    });
-                }, async () => { });
+                        var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
+                        await LibrarianClientService.CreateAppCategoryAsync(client, new Core.Models.AppCategory { Name = AppCategoryName });
+                    }, async () => { });
+                }
+                // edit
+                else
+                {
+                    await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                    {
+                        var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
+                        await LibrarianClientService.UpdateAppCategoryAsync(client, new Core.Models.AppCategory
+                        {
+                            InternalId = AppCategory.InternalId,
+                            Name = AppCategoryName
+                        });
+                    }, async () => { });
+                }
+                // close window
+                OnRequestClose(this, new EventArgs());
             }
-            // close window
-            OnRequestClose(this, new EventArgs());
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
