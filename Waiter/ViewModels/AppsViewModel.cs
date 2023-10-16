@@ -152,7 +152,7 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    AppPackageTotalRunTime = await GlobalContext.LibrarianClientService.GetAppPackageRunTime(client, value.InternalId);
+                    AppPackageTotalRunTime = await GlobalContext.LibrarianClientService.GetAppPackageRunTimesAsync(client, value.InternalId);
                 },
                 async () => { });
             }
@@ -225,7 +225,7 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
+                    await GlobalContext.LibrarianClientService.AddAppPackageRunTimeAsync(client, AppPackageSetting.AppPackageId, startDT, runTime);
                     //MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                     await CreateZipArchive(progressBarDialog, true, client);
                     progressBarDialog.Title = $"Finalizing";
@@ -299,7 +299,7 @@ namespace Waiter.ViewModels
             else
             {
                 progressBarDialog!.ViewModel.StateText = $"Uploading game save file({SizeBytesToHRStringHelper.SizeBytesToHRString(tmpArchiveSizeBytes)})...";
-                var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFile(client!,
+                var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFileAsync(client!,
                                                                               AppPackageSetting!.AppPackageId,
                                                                               new FileMetadata
                                                                               {
@@ -329,7 +329,7 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    GameSaves = (await GlobalContext.LibrarianClientService.GetAppPackageGameSaves(client, SelectedAppPackage.InternalId)).ToList();
+                    GameSaves = (await GlobalContext.LibrarianClientService.GetAppPackageGameSavesAsync(client, SelectedAppPackage.InternalId)).ToList();
                 },
                 async () => { });
             }
@@ -360,7 +360,7 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    downloadToken = await GlobalContext.LibrarianClientService.DownloadGameSaveFile(client, SelectedGameSave.InternalId);
+                    downloadToken = await GlobalContext.LibrarianClientService.DownloadGameSaveFileAsync(client, SelectedGameSave.InternalId);
                 },
                 async () => { }, false);
                 progressBarDialog.ViewModel.StateText = "Gererating temp file name...";

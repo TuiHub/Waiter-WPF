@@ -15,12 +15,12 @@ namespace Waiter.Core.Contracts.Services
         Task<App> GetAppAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId);
         // get packages for specific app
         Task<IEnumerable<AppPackage>> GetAppPackagesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId);
-        Task AddAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, DateTime startDT, TimeSpan duration);
-        Task<TimeSpan> GetAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
+        Task AddAppPackageRunTimeAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, DateTime startDT, TimeSpan duration);
+        Task<TimeSpan> GetAppPackageRunTimesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
         // return UploadToken
-        Task<string> UploadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata);
-        Task<string> DownloadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId);
-        Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
+        Task<string> UploadGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata);
+        Task<string> DownloadGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId);
+        Task<IEnumerable<GameSave>> GetAppPackageGameSavesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
         Task RemoveGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long gameSaveFileId);
         Task<IEnumerable<AppCategory>> ListAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
         Task UpdateAppAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId, IEnumerable<long> appCategoryIds);

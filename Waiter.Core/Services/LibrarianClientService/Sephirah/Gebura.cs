@@ -65,7 +65,7 @@ namespace Waiter.Core.Services
             return resp.AppPackages.Select(x => new Models.AppPackage(x));
         }
 
-        public async Task AddAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, DateTime startDT, TimeSpan duration)
+        public async Task AddAppPackageRunTimeAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, DateTime startDT, TimeSpan duration)
         {
             var addAppPackageRunTimeReq = new AddAppPackageRunTimeRequest
             {
@@ -80,7 +80,7 @@ namespace Waiter.Core.Services
                                                    headers: JwtHelper.GetMetadataWithAccessToken());
         }
 
-        public async Task<TimeSpan> GetAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
+        public async Task<TimeSpan> GetAppPackageRunTimesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
         {
             var getAppPackageRunTimeReq = new GetAppPackageRunTimeRequest
             {
@@ -91,7 +91,7 @@ namespace Waiter.Core.Services
             return resp.Duration.ToTimeSpan();
         }
 
-        public async Task<string> UploadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata)
+        public async Task<string> UploadGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata)
         {
             var uploadGameSaveFileRequest = new UploadGameSaveFileRequest
             {
@@ -102,7 +102,7 @@ namespace Waiter.Core.Services
                                                             headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.UploadToken;
         }
-        public async Task<string> DownloadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId)
+        public async Task<string> DownloadGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId)
         {
             var downloadGameSaveFileRequest = new DownloadGameSaveFileRequest { Id = new InternalID { Id = fileMetadataId } };
             var resp = await client.DownloadGameSaveFileAsync(downloadGameSaveFileRequest,
@@ -111,7 +111,7 @@ namespace Waiter.Core.Services
         }
 
         // TODO: change Paging
-        public async Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
+        public async Task<IEnumerable<GameSave>> GetAppPackageGameSavesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId)
         {
             var listGameSaveFilesRequest = new ListGameSaveFilesRequest
             {
