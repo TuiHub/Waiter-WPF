@@ -22,6 +22,7 @@
         <!--<helpers:BoolToStringConverter x:Key="BoolToStringConverter" />-->
         <helpers:MultiplyByFactorConverter x:Key="MultiplyByFactorConverter" />
         <helpers:ObjectNotNullToBoolConverter x:Key="ObjectNotNullToBoolConverter" />
+        <helpers:StringNotNullOrWhiteSpaceToBoolConverter x:Key="StringNotNullOrWhiteSpaceToBoolConverter" />
 
     </Page.Resources>
 
@@ -248,10 +249,12 @@
                             Orientation="Horizontal" >
                             <Button
                                 Content="Refresh"
-                                Command="{Binding ViewModel.RefreshGameSaveCommand}" />
+                                Command="{Binding ViewModel.RefreshGameSaveCommand}"
+                                IsEnabled="{Binding ViewModel.SelectedAppPackage, Converter={StaticResource ObjectNotNullToBoolConverter}}" />
                             <Button
                                 Content="Manual Create"
-                                Command="{Binding ViewModel.ManualCreateGameSaveCommand}" />
+                                Command="{Binding ViewModel.ManualCreateGameSaveCommand}"
+                                IsEnabled="{Binding ViewModel.AppPackageSetting, Converter={StaticResource ObjectNotNullToBoolConverter}}" />
                         </StackPanel>
                         <ListView
                             Grid.Row="1"
