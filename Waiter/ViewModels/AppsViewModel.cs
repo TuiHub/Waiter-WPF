@@ -123,8 +123,15 @@ namespace Waiter.ViewModels
                     SelectedAppDetails = (await GlobalContext.LibrarianClientService.GetAppAsync(client, value.InternalId)).AppDetails;
                     AppPackages = (await GlobalContext.LibrarianClientService.GetAppPackagesAsync(client, value.InternalId)).ToList();
                     // default select if there is only one AppPackage
+                    // TODO: this is a hack, should be removed
                     if (AppPackages.Count() == 1)
-                        SelectedAppPackage = AppPackages.First();
+                    {
+                        var _ = App.Current.Dispatcher.Invoke(async () =>
+                        {
+                            await Task.Delay(250);
+                            SelectedAppPackage = AppPackages.First();
+                        });
+                    }
                 },
                 async () => { });
             }
@@ -192,7 +199,6 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private async void OnStartApp()
         {
-            // TODO: add RunWithEnsureLoginAsync
             if (AppPackageSetting == null) return;
             // create progressBarDialog
             var progressBarDialog = new ProgressBarWindow();
@@ -216,14 +222,17 @@ namespace Waiter.ViewModels
                 progressBarDialog.Title = $"Post Process";
                 progressBarDialog.ViewModel.StateText = $"Reporting runtime...";
                 progressBarDialog.Show();
-                var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
-                //MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                CreateZipArchive(progressBarDialog, true, client);
-                progressBarDialog.Title = $"Finalizing";
-                progressBarDialog.ViewModel.StateText = $"Finalizing...";
-                progressBarDialog.ViewModel.PbIsIndeterminate = true;
-                //MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    await GlobalContext.LibrarianClientService.AddAppPackageRunTime(client, AppPackageSetting.AppPackageId, startDT, runTime);
+                    //MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    await CreateZipArchive(progressBarDialog, true, client);
+                    progressBarDialog.Title = $"Finalizing";
+                    progressBarDialog.ViewModel.StateText = $"Finalizing...";
+                    progressBarDialog.ViewModel.PbIsIndeterminate = true;
+                    //MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                }, async () => { }, false);
             }
             catch (TimeoutException ex)
             {
@@ -252,7 +261,7 @@ namespace Waiter.ViewModels
             progressRingDialog.Close();
             App.Current.MainWindow.IsEnabled = true;
         }
-        private async void CreateZipArchive(ProgressBarWindow? progressBarDialog = null, bool upload = false, LibrarianSephirahService.LibrarianSephirahServiceClient? client = null)
+        private async Task CreateZipArchive(ProgressBarWindow? progressBarDialog = null, bool upload = false, LibrarianSephirahService.LibrarianSephirahServiceClient? client = null)
         {
             // create ZipArchive
             if (progressBarDialog != null) progressBarDialog.ViewModel.StateText = $"Creating game save file...";
@@ -267,6 +276,17 @@ namespace Waiter.ViewModels
             using var tmpArchiveReadStream = File.OpenRead(tmpArchivePath);
             var tmpArchiveSha256 = await sha256.ComputeHashAsync(tmpArchiveReadStream);
             var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
+            if (upload == true)
+            {
+                // show MessageBox
+                var dialogResult = MessageBox.Show($"Are you sure to upload?",
+                                                   "Confirm?",
+                                                   MessageBoxButton.YesNoCancel,
+                                                   MessageBoxImage.Question);
+                // upload
+                if (dialogResult != MessageBoxResult.Yes)
+                    upload = false;
+            }
             if (upload == false)
             {
                 MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
@@ -276,8 +296,7 @@ namespace Waiter.ViewModels
                                 $"createTime = {tmpArchiveCreateTime:O}",
                                 "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            // upload
-            if (upload == true)
+            else
             {
                 progressBarDialog!.ViewModel.StateText = $"Uploading game save file({SizeBytesToHRStringHelper.SizeBytesToHRString(tmpArchiveSizeBytes)})...";
                 var uploadToken = await GlobalContext.LibrarianClientService.UploadGameSaveFile(client!,

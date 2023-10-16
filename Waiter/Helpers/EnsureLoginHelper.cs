@@ -15,17 +15,17 @@ namespace Waiter.Helpers
 {
     public static class EnsureLoginHelper
     {
-        public static async Task RunWithEnsureLoginAsync(Func<Task> Work, Func<Task> WorkCleanup)
+        public static async Task RunWithEnsureLoginAsync(Func<Task> Work, Func<Task> WorkCleanup, bool withProgressRingDialog = true)
         {
-            var progressRingDialog = new ProgressRingWindow();
-            progressRingDialog.Owner = App.Current.MainWindow;
+            ProgressRingWindow progressRingDialog = new ProgressRingWindow();
+            if (withProgressRingDialog) progressRingDialog.Owner = App.Current.MainWindow;
             while (true)
             {
                 try
                 {
-                    progressRingDialog.ViewModel.WorkText = "Loading...";
-                    App.Current.MainWindow.IsEnabled = false;
-                    progressRingDialog.Show();
+                    if (withProgressRingDialog) progressRingDialog.ViewModel.WorkText = "Loading...";
+                    if (withProgressRingDialog) App.Current.MainWindow.IsEnabled = false;
+                    if (withProgressRingDialog) progressRingDialog.Show();
                     await Work();
                 }
                 catch (RpcException ex) when (ex.Status.StatusCode == StatusCode.Unauthenticated)
@@ -33,7 +33,7 @@ namespace Waiter.Helpers
                     if (GlobalContext.UserConfig.IsLoggedIn == true)
                     {
                         // show progressRingDialog
-                        progressRingDialog.ViewModel.WorkText = "Logging in using refresh token...";
+                        if (withProgressRingDialog) progressRingDialog.ViewModel.WorkText = "Logging in using refresh token...";
                         // try refresh token
                         var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                         var (accessToken, refreshToken) = await GlobalContext.LibrarianClientService.GetTokenAsync(client);
@@ -57,8 +57,8 @@ namespace Waiter.Helpers
                     {
                         await WorkCleanup();
                         // close progressRingDialog
-                        progressRingDialog.Close();
-                        App.Current.MainWindow.IsEnabled = true;
+                        if (withProgressRingDialog) progressRingDialog.Close();
+                        if (withProgressRingDialog) App.Current.MainWindow.IsEnabled = true;
                         MessageBox.Show("User cancelled login.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                         break;
                     }
@@ -72,13 +72,13 @@ namespace Waiter.Helpers
                 catch
                 {
                     // close progressRingDialog
-                    progressRingDialog.Close();
-                    App.Current.MainWindow.IsEnabled = true;
+                    if (withProgressRingDialog) progressRingDialog.Close();
+                    if (withProgressRingDialog) App.Current.MainWindow.IsEnabled = true;
                     throw;
                 }
                 // close progressRingDialog
-                progressRingDialog.Close();
-                App.Current.MainWindow.IsEnabled = true;
+                if (withProgressRingDialog) progressRingDialog.Close();
+                if (withProgressRingDialog) App.Current.MainWindow.IsEnabled = true;
                 break;
             }
         }
