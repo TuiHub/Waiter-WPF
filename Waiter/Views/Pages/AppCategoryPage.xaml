@@ -15,19 +15,36 @@
 
     <Grid Margin="56,0" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <ui:Button Grid.Column="0" Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}" Content="Click me!" Icon="Fluent24" />
-        <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ViewModel.Counter, Mode=OneWay}" />
+        <!--<ui:Button Grid.Column="0" Command="{Binding ViewModel.CounterIncrementCommand, Mode=OneWay}" Content="Click me!" Icon="Fluent24" />
+        <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ViewModel.Counter, Mode=OneWay}" />-->
 
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal" >
+            <ui:Button
+                Command="{Binding ViewModel.AddAppCategoryCommand, Mode=OneWay}"
+                Content="Add"
+                Icon="Add24" />
+            <ui:Button
+                Command="{Binding ViewModel.EditAppCategoryCommand, Mode=OneWay}"
+                Content="Edit"
+                Icon="Edit24" />
+            <ui:Button
+                Command="{Binding ViewModel.DeleteAppCategoryCommand, Mode=OneWay}"
+                Content="Delete"
+                Icon="Delete24" />
+        </StackPanel>
+        
         <ListView
             Grid.Row="1"
+            HorizontalContentAlignment="Stretch"
             ItemsSource="{Binding ViewModel.AppCategories, Mode=OneWay}"
             SelectedItem="{Binding ViewModel.SelectedAppCategory, Mode=TwoWay}">
 

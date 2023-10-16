@@ -23,7 +23,8 @@ namespace Waiter.Views.Windows
         public ViewModels.EditAppCategoryWindowViewModel ViewModel { get; }
         public EditAppCategoryWindow(Core.Models.AppCategory? appCategory)
         {
-            ViewModel = new ViewModels.EditAppCategoryWindowViewModel(appCategory, this);
+            ViewModel = new ViewModels.EditAppCategoryWindowViewModel(appCategory);
+            ViewModel.OnRequestClose += (s, e) => this.Close();
 
             this.DataContext = this;
             InitializeComponent();

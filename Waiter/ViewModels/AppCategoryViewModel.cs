@@ -59,17 +59,42 @@ namespace Waiter.ViewModels
         }
 
         [RelayCommand]
+        private void OnAddAppCategory()
+        {
+            var editAppCategoryWindow = new Views.Windows.EditAppCategoryWindow(appCategory: null);
+            editAppCategoryWindow.Owner = App.Current.MainWindow;
+            editAppCategoryWindow.ShowDialog();
+            OnNavigatedTo();
+        }
+
+        [RelayCommand]
         private void OnEditAppCategory()
         {
             var editAppCategoryWindow = new Views.Windows.EditAppCategoryWindow(SelectedAppCategory);
             editAppCategoryWindow.Owner = App.Current.MainWindow;
             editAppCategoryWindow.ShowDialog();
+            OnNavigatedTo();
         }
 
         [RelayCommand]
-        private void OnDeleteAppCategory()
+        private async void OnDeleteAppCategory()
         {
-
+            if (SelectedAppCategory == null)
+                return;
+            var dialogResult = MessageBox.Show($"Are you sure to delete AppCategory ({SelectedAppCategory.InternalId}), " +
+                                                   $"Name = {SelectedAppCategory.Name}",
+                                               "Confirm?",
+                                               MessageBoxButton.YesNoCancel,
+                                               MessageBoxImage.Question);
+            if (dialogResult == MessageBoxResult.Yes)
+            {
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    await GlobalContext.LibrarianClientService.RemoveAppCategoryAsync(client, SelectedAppCategory.InternalId);
+                    OnNavigatedTo();
+                }, async () => { });
+            }
         }
     }
 }

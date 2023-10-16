@@ -15,7 +15,7 @@ namespace Waiter.ViewModels
 {
     public partial class EditAppCategoryWindowViewModel : ObservableObject
     {
-        public EditAppCategoryWindow? ParentWindow { get; set; }
+        public event EventHandler OnRequestClose;
 
         [ObservableProperty]
         private Core.Models.AppCategory? _appCategory;
@@ -23,9 +23,8 @@ namespace Waiter.ViewModels
         private string _appCategoryName = "";
 
         public EditAppCategoryWindowViewModel() { }
-        public EditAppCategoryWindowViewModel(Core.Models.AppCategory? appCategory = null, EditAppCategoryWindow? window = null)
+        public EditAppCategoryWindowViewModel(Core.Models.AppCategory? appCategory = null)
         {
-            ParentWindow = window;
             AppCategory = appCategory;
 
             AppCategoryName = AppCategory?.Name ?? "";
@@ -41,9 +40,32 @@ namespace Waiter.ViewModels
         }
 
         [RelayCommand]
-        private void OnBtnClick()
+        private async void OnBtnClick()
         {
-
+            // add
+            if (AppCategory == null)
+            {
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
+                    await LibrarianClientService.CreateAppCategoryAsync(client, new Core.Models.AppCategory { Name = AppCategoryName });
+                }, async () => { });
+            }
+            // edit
+            else
+            {
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GrpcChannel);
+                    await LibrarianClientService.UpdateAppCategoryAsync(client, new Core.Models.AppCategory
+                    {
+                        InternalId = AppCategory.InternalId,
+                        Name = AppCategoryName
+                    });
+                }, async () => { });
+            }
+            // close window
+            OnRequestClose(this, new EventArgs());
         }
     }
 }
