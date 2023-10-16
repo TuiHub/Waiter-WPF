@@ -362,7 +362,7 @@ namespace Waiter.ViewModels
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                     downloadToken = await GlobalContext.LibrarianClientService.DownloadGameSaveFile(client, SelectedGameSave.InternalId);
                 },
-                async () => { });
+                async () => { }, false);
                 progressBarDialog.ViewModel.StateText = "Gererating temp file name...";
                 var cachedArchivePath = Path.Combine(GlobalContext.SystemConfig.CacheDirPath, SelectedGameSave.InternalId.ToString() + ".zip");
                 if (File.Exists(cachedArchivePath))
@@ -376,7 +376,7 @@ namespace Waiter.ViewModels
                         await GlobalContext.LibrarianClientService.SimpleDownloadFile(client, downloadToken, cachedArchiveWriteFileStream,
                             SelectedGameSave.SizeBytes, new Progress<int>(p => progressBarDialog.ViewModel.PbValue = p));
                     },
-                    async () => { });
+                    async () => { }, false);
                 //MessageBox.Show($"Cached archive {cachedArchivePath} downloaded.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 progressBarDialog.ViewModel.PbIsIndeterminate = true;
                 progressBarDialog.ViewModel.StateText = "Calculating sha256...";
