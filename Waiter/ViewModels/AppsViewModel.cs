@@ -404,6 +404,31 @@ namespace Waiter.ViewModels
                 progressBarDialog.Close();
             }
         }
+        [RelayCommand]
+        private async void OnDeleteGameSave()
+        {
+            try
+            {
+                if (SelectedGameSave == null) return;
+                var dialogResult = MessageBox.Show($"Are you sure to delete GameSave {SelectedGameSave.InternalId}?",
+                                                   "Confirm?",
+                                                   MessageBoxButton.YesNoCancel,
+                                                   MessageBoxImage.Question);
+                if (dialogResult != MessageBoxResult.Yes) return;
+                await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    await GlobalContext.LibrarianClientService.RemoveGameSaveFileAsync(client, SelectedGameSave.InternalId);
+                },
+                async () => { });
+                MessageBox.Show($"GameSave {SelectedGameSave.InternalId} deleted.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                OnRefreshGameSave();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
 
         public void OnNavigatedFrom()
         {

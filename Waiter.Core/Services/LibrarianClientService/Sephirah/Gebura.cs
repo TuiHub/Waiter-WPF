@@ -127,6 +127,16 @@ namespace Waiter.Core.Services
             return resp.Results.Select(x => new GameSave(x));
         }
 
+        public async Task RemoveGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long gameSaveFileId)
+        {
+            var removeGameSaveFileRequest = new RemoveGameSaveFileRequest
+            {
+                Id = new InternalID { Id = gameSaveFileId }
+            };
+            await client.RemoveGameSaveFileAsync(removeGameSaveFileRequest,
+                                                 headers: JwtHelper.GetMetadataWithAccessToken());
+        }
+
         public async Task<IEnumerable<Models.AppCategory>> ListAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client)
         {
             var ListAppCategoriesRequest = new ListAppCategoriesRequest();

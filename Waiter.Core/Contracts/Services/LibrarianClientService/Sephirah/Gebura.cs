@@ -21,6 +21,7 @@ namespace Waiter.Core.Contracts.Services
         Task<string> UploadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, FileMetadata fileMetadata);
         Task<string> DownloadGameSaveFile(LibrarianSephirahService.LibrarianSephirahServiceClient client, long fileMetadataId);
         Task<IEnumerable<GameSave>> GetAppPackageGameSaves(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId);
+        Task RemoveGameSaveFileAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long gameSaveFileId);
         Task<IEnumerable<AppCategory>> ListAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
         Task UpdateAppAppCategoriesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId, IEnumerable<long> appCategoryIds);
         Task<IEnumerable<App>> SearchAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, string keyword);
