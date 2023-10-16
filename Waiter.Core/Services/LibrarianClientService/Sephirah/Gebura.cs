@@ -32,6 +32,18 @@ namespace Waiter.Core.Services
 
             return resp.Apps.Select(x => new Models.App(x));
         }
+
+        public async Task<Models.App> GetAppAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId)
+        {
+            var getAppReq = new GetAppRequest
+            {
+                AppId= new InternalID { Id = appId }
+            };
+            var resp = await client.GetAppAsync(getAppReq,
+                                                headers: JwtHelper.GetMetadataWithAccessToken());
+            return new Models.App(resp.App);
+        }
+
         // TODO: change Paging
         public async Task<IEnumerable<Models.AppPackage>> GetAppPackagesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId)
         {

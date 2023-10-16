@@ -12,6 +12,7 @@ namespace Waiter.Core.Contracts.Services
     {
         // get user purchased apps
         Task<IEnumerable<App>> GetPurchasedAppsAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client);
+        Task<App> GetAppAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId);
         // get packages for specific app
         Task<IEnumerable<AppPackage>> GetAppPackagesAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appId);
         Task AddAppPackageRunTime(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appPackageId, DateTime startDT, TimeSpan duration);

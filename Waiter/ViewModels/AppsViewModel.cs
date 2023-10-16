@@ -44,6 +44,8 @@ namespace Waiter.ViewModels
         [ObservableProperty]
         private Core.Models.App? _selectedApp;
         [ObservableProperty]
+        private Core.Models.AppDetails? _selectedAppDetails;
+        [ObservableProperty]
         private IList<Core.Models.AppPackage> _appPackages = new List<Core.Models.AppPackage>();
         [ObservableProperty]
         private Core.Models.AppPackage? _selectedAppPackage;
@@ -108,6 +110,7 @@ namespace Waiter.ViewModels
             try
             {
                 AppPackages.Clear();
+                SelectedAppDetails = null;
                 SelectedAppPackage = null;
                 AppPackageSetting = null;
                 AppPackageTotalRunTime = TimeSpan.Zero;
@@ -116,6 +119,8 @@ namespace Waiter.ViewModels
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    // Get SelectedApp info
+                    SelectedAppDetails = (await GlobalContext.LibrarianClientService.GetAppAsync(client, value.InternalId)).AppDetails;
                     AppPackages = (await GlobalContext.LibrarianClientService.GetAppPackagesAsync(client, value.InternalId)).ToList();
                     // default select if there is only one AppPackage
                     if (AppPackages.Count() == 1)

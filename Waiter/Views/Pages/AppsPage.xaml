@@ -147,6 +147,10 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -181,7 +185,7 @@
                             Text="{Binding ViewModel.AppPackageTotalRunTime, StringFormat={}{0:g}}" />
 
                         <StackPanel
-                            Grid.Row="3"
+                            Grid.Row="2"
                             Grid.Column="0"
                             Grid.ColumnSpan="2" >
                             <Button
@@ -189,6 +193,48 @@
                                 Command="{Binding ViewModel.StartAppCommand}"
                                 IsEnabled="{Binding ViewModel.AppPackageSetting, Converter={StaticResource ObjectNotNullToBoolConverter}}"/>
                         </StackPanel>
+
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Text="Developer: " />
+                        <ui:TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.SelectedAppDetails.Developer}" />
+
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Text="Publisher: " />
+                        <ui:TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.SelectedAppDetails.Publisher}" />
+
+                        <TextBlock
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            Text="ReleaseDate: " />
+                        <ui:TextBox
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            Text="{Binding ViewModel.SelectedAppDetails.ReleaseDate, StringFormat={}{0:o}}" />
+
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Text="Description: " />
+                        <ui:TextBox
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            IsReadOnly="True"
+                            TextWrapping="Wrap"
+                            VerticalAlignment="Stretch"
+                            Text="{Binding ViewModel.SelectedAppDetails.Description}" />
                     </Grid>
                 </TabItem>
                 <TabItem Header="Manage Saves">
