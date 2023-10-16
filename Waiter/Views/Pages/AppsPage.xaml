@@ -222,7 +222,7 @@
                             Grid.Row="5"
                             Grid.Column="1"
                             IsReadOnly="True"
-                            Text="{Binding ViewModel.SelectedAppDetails.ReleaseDate, StringFormat={}{0:o}}" />
+                            Text="{Binding ViewModel.SelectedAppDetails.ReleaseDate, StringFormat={}{0:O}}" />
 
                         <TextBlock
                             Grid.Row="6"
@@ -241,7 +241,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <StackPanel
                             Grid.Row="0"
