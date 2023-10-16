@@ -150,5 +150,42 @@ namespace Waiter.Core.Services
                                                     headers: JwtHelper.GetMetadataWithAccessToken());
             return resp.Apps.Select(x => new Models.App(x));
         }
+
+        public async Task CreateAppCategoryAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, Models.AppCategory appCategory)
+        {
+            var req = new CreateAppCategoryRequest
+            {
+                AppCategory = new TuiHub.Protos.Librarian.V1.AppCategory
+                {
+                    Name = appCategory.Name
+                }
+            };
+            await client.CreateAppCategoryAsync(req,
+                                                headers: JwtHelper.GetMetadataWithAccessToken());
+        }
+
+        public async Task UpdateAppCategoryAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, Models.AppCategory appCategory)
+        {
+            var req = new UpdateAppCategoryRequest
+            {
+                AppCategory = new TuiHub.Protos.Librarian.V1.AppCategory
+                {
+                    Id = new InternalID { Id = appCategory.InternalId },
+                    Name = appCategory.Name
+                }
+            };
+            await client.UpdateAppCategoryAsync(req,
+                                                headers: JwtHelper.GetMetadataWithAccessToken());
+        }
+
+        public async Task RemoveAppCategoryAsync(LibrarianSephirahService.LibrarianSephirahServiceClient client, long appCategoryId)
+        {
+            var req = new RemoveAppCategoryRequest
+            {
+                Id = new InternalID { Id = appCategoryId }
+            };
+            await client.RemoveAppCategoryAsync(req,
+                                                headers: JwtHelper.GetMetadataWithAccessToken());
+        }
     }
 }
