@@ -21,6 +21,8 @@ namespace Waiter.Models
         private string _procMonName = string.Empty;
         [ObservableProperty]
         private string _procMonPath = string.Empty;
+        [ObservableProperty]
+        private string _useProcListenMode = string.Empty;
         public AppPackageSetting(long appPackageId, Db.AppPackageSetting? appPackageSetting)
         {
             AppPackageId = appPackageId;
@@ -31,6 +33,7 @@ namespace Waiter.Models
                 AppWorkDir = appPackageSetting.AppWorkDir;
                 ProcMonName = appPackageSetting.ProcMonName;
                 ProcMonPath = appPackageSetting.ProcMonPath;
+                UseProcListenMode = appPackageSetting.UseProcListenMode.ToString();
             }
         }
         public AppPackageSetting() { }
