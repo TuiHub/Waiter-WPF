@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,6 +39,13 @@ namespace Waiter
                 // App Host
                 services.AddHostedService<ApplicationHostService>();
 
+                // Add debug logging
+                services.AddLogging(
+                    builder =>
+                    {
+                        builder.AddDebug();
+                    });
+
                 // DbContext
                 services.AddDbContext<ApplicationDbContext>();
 
@@ -45,7 +53,7 @@ namespace Waiter
                 services.AddSingleton<ProcessTimeMonitor>(p => new ProcessTimeMonitor(null));
 
                 // savedata manager service
-                services.AddSingleton<SavedataManager>(p => new SavedataManager(null));
+                services.AddSingleton<SavedataManager>(p => new SavedataManager((ILogger<SavedataManager>)p.GetRequiredService(typeof(ILogger<SavedataManager>))));
 
                 // Page resolver service
                 services.AddSingleton<IPageService, PageService>();
