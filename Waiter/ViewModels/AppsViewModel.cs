@@ -209,13 +209,20 @@ namespace Waiter.ViewModels
                 progressBarDialog.Show();
                 var nowDT = DateTime.Now;
                 progressBarDialog.ViewModel.StateText = $"Starting {AppPackageSetting.AppPath}...";
-                Process.Start(new ProcessStartInfo
+                var process = Process.Start(new ProcessStartInfo
                 {
                     FileName = AppPackageSetting.AppPath,
                     WorkingDirectory = AppPackageSetting.AppWorkDir
                 });
+                if (process == null)
+                    throw new Exception($"Failed to start {AppPackageSetting.AppPath}.");
                 progressBarDialog.Hide();
-                (var startDT, var endDT, var exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
+                DateTime startDT, endDT;
+                int exitCode;
+                if (bool.Parse(AppPackageSetting.UseProcListenMode) == false)
+                    (startDT, endDT, exitCode) = await _processTimeMonitor.WaitForProcToExit(process);
+                else
+                    (startDT, endDT, exitCode) = await _processTimeMonitor.WaitForProcToExit(AppPackageSetting.ProcMonName, AppPackageSetting.ProcMonPath, nowDT);
                 var runTime = endDT - startDT;
                 //MessageBox.Show($"App exited with exit code {exitCode}.\nRun {runTime.TotalSeconds:0.00} secs\nstartDT: {startDT:O}\nendDT: {endDT:O}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 // report RunTime to server
@@ -256,7 +263,14 @@ namespace Waiter.ViewModels
             App.Current.MainWindow.IsEnabled = false;
             progressRingDialog.Show();
 
-            CreateZipArchive();
+            try
+            {
+                await CreateZipArchive();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
 
             progressRingDialog.Close();
             App.Current.MainWindow.IsEnabled = true;
