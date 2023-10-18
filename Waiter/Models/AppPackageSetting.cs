@@ -22,7 +22,7 @@ namespace Waiter.Models
         [ObservableProperty]
         private string _procMonPath = string.Empty;
         [ObservableProperty]
-        private string _useProcListenMode = string.Empty;
+        private string _useProcListenMode = "False";
         public AppPackageSetting(long appPackageId, Db.AppPackageSetting? appPackageSetting)
         {
             AppPackageId = appPackageId;
