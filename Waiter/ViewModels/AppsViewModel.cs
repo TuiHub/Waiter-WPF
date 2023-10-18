@@ -238,18 +238,18 @@ namespace Waiter.ViewModels
                     // check exitCode
                     if (exitCode != 0)
                     {
-                        var dialogResult = MessageBox.Show($"App may does not exit normally (ExitCode = {exitCode}), Still upload current savedata?",
+                        var dialogResult = MessageBox.Show($"App may does not exit normally (ExitCode = {exitCode}), still upload current savedata?",
                                                            "Confirm?",
                                                            MessageBoxButton.YesNoCancel,
                                                            MessageBoxImage.Question);
                         if (dialogResult != MessageBoxResult.Yes) return;
                     }
 
-                    await CreateZipArchive(progressBarDialog, true, client);
+                    await CreateZipArchiveAndUpload(progressBarDialog, true, client);
                     progressBarDialog.Title = $"Finalizing";
                     progressBarDialog.ViewModel.StateText = $"Finalizing...";
                     progressBarDialog.ViewModel.PbIsIndeterminate = true;
-                    //MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 }, async () => { }, false);
             }
             catch (TimeoutException ex)
@@ -268,25 +268,42 @@ namespace Waiter.ViewModels
         [RelayCommand]
         private async void OnManualCreateGameSave()
         {
-            var progressRingDialog = new ProgressRingWindow();
-            progressRingDialog.Owner = App.Current.MainWindow;
-            progressRingDialog.ViewModel.WorkText = "Loading...";
-            App.Current.MainWindow.IsEnabled = false;
-            progressRingDialog.Show();
-
+            // create progressBarDialog
+            var progressBarDialog = new ProgressBarWindow();
+            progressBarDialog.Owner = App.Current.MainWindow;
             try
             {
-                await CreateZipArchive();
+                progressBarDialog.Title = $"Creating GameSave";
+                progressBarDialog.Show();
+                bool upload = true;
+                var dialogResult = MessageBox.Show($"Do you want to upload?",
+                                                   "Confirm?",
+                                                   MessageBoxButton.YesNoCancel,
+                                                   MessageBoxImage.Question);
+                if (dialogResult != MessageBoxResult.Yes)
+                    upload = false;
+                if (upload == false)
+                    await CreateZipArchiveAndUpload(progressBarDialog);
+                else
+                {
+                    var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
+                    await CreateZipArchiveAndUpload(progressBarDialog, true, client);
+                }
+                progressBarDialog.Title = $"Finalizing";
+                progressBarDialog.ViewModel.StateText = $"Finalizing...";
+                progressBarDialog.ViewModel.PbIsIndeterminate = true;
+                MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-
-            progressRingDialog.Close();
-            App.Current.MainWindow.IsEnabled = true;
+            finally
+            {
+                progressBarDialog.Close();
+            }
         }
-        private async Task CreateZipArchive(ProgressBarWindow? progressBarDialog = null, bool upload = false, LibrarianSephirahService.LibrarianSephirahServiceClient? client = null)
+        private async Task CreateZipArchiveAndUpload(ProgressBarWindow? progressBarDialog = null, bool upload = false, LibrarianSephirahService.LibrarianSephirahServiceClient? client = null)
         {
             // create ZipArchive
             if (progressBarDialog != null) progressBarDialog.ViewModel.StateText = $"Creating game save file...";
@@ -301,17 +318,6 @@ namespace Waiter.ViewModels
             using var tmpArchiveReadStream = File.OpenRead(tmpArchivePath);
             var tmpArchiveSha256 = await sha256.ComputeHashAsync(tmpArchiveReadStream);
             var tmpArchiveCreateTime = tmpArchiveFileInfo.CreationTime;
-            if (upload == true)
-            {
-                // show MessageBox
-                var dialogResult = MessageBox.Show($"Are you sure to upload?",
-                                                   "Confirm?",
-                                                   MessageBoxButton.YesNoCancel,
-                                                   MessageBoxImage.Question);
-                // upload
-                if (dialogResult != MessageBoxResult.Yes)
-                    upload = false;
-            }
             if (upload == false)
             {
                 MessageBox.Show($"Stored temp archive file as {tmpArchivePath}.\n" +
