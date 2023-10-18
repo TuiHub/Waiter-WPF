@@ -416,7 +416,23 @@ namespace Waiter.ViewModels
                 cachedArchiveReadStream.Position = 0;
                 //MessageBox.Show($"Starting restore.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 progressBarDialog.ViewModel.StateText = "Restoring game save...";
-                await Task.Run(() => _savedataManager.Restore(cachedArchiveReadStream, AppPackageSetting.AppBaseDir));
+
+                bool isFSLastWriteTimeNewer = false;
+                await Task.Run(() =>
+                {
+                    using var cachedArchiveReadStream = File.OpenRead(cachedArchivePath);
+                    isFSLastWriteTimeNewer = _savedataManager.CheckFSLastWriteTimeNewer(cachedArchiveReadStream, AppPackageSetting.AppBaseDir);
+                });
+                if (isFSLastWriteTimeNewer == true)
+                {
+                    var dialogResult = MessageBox.Show($"Current app savedata is newer than the one to restore, overwrite?",
+                                                       "Confirm?",
+                                                       MessageBoxButton.YesNoCancel,
+                                                       MessageBoxImage.Question);
+                    if (dialogResult != MessageBoxResult.Yes) return;
+                }
+
+                await Task.Run(() => _savedataManager.Restore(cachedArchiveReadStream, AppPackageSetting.AppBaseDir, true));
                 progressBarDialog.ViewModel.StateText = "Finalizing...";
                 MessageBox.Show($"Restore complete.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
