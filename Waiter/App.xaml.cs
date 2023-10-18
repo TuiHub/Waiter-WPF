@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -142,6 +143,15 @@ namespace Waiter
                                               string.IsNullOrEmpty(user.RefreshToken) ? null : user.RefreshToken);
 
             await _host.StartAsync();
+
+            // set theme
+            var isLightTheme = IsLightTheme();
+            if (isLightTheme == false)
+                Wpf.Ui.Appearance.Theme.Apply(
+                    Wpf.Ui.Appearance.ThemeType.Dark,     // Theme type
+                    Wpf.Ui.Appearance.BackgroundType.Mica, // Background type
+                    true                                   // Whether to change accents automatically
+                );
         }
 
         /// <summary>
@@ -163,6 +173,15 @@ namespace Waiter
             var ex = e.Exception;
             var msg = ex.StackTrace ?? "Unknown Error";
             MessageBox.Show("Uncaughted error occured, error message：\n" + msg, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        // get system theme
+        // from https://www.meziantou.net/detecting-dark-and-light-themes-in-a-wpf-application.htm
+        private static bool IsLightTheme()
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+            var value = key?.GetValue("AppsUseLightTheme");
+            return value is int i && i > 0;
         }
     }
 }
