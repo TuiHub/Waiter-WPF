@@ -477,6 +477,7 @@ namespace Waiter.ViewModels
                         await GlobalContext.LibrarianClientService.UpdateAppAppCategoriesAsync(client, SelectedApp.InternalId, appCategoryIds);
                     },
                     async () => { });
+                    OnNavigatedTo();
                 }
                 catch (Exception ex)
                 {
@@ -499,6 +500,7 @@ namespace Waiter.ViewModels
                         await GlobalContext.LibrarianClientService.UpdateAppAppCategoriesAsync(client, SelectedApp.InternalId, appCategoryIds);
                     },
                     async () => { });
+                    OnNavigatedTo();
                 }
                 catch (Exception ex)
                 {
