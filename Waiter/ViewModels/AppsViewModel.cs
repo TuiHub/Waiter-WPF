@@ -234,6 +234,17 @@ namespace Waiter.ViewModels
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
                     await GlobalContext.LibrarianClientService.AddAppPackageRunTimeAsync(client, AppPackageSetting.AppPackageId, startDT, runTime);
                     //MessageBox.Show($"RunTime info reported to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // check exitCode
+                    if (exitCode != 0)
+                    {
+                        var dialogResult = MessageBox.Show($"App may does not exit normally (ExitCode = {exitCode}), Still upload current savedata?",
+                                                           "Confirm?",
+                                                           MessageBoxButton.YesNoCancel,
+                                                           MessageBoxImage.Question);
+                        if (dialogResult != MessageBoxResult.Yes) return;
+                    }
+
                     await CreateZipArchive(progressBarDialog, true, client);
                     progressBarDialog.Title = $"Finalizing";
                     progressBarDialog.ViewModel.StateText = $"Finalizing...";
