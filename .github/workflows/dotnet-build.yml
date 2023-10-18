@@ -1,0 +1,56 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    # - name: Test
+    #   run: dotnet test --no-build --verbosity normal
+    - name: Publish Waiter-win-x86
+      run: dotnet publish Waiter/Waiter.csproj -c Release -a x86 --os win -o Waiter-publish-win-x86
+    - name: Upload Waiter-win-x86 Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Waiter-win-x86
+        path: Waiter-publish-win-x86
+    - name: Publish Waiter-win-x64
+      run: dotnet publish Waiter/Waiter.csproj -c Release -a x64 --os win -o Waiter-publish-win-x64
+    - name: Upload Waiter-win-x64 Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Waiter-win-x64
+        path: Waiter-publish-win-x64
+    - name: Publish Commander-win-x86
+      run: dotnet publish Commander/Commander.csproj -c Release -a x86 --os win -o Commander-publish-win-x86
+    - name: Upload Commander-win-x86 Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Commander-win-x86
+        path: Commander-publish-win-x86
+    - name: Publish Commander-win-x64
+      run: dotnet publish Commander/Commander.csproj -c Release -a x64 --os win -o Commander-publish-win-x64
+    - name: Upload Commander-win-x64 Build Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Commander-win-x64
+        path: Commander-publish-win-x64
