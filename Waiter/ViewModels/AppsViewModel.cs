@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TuiHub.ProcessTimeMonitorLibrary;
 using TuiHub.Protos.Librarian.Sephirah.V1;
@@ -63,6 +64,8 @@ namespace Waiter.ViewModels
         private ObservableCollection<Core.Models.AppCategory> _selectedAppExistingAppCategories = new() { new Core.Models.AppCategory { Name = "null" } };
         //[ObservableProperty]
         //private bool _btnStartAppEnabled = false;
+        [ObservableProperty]
+        private TabItem? _selectedTabItem;
         public async void OnNavigatedTo()
         {
             try
@@ -149,10 +152,23 @@ namespace Waiter.ViewModels
                 using var db = new ApplicationDbContext();
                 var e = await db.AppPackageSettings.SingleOrDefaultAsync(x => x.AppPackageId == value.InternalId);
                 AppPackageSetting = new Models.AppPackageSetting(value.InternalId, e);
+                await RefreshAppPackageRunTime();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private async Task RefreshAppPackageRunTime()
+        {
+            if (SelectedAppPackage == null) return;
+            try
+            {
                 await EnsureLoginHelper.RunWithEnsureLoginAsync(async () =>
                 {
                     var client = new LibrarianSephirahService.LibrarianSephirahServiceClient(GlobalContext.GrpcChannel);
-                    AppPackageTotalRunTime = await GlobalContext.LibrarianClientService.GetAppPackageRunTimesAsync(client, value.InternalId);
+                    AppPackageTotalRunTime = await GlobalContext.LibrarianClientService.GetAppPackageRunTimesAsync(client, SelectedAppPackage.InternalId);
                 },
                 async () => { });
             }
@@ -160,6 +176,13 @@ namespace Waiter.ViewModels
             {
                 MessageBox.Show($"Caught exception {ex.GetType()}, message:\n{ex.Message}", "Runtime Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        async partial void OnSelectedTabItemChanged(TabItem? value)
+        {
+            if (value == null) return;
+            if (value.Name == "manageSavesTab")
+                await RefreshGameSaves();
         }
 
         [RelayCommand]
@@ -242,7 +265,11 @@ namespace Waiter.ViewModels
                                                            "Confirm?",
                                                            MessageBoxButton.YesNoCancel,
                                                            MessageBoxImage.Question);
-                        if (dialogResult != MessageBoxResult.Yes) return;
+                        if (dialogResult != MessageBoxResult.Yes)
+                        {
+                            await RefreshAppPackageRunTime();
+                            return;
+                        }
                     }
 
                     await CreateZipArchiveAndUpload(progressBarDialog, true, client);
@@ -250,6 +277,7 @@ namespace Waiter.ViewModels
                     progressBarDialog.ViewModel.StateText = $"Finalizing...";
                     progressBarDialog.ViewModel.PbIsIndeterminate = true;
                     MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    await RefreshAppPackageRunTime();
                 }, async () => { }, false);
             }
             catch (TimeoutException ex)
@@ -293,6 +321,7 @@ namespace Waiter.ViewModels
                 progressBarDialog.ViewModel.StateText = $"Finalizing...";
                 progressBarDialog.ViewModel.PbIsIndeterminate = true;
                 MessageBox.Show($"Savedata file uploaded to server.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                await RefreshGameSaves();
             }
             catch (Exception ex)
             {
@@ -353,6 +382,10 @@ namespace Waiter.ViewModels
 
         [RelayCommand]
         private async void OnRefreshGameSave()
+        {
+            await RefreshGameSaves();
+        }
+        private async Task RefreshGameSaves()
         {
             if (SelectedAppPackage == null) return;
             try
@@ -469,7 +502,7 @@ namespace Waiter.ViewModels
                 },
                 async () => { });
                 MessageBox.Show($"GameSave {SelectedGameSave.InternalId} deleted.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-                OnRefreshGameSave();
+                await RefreshGameSaves();
             }
             catch (Exception ex)
             {

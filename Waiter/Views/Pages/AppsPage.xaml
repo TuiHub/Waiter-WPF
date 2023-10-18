@@ -141,7 +141,8 @@
                 Source="{Binding ViewModel.SelectedApp.HeroImageUrl}" />
             <TabControl
                 Grid.Row="1"
-                Visibility="{Binding ViewModel.SelectedApp, Converter={StaticResource NullToVisibilityConverter}}" >
+                Visibility="{Binding ViewModel.SelectedApp, Converter={StaticResource NullToVisibilityConverter}}"
+                SelectedItem="{Binding ViewModel.SelectedTabItem}" >
                 <TabItem Header="Main">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -238,7 +239,9 @@
                             Text="{Binding ViewModel.SelectedAppDetails.Description}" />
                     </Grid>
                 </TabItem>
-                <TabItem Header="Manage Saves">
+                <TabItem
+                    Header="Manage Saves"
+                    x:Name="manageSavesTab">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
