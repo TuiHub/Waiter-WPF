@@ -49,7 +49,7 @@
             FontSize="18"
             TabIndex="0"
             PlaceholderText="Name..."
-            Text="{Binding ViewModel.AppCategoryName, Mode=TwoWay}" />
+            Text="{Binding ViewModel.AppCategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel
             Grid.Row="3" Grid.Column="0"
