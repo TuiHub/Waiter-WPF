@@ -56,7 +56,7 @@
                             Margin="15"
                             Grid.Column="0"
                             Stretch="Uniform"
-                            Source="{Binding IconImageUrl}" />
+                            Source="{Binding HeroImageUrl}" />
                         <Grid
                             Grid.Column="1" >
                             <Grid.RowDefinitions>
