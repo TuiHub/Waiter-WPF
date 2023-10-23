@@ -235,7 +235,8 @@ namespace Waiter.ViewModels
                 var process = Process.Start(new ProcessStartInfo
                 {
                     FileName = AppPackageSetting.AppPath,
-                    WorkingDirectory = AppPackageSetting.AppWorkDir
+                    WorkingDirectory = AppPackageSetting.AppWorkDir,
+                    UseShellExecute = bool.Parse(AppPackageSetting.UseShellExecute)
                 });
                 if (process == null)
                     throw new Exception($"Failed to start {AppPackageSetting.AppPath}.");

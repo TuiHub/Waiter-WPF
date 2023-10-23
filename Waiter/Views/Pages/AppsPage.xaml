@@ -319,6 +319,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -406,13 +407,27 @@
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             SelectedValue="{Binding ViewModel.AppPackageSetting.UseProcListenMode, Mode=TwoWay}"
-                            SelectedValuePath="Name" >
-                            <ComboBoxItem Name="False" Content="False" />
-                            <ComboBoxItem Name="True" Content="True" />
+                            SelectedValuePath="Content" >
+                            <ComboBoxItem Content="False" />
+                            <ComboBoxItem Content="True" />
+                        </ComboBox>
+
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Text="UseShellExecute" />
+                        <ComboBox
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            SelectedValue="{Binding ViewModel.AppPackageSetting.UseShellExecute, Mode=TwoWay}"
+                            SelectedValuePath="Content" >
+                            <ComboBoxItem Content="False" />
+                            <ComboBoxItem Content="True" />
                         </ComboBox>
 
                         <StackPanel
-                            Grid.Row="6"
+                            Grid.Row="7"
                             Grid.Column="0" >
                             <Button
                                 Content="Save"

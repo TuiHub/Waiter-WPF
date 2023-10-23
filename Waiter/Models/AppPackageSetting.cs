@@ -23,6 +23,8 @@ namespace Waiter.Models
         private string _procMonPath = string.Empty;
         [ObservableProperty]
         private string _useProcListenMode = "False";
+        [ObservableProperty]
+        private string _useShellExecute = "False";
         public AppPackageSetting(long appPackageId, Db.AppPackageSetting? appPackageSetting)
         {
             AppPackageId = appPackageId;
@@ -34,6 +36,7 @@ namespace Waiter.Models
                 ProcMonName = appPackageSetting.ProcMonName;
                 ProcMonPath = appPackageSetting.ProcMonPath;
                 UseProcListenMode = appPackageSetting.UseProcListenMode.ToString();
+                UseShellExecute = appPackageSetting.UseShellExecute.ToString();
             }
         }
         public AppPackageSetting() { }

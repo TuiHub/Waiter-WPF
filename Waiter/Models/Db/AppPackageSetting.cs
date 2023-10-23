@@ -24,6 +24,7 @@ namespace Waiter.Models.Db
         [MaxLength(256)]
         public string ProcMonPath { get; set; } = string.Empty;
         public bool UseProcListenMode { get; set; } = false;
+        public bool UseShellExecute { get; set; } = false;
         public AppPackageSetting(Models.AppPackageSetting appPackageSetting)
         {
             AppPackageId = appPackageSetting.AppPackageId;
@@ -33,6 +34,7 @@ namespace Waiter.Models.Db
             ProcMonName = appPackageSetting.ProcMonName;
             ProcMonPath = appPackageSetting.ProcMonPath;
             UseProcListenMode = bool.Parse(appPackageSetting.UseProcListenMode);
+            UseShellExecute = bool.Parse(appPackageSetting.UseShellExecute);
         }
         public AppPackageSetting() { }
 
@@ -45,6 +47,7 @@ namespace Waiter.Models.Db
             e.ProcMonName = appPackageSetting.ProcMonName;
             e.ProcMonPath = appPackageSetting.ProcMonPath;
             e.UseProcListenMode = bool.Parse(appPackageSetting.UseProcListenMode);
+            e.UseShellExecute = bool.Parse(appPackageSetting.UseShellExecute);
         }
     }
 }
